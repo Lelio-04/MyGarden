@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyGarden - Home</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <img src="images/logo.png" alt="MyGarden Logo" class="logo">
+            <span class="site-title">MyGarden</span>
+            <div></div> <!-- Elemento vuoto per bilanciare il flex -->
+        </div>
+        <nav class="main-nav">
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="catalogo.html">Catalogo</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="carrello.html">Carrello</a></li>
+                <li><a href="#contattaci">Contattaci</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="hero">
+            <h2>Benvenuto su MyGarden</h2>
+            <p>Scopri il verde perfetto per la tua casa e il tuo giardino.</p>
+            <a href="catalogo.html" class="btn">Sfoglia il catalogo</a>
+        </section>
+
+        <section id="contattaci" class="contact-section">
+            <div class="container">
+                <h2>Contattaci</h2>
+                <p>Hai domande o suggerimenti? Scrivici!</p>
+                <form class="contact-form" action="#" method="POST">
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="messaggio">Messaggio *</label>
+                        <textarea id="messaggio" name="messaggio" rows="6" required placeholder="Scrivi qui il tuo messaggio..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-contact">Invia Messaggio</button>
+                </form>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 MyGarden - Tutti i diritti riservati.</p>
+    </footer>
+    <script src="scripts/main.js"></script>
+</body>
+</html>
+
