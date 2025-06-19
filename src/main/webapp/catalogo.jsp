@@ -54,7 +54,7 @@
 			} else {
 		%>
 		<tr>
-			<td colspan="6">No products available</td>
+			<td colspan="6">No products available </td>
 		</tr>
 		<%
 			}
