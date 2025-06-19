@@ -24,11 +24,11 @@ public class DriverManagerConnectionPool  {
 	
 	private synchronized Connection createDBConnection() throws SQLException {
 		Connection newConnection = null;
-		String ip = "127.0.0.1";
+		String ip = "localhost";
 		String port = "3306";
 		String db = "storage";
 		String username = "root";
-		String password = "root";
+		String password = "admin";
 
 		newConnection = DriverManager.getConnection("jdbc:mysql://"+ ip+":"+ port+"/"+db+"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", username, password);
 		return newConnection;
