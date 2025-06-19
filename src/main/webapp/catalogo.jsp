@@ -14,7 +14,7 @@
 
 <!DOCTYPE html>
 <html>
-<%@ page contentType="text/html; charset=UTF-8" import="java.util.*,it.unisa.ProductBean, it.unisa.Cart"%>
+<%@ page contentType="text/html; charset=UTF-8" import="java.util.*,it.unisa.db.ProductBean,it.unisa.db.Cart"%>
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">

@@ -16,7 +16,7 @@
   </resource-ref>
   <servlet>
     <servlet-name>ProductControl</servlet-name>
-    <servlet-class>it.unisa.ProductControl</servlet-class>
+    <servlet-class>it.unisa.db.ProductControl</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ProductControl</servlet-name>

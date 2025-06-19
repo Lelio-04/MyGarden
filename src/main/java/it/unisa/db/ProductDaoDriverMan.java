@@ -1,4 +1,4 @@
-package it.unisa;
+package it.unisa.db;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,18 +7,18 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import javax.sql.DataSource;
 
-public class ProductDaoDataSource implements IProductDao {
-	
+public class ProductDaoDriverMan implements IProductDao {
+
 	private static final String TABLE_NAME = "product";
-	private DataSource ds = null;
+	private DriverManagerConnectionPool dmcp = null;	
 
-	public ProductDaoDataSource(DataSource ds) {
-		this.ds = ds;
+	public ProductDaoDriverMan(DriverManagerConnectionPool dmcp) {
+		this.dmcp = dmcp;
 		
-		System.out.println("DataSource Product Model creation....");
+		System.out.println("DriverManager Product Model creation....");
 	}
+	
 	
 	@Override
 	public synchronized void doSave(ProductBean product) throws SQLException {
@@ -26,11 +26,11 @@ public class ProductDaoDataSource implements IProductDao {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		String insertSQL = "INSERT INTO " + ProductDaoDataSource.TABLE_NAME
-				+ " (NAME, DESCRIPTION, PRICE, QUANTITY, IMAGE) VALUES (?, ?, ?, ?, ?)";
+		String insertSQL = "INSERT INTO " + ProductDaoDriverMan.TABLE_NAME
+				+ " (NAME, DESCRIPTION, PRICE, QUANTITY, IMAGE) VALUES (?, ?, ?, ?,?)";
 
 		try {
-			connection = ds.getConnection();
+			connection = dmcp.getConnection();
 			preparedStatement = connection.prepareStatement(insertSQL);
 			preparedStatement.setString(1, product.getName());
 			preparedStatement.setString(2, product.getDescription());
@@ -45,8 +45,7 @@ public class ProductDaoDataSource implements IProductDao {
 				if (preparedStatement != null)
 					preparedStatement.close();
 			} finally {
-				if (connection != null)
-					connection.close();
+				dmcp.releaseConnection(connection);
 			}
 		}
 	}
@@ -58,10 +57,10 @@ public class ProductDaoDataSource implements IProductDao {
 
 		ProductBean bean = new ProductBean();
 
-		String selectSQL = "SELECT * FROM " + ProductDaoDataSource.TABLE_NAME + " WHERE CODE = ?";
+		String selectSQL = "SELECT * FROM " + ProductDaoDriverMan.TABLE_NAME + " WHERE CODE = ?";
 
 		try {
-			connection = ds.getConnection();
+			connection = dmcp.getConnection();
 			preparedStatement = connection.prepareStatement(selectSQL);
 			preparedStatement.setInt(1, code);
 
@@ -81,8 +80,7 @@ public class ProductDaoDataSource implements IProductDao {
 				if (preparedStatement != null)
 					preparedStatement.close();
 			} finally {
-				if (connection != null)
-					connection.close();
+				dmcp.releaseConnection(connection);
 			}
 		}
 		return bean;
@@ -95,21 +93,21 @@ public class ProductDaoDataSource implements IProductDao {
 
 		int result = 0;
 
-		String deleteSQL = "DELETE FROM " + ProductDaoDataSource.TABLE_NAME + " WHERE CODE = ?";
+		String deleteSQL = "DELETE FROM " + ProductDaoDriverMan.TABLE_NAME + " WHERE CODE = ?";
 
 		try {
-			connection = ds.getConnection();
+			connection = dmcp.getConnection();
 			preparedStatement = connection.prepareStatement(deleteSQL);
 			preparedStatement.setInt(1, code);
 
 			result = preparedStatement.executeUpdate();
+
 		} finally {
 			try {
 				if (preparedStatement != null)
 					preparedStatement.close();
 			} finally {
-				if (connection != null)
-					connection.close();
+				dmcp.releaseConnection(connection);
 			}
 		}
 		return (result != 0);
@@ -119,13 +117,17 @@ public class ProductDaoDataSource implements IProductDao {
 	public synchronized Collection<ProductBean> doRetrieveAll(String order) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
+
 		Collection<ProductBean> products = new LinkedList<ProductBean>();
-		String selectSQL = "SELECT * FROM " + ProductDaoDataSource.TABLE_NAME;
+
+		String selectSQL = "SELECT * FROM " + ProductDaoDriverMan.TABLE_NAME;
+
 		if (order != null && !order.equals("")) {
 			selectSQL += " ORDER BY " + order;
 		}
+
 		try {
-			connection = ds.getConnection();
+			connection = dmcp.getConnection();
 			preparedStatement = connection.prepareStatement(selectSQL);
 
 			ResultSet rs = preparedStatement.executeQuery();
@@ -147,8 +149,7 @@ public class ProductDaoDataSource implements IProductDao {
 				if (preparedStatement != null)
 					preparedStatement.close();
 			} finally {
-				if (connection != null)
-					connection.close();
+				dmcp.releaseConnection(connection);
 			}
 		}
 		return products;
