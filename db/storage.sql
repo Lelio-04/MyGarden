@@ -10,7 +10,7 @@ CREATE TABLE product (
   description char(100),
   price int default 0,
   quantity int default 0,
-  image varchar(100)
+  image varchar(256)
 );
 
 INSERT INTO product values (1,"Samsung F8000","TV 48 pollici",550,5,"images/favicon.png");
