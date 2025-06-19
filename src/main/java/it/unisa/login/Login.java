@@ -2,8 +2,11 @@ package it.unisa.login;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.sql.DataSource;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -15,57 +18,98 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/Login")
 public class Login extends HttpServlet {
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		List<String> errors = new ArrayList<>();
-		RequestDispatcher dispatcherToLoginPage = request.getRequestDispatcher("login.jsp");
-		if (username == null || username.trim().isEmpty()) {
-			errors.add("Il campo username non può essere vuoto!");
-		}
-		if (password == null || password.trim().isEmpty()) {
-			errors.add("Il campo password non può essere vuoto!");
-		}
-		if (!errors.isEmpty()) {
-			request.setAttribute("errors", errors);
-			dispatcherToLoginPage.forward(request, response);
-			return; // note the return statement here!!!
-		}
-		username = username.trim();
-		password = password.trim();
-		String hashPassword = toHash(password);
-		// Hash of "mypass":
-		String hashPasswordToBeMatch = 
-				"1c573dfeb388b562b55948af954a7b344dde1cc2099e978a992790429e7c01a4205506a93d9aef3bab32d6f06d75b7777a7ad8859e672fedb6a096ae369254d2";
-		if (username.equals("admin") && hashPassword.equals(hashPasswordToBeMatch)) { // admin
-			request.getSession().setAttribute("isAdmin", Boolean.TRUE); // inserisco il token nella sessione
-			response.sendRedirect("admin/protected.jsp");
-		} else if (username.equals("user") && hashPassword.equals(hashPasswordToBeMatch)) { // user
-			request.getSession().setAttribute("isAdmin", Boolean.FALSE); // inserisco il token nella sessione
-			response.sendRedirect("common/protected.jsp");
-		} else {
-			errors.add("Username o password non validi!");
-			request.setAttribute("errors", errors);
-			dispatcherToLoginPage.forward(request, response);
-		}
-	}
+    private static final long serialVersionUID = 1L;
 
-	private String toHash(String password) {
-		String hashString = null;
-		try {
-			java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-512");
-			byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
-			hashString = "";
-			for (int i = 0; i < hash.length; i++) {
-				hashString += Integer.toHexString((hash[i] & 0xFF) | 0x100).substring(1, 3);
-			}
-		} catch (java.security.NoSuchAlgorithmException e) {
-			System.out.println(e);
-		}
-		return hashString;
-	}
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-	private static final long serialVersionUID = 1L;
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
 
+        List<String> errors = new ArrayList<>();
+        RequestDispatcher dispatcherToLoginPage = request.getRequestDispatcher("login.jsp");
+
+        if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            errors.add("Username e password sono obbligatori!");
+            request.setAttribute("errors", errors);
+            dispatcherToLoginPage.forward(request, response);
+            return;
+        }
+
+        username = username.trim();
+        password = password.trim();
+        String hashPassword = toHash(password);
+
+        // 🔍 Debug
+        System.out.println("Tentativo login:");
+        System.out.println("Username: " + username);
+        System.out.println("Password (hash): " + hashPassword);
+
+        Connection conn = null;
+        try {
+            // 🔗 Recupera il DataSource dal ServletContext
+            DataSource dsUtenti = (DataSource) getServletContext().getAttribute("DataSourceUtenti");
+            if (dsUtenti == null) {
+                throw new SQLException("DataSource 'DataSourceUtenti' non trovato nel ServletContext.");
+            }
+
+            conn = dsUtenti.getConnection();
+            String sql = "SELECT username, password FROM users WHERE username = ?";
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setString(1, username);
+                ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    String passwordFromDb = rs.getString("password").trim();
+                    String usernameFromDb = rs.getString("username").trim();
+
+                    if (hashPassword.equals(passwordFromDb)) {
+                        boolean isAdmin = "admin".equalsIgnoreCase(usernameFromDb);
+                        request.getSession().setAttribute("isAdmin", isAdmin);
+
+                        System.out.println("✅ LOGIN OK: utente riconosciuto. isAdmin = " + isAdmin);
+
+                        if (isAdmin) {
+                            response.sendRedirect("admin/protected.jsp");
+                        } else {
+                            response.sendRedirect("common/protected.jsp");
+                        }
+                        return;
+                    } else {
+                        errors.add("Password errata!");
+                    }
+                } else {
+                    errors.add("Utente non trovato!");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            errors.add("Errore di connessione al database.");
+        } finally {
+            try {
+                if (conn != null) conn.close(); // con JNDI chiudi solo la connessione
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // ❌ Login fallito
+        System.out.println("❌ LOGIN FALLITO.");
+        request.setAttribute("errors", errors);
+        dispatcherToLoginPage.forward(request, response);
+    }
+
+    private String toHash(String password) {
+        StringBuilder hashString = new StringBuilder();
+        try {
+            java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-512");
+            byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+            for (byte b : hash) {
+                hashString.append(String.format("%02x", b));
+            }
+        } catch (java.security.NoSuchAlgorithmException e) {
+            System.out.println("Errore hashing: " + e.getMessage());
+        }
+        return hashString.toString();
+    }
 }

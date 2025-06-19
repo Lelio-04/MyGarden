@@ -12,30 +12,36 @@ import javax.sql.DataSource;
 @WebListener
 public class MainContext implements ServletContextListener {
 
-	public void contextInitialized(ServletContextEvent sce) {
-		ServletContext context = sce.getServletContext();
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        ServletContext context = sce.getServletContext();
 
-		// Per usare il DataSource
-		DataSource ds = null;
-		try {
-			Context initCtx = new InitialContext();
-			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+        try {
+            Context initCtx = new InitialContext();
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
 
-			ds = (DataSource) envCtx.lookup("jdbc/storage");
+            // 🔹 DataSource per "storage"
+            DataSource dsStorage = (DataSource) envCtx.lookup("jdbc/storage");
+            context.setAttribute("DataSourceStorage", dsStorage);
+            System.out.println("✅ DataSource 'storage' inizializzato");
 
-		} catch (NamingException e) {
-			System.out.println("Error:" + e.getMessage());
-		}		
+            // 🔹 DataSource per "utenti"
+            DataSource dsUtenti = (DataSource) envCtx.lookup("jdbc/utenti");
+            context.setAttribute("DataSourceUtenti", dsUtenti);
+            System.out.println("✅ DataSource 'utenti' inizializzato");
 
-		context.setAttribute("DataSource", ds);
-		System.out.println("DataSource creation...."+ds.toString());
-		
-		// Per usare il DriverManager
-		DriverManagerConnectionPool dm = new DriverManagerConnectionPool();
-		context.setAttribute("DriverManager", dm);
-		System.out.println("DriverManager creation...."+dm.toString());		
-	}
+        } catch (NamingException e) {
+            System.out.println("❌ Errore JNDI: " + e.getMessage());
+        }
 
-	public void contextDestroyed(ServletContextEvent sce) {
-	}
+        // ✅ DriverManagerConnectionPool (opzionale, usato come fallback)
+        DriverManagerConnectionPool dm = new DriverManagerConnectionPool();
+        context.setAttribute("DriverManager", dm);
+        System.out.println("✅ DriverManagerConnectionPool creato: " + dm.toString());
+    }
+
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
+        // Niente da fare alla distruzione del contesto
+    }
 }

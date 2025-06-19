@@ -29,7 +29,7 @@
                         <circle cx="12" cy="7" r="4"></circle>
                     </svg>
                 </a>
-                <a href="registrati.html" class="icon-link" title="Registrati">
+                <a href="register.jsp" class="icon-link" title="Registrati">
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
                         <circle cx="9" cy="7" r="4"></circle>

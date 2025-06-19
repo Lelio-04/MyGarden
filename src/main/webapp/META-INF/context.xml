@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Context>
+
+    <!-- DataSource per il database STORAGE -->
     <Resource name="jdbc/storage"
         auth="Container"
         driverClassName="com.mysql.cj.jdbc.Driver"
@@ -8,4 +10,14 @@
         username="root"
         password="admin"
         url="jdbc:mysql://localhost:3306/storage?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
+
+    <!-- DataSource per il database UTENTI -->
+    <Resource name="jdbc/utenti"
+        auth="Container"
+        driverClassName="com.mysql.cj.jdbc.Driver"
+        type="javax.sql.DataSource"
+        username="root"
+        password="admin"
+        url="jdbc:mysql://localhost:3306/utenti?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
+
 </Context>
