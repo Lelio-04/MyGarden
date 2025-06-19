@@ -47,7 +47,7 @@
 				<a href="product?action=read&id=<%=bean.getCode()%>">Details</a><br>
 				<a href="product?action=addC&id=<%=bean.getCode()%>">Add to cart</a>
 				</td>
-			<td><img src="<%=bean.getImage()%>" alt="<%=bean.getName()%>" width="80"></td>
+			<td><img src="<%=bean.getImage()%>" alt="<%=bean.getName()%>" width="60"></td>
 		</tr>
 		<%
 				}
@@ -80,7 +80,7 @@
 			<td><%=product.getDescription()%></td>
 			<td><%=product.getPrice()%></td>
 			<td><%=product.getQuantity()%></td>
-			<td><img src="<%=product.getImage()%>" alt="<%=product.getName()%>" width="80"></td>
+			<td><img src="<%=product.getImage()%>" alt="<%=product.getName()%>" width="60"></td>
 		</tr>
 	</table>
 	<%
