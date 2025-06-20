@@ -5,6 +5,7 @@
     <title>Registrazione Utente</title>
     <link rel="stylesheet" href="styles/styleBase.css">
      <link rel="stylesheet" href="styles/styleRegister.css">
+     <link rel="icon" href="images/favicon.png" type="image/png">
     <script>
         function validateForm() {
             const email = document.forms["regForm"]["email"].value;
@@ -68,41 +69,44 @@
 
 
 
-    <h2>Registrazione Utente</h2>
+<div class="register-container">
+    <div class="register-header">
+        <h2>Registrazione</h2>
+        <p>Crea un nuovo account su MyGarden</p>
+    </div>
 
-    <!-- Messaggi di errore -->
-    <%
-        String error = request.getParameter("error");
-        if ("invalid".equals(error)) {
-    %>
-        <p style="color:red;">Dati non validi. Controlla email e password.</p>
-    <%
-        } else if ("exists".equals(error)) {
-    %>
-        <p style="color:red;">Questa email è già registrata.</p>
-    <%
-        } else if ("db".equals(error)) {
-    %>
-        <p style="color:red;">Errore durante la registrazione. Riprova.</p>
-    <%
-        }
-    %>
+    <% String error = request.getParameter("error"); %>
+    <% if ("invalid".equals(error)) { %>
+        <div class="form-errors">Dati non validi. Controlla email e password.</div>
+    <% } else if ("exists".equals(error)) { %>
+        <div class="form-errors">Questa email è già registrata.</div>
+    <% } else if ("db".equals(error)) { %>
+        <div class="form-errors">Errore durante la registrazione. Riprova.</div>
+    <% } %>
 
-    <!-- Form registrazione -->
     <form name="regForm" action="register" method="post" onsubmit="return validateForm();">
-        <label>Username:</label><br>
-        <input type="text" name="username" required><br><br>
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input id="username" type="text" name="username" placeholder= "Inserisci il tuo Username" required>
+        </div>
 
-        <label>Email:</label><br>
-        <input type="email" name="email" required><br><br>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input id="email" type="email" name="email" placeholder= "Inserisci la tua email" required>
+        </div>
 
-        <label>Password:</label><br>
-        <input type="password" name="password" required><br><br>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input id="password" type="password" name="password" placeholder= "Inserisci la tua password" required>
+        </div>
 
-        <button type="submit">Registrati</button>
+        <button type="submit" class="btn">REGISTRATI</button>
     </form>
 
-    <p>Hai già un account? <a href="login.jsp">Login</a></p>
+    <div class="register-link">
+        <p>Hai già un account? <a href="login.jsp">Accedi qui</a></p>
+    </div>
+</div>
     
      <footer>
         <p>&copy; 2025 MyGarden - Tutti i diritti riservati.</p>

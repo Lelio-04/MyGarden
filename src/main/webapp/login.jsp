@@ -9,6 +9,7 @@
     <link rel="icon" href="images/favicon.png" type="image/png">
     <link rel="stylesheet" href="styles/styleBase.css">
     <link rel="stylesheet" href="styles/styleLogin.css">
+    <link rel="icon" href="images/favicon.png" type="image/png">
 </head>
 <body>
 	 <header>
@@ -71,7 +72,7 @@
         <form action="Login" method="post">
             <div class="form-group username-field">
                 <label for="username">Username</label>
-                <input id="username" type="text" name="username" placeholder="Inserisci il tuo username" required>
+                <input id="username" type="text" name="username" placeholder="Inserisci il tuo Username" required>
             </div>
 
             <div class="form-group password-field">
@@ -80,8 +81,8 @@
             </div>
 
             <div class="form-buttons">
-                <button type="submit" class="btn btn-login">Login</button>
-                <button type="reset" class="btn btn-reset">Reset</button>
+                <button type="submit" class="btn btn-login">ACCEDI</button>
+                <button type="reset" class="btn btn-reset">RESETTA</button>
             </div>
         </form>
 
