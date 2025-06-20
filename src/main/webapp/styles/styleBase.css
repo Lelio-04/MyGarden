@@ -1,3 +1,9 @@
+/* =========================
+   CSS BASE - styleBase.css
+   Usare in tutte le pagine
+   Contiene header, nav, footer
+========================= */
+
 * {
     margin: 0;
     padding: 0;
@@ -6,10 +12,12 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    line-height: 1.6;
     color: #333;
+    line-height: 1.6;
+    background-color: #fff;
 }
 
+/* ========== HEADER ========= */
 header {
     background-color: #ffffff;
     color: #000000;
@@ -26,9 +34,27 @@ header {
     align-items: center;
     justify-content: space-between;
     padding: 15px 30px;
-    position: relative;
     font-family: 'Arial Black', sans-serif;
-    height: 110px; /* Altezza fissa per .header-top */
+    height: 110px;
+    position: relative;
+}
+
+.logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.site-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #000;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 
 .header-icons {
@@ -45,6 +71,103 @@ header {
     text-decoration: none;
     color: #000;
     padding: 5px;
+}
+
+.icon {
+    width: 32px;
+    height: 32px;
+    stroke: #000;
+    transition: transform 0.2s ease, stroke 0.2s ease;
+}
+
+.icon-link:hover .icon {
+    transform: scale(1.1);
+    stroke: #4a7c59;
+}
+
+/* ========== NAVBAR ========= */
+.main-nav {
+    background-color: #8CBF3F;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+}
+
+.nav-links li {
+    margin: 0;
+}
+
+.nav-links a {
+    display: block;
+    color: black;
+    text-decoration: none;
+    padding: 15px 25px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Arial Black', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.nav-links a:hover {
+    background: rgba(255,255,255,0.2);
+    transform: translateY(-2px);
+}
+
+/* ========== FOOTER ========= */
+footer {
+    background: #2d5016;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: auto;
+}
+
+/* ========== RESPONSIVE HEADER/FOOTER ========= */
+@media (max-width: 768px) {
+    .header-top {
+        padding: 10px 15px;
+        height: 80px;
+    }
+
+    .site-title {
+        font-size: 1.8rem;
+    }
+
+    .logo {
+        width: 50px;
+        height: 50px;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+    }
+
+    .nav-links a {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-top {
+        height: 70px;
+    }
+
+    .site-title {
+        font-size: 1.4rem;
+    }
+
+    .nav-links a {
+        padding: 10px 12px;
+        font-size: 0.8rem;
+    }
 }
 
 .icon {
