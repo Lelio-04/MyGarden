@@ -1,4 +1,4 @@
-/* styleLogin.css */
+/* styleRegister.css */
 body {
     font-family: 'Arial', sans-serif;
     background: linear-gradient(135deg, #cdecc9, #e9f5e5);
@@ -11,39 +11,24 @@ body {
     align-items: center;
 }
 
-.login-container {
+h2 {
+    margin-top: 200px;
+    font-size: 2rem;
+    color: #2d5016;
+}
+
+form {
     background: white;
     padding: 40px;
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     max-width: 400px;
     width: 100%;
-    margin-top: 200px;
     margin-bottom: 30px;
+    margin-top: 20px;
 }
 
-.login-header {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.login-header h2 {
-    color: #2d5016;
-    font-size: 2rem;
-    margin-bottom: 10px;
-}
-
-.login-header p {
-    color: #555;
-    font-size: 1rem;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-}
-
-.form-group label {
+form label {
     font-weight: bold;
     color: #4a7c59;
     display: block;
@@ -51,7 +36,7 @@ form {
     font-size: 1rem;
 }
 
-.form-group input {
+form input {
     width: 100%;
     padding: 12px;
     border: 2px solid #ddd;
@@ -61,14 +46,14 @@ form {
     transition: all 0.3s ease;
 }
 
-.form-group input:focus {
+form input:focus {
     border-color: #8CBF3F;
     background-color: #fff;
     outline: none;
     box-shadow: 0 0 0 3px rgba(140, 191, 63, 0.2);
 }
 
-.btn {
+button[type="submit"] {
     background: linear-gradient(45deg, #4a7c59, #8CBF3F);
     color: white;
     border: none;
@@ -79,40 +64,36 @@ form {
     cursor: pointer;
     width: 100%;
     transition: background 0.3s ease, transform 0.2s ease;
-    margin-bottom: 10px;
 }
 
-.btn:hover {
+button[type="submit"]:hover {
     background: linear-gradient(45deg, #3a6c49, #7ab82f);
     transform: translateY(-2px);
 }
 
-.register-link {
+p {
     text-align: center;
-    margin-top: 20px;
+    margin-bottom: 40px;
+    color: #555;
     font-size: 0.95rem;
 }
 
-.register-link a {
+p a {
     color: #4a7c59;
     text-decoration: none;
     font-weight: bold;
 }
 
-.register-link a:hover {
+p a:hover {
     color: #8CBF3F;
     text-decoration: underline;
 }
 
-.form-errors {
-    background: #ffebee;
+p[style*="color:red"] {
     color: #e53935;
-    padding: 10px 15px;
-    border-radius: 10px;
-    margin-bottom: 15px;
     font-weight: bold;
-    font-size: 0.95rem;
     text-align: center;
+    margin-top: 10px;
 }
 
 footer {

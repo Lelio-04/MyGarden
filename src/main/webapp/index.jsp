@@ -41,10 +41,10 @@
         </div>
         <nav class="main-nav">
             <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
+                <li><a href="index.jsp">Home</a></li>
                 <li><a href="catalogo.jsp">Catalogo</a></li>
                 <li><a href="login.jsp">Login</a></li>
-                <li><a href="carrello.html">Carrello</a></li>
+                <li><a href="carrello.jsp">Carrello</a></li>
                 <li><a href="#contattaci">Contattaci</a></li>
             </ul>
         </nav>
