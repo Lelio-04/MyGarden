@@ -29,7 +29,7 @@ public class ProductControl extends HttpServlet {
 		IProductDao productDao = null;
 
 		if (isDataSource) {
-			DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
+			DataSource ds = (DataSource) getServletContext().getAttribute("DataSourceStorage");
 			productDao = new ProductDaoDataSource(ds);			
 		} else {
 			DriverManagerConnectionPool dm = (DriverManagerConnectionPool) getServletContext()
