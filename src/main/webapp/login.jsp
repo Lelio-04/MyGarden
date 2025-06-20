@@ -71,18 +71,18 @@
 
         <form action="Login" method="post">
             <div class="form-group username-field">
-                <label for="username">Username</label>
+                <label for="username">Username:</label>
                 <input id="username" type="text" name="username" placeholder="Inserisci il tuo Username" required>
             </div>
 
             <div class="form-group password-field">
-                <label for="password">Password</label>
+                <label for="password">Password:</label>
                 <input id="password" type="password" name="password" placeholder="Inserisci la tua password" required>
             </div>
 
             <div class="form-buttons">
                 <button type="submit" class="btn btn-login">ACCEDI</button>
-                <button type="reset" class="btn btn-reset">RESETTA</button>
+                <button id = btn type="reset" class="btn btn-reset">RESETTA</button>
             </div>
         </form>
 
