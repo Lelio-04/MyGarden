@@ -43,7 +43,8 @@ public class UserDAO {
 
     public boolean register(User user) {
         String hashedPassword = toHash(user.getPassword());
-        String sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO users (username, email, password, telefono, data_nascita, indirizzo, citta, provincia, cap) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -51,6 +52,12 @@ public class UserDAO {
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getEmail());
             stmt.setString(3, hashedPassword);
+            stmt.setString(4, user.getTelefono());
+            stmt.setString(5, user.getDataNascita());  // assicurati che sia formato SQL 'YYYY-MM-DD'
+            stmt.setString(6, user.getIndirizzo());
+            stmt.setString(7, user.getCitta());
+            stmt.setString(8, user.getProvincia());
+            stmt.setString(9, user.getCap());
 
             return stmt.executeUpdate() == 1;
 

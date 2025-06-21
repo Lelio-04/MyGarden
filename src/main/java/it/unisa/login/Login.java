@@ -14,6 +14,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/Login")
 public class Login extends HttpServlet {
@@ -40,14 +41,12 @@ public class Login extends HttpServlet {
         password = password.trim();
         String hashPassword = toHash(password);
 
-        // 🔍 Debug
         System.out.println("Tentativo login:");
         System.out.println("Username: " + username);
         System.out.println("Password (hash): " + hashPassword);
 
         Connection conn = null;
         try {
-            // 🔗 Recupera il DataSource dal ServletContext
             DataSource dsUtenti = (DataSource) getServletContext().getAttribute("DataSourceUtenti");
             if (dsUtenti == null) {
                 throw new SQLException("DataSource 'DataSourceUtenti' non trovato nel ServletContext.");
@@ -65,21 +64,34 @@ public class Login extends HttpServlet {
 
                     if (hashPassword.equals(passwordFromDb)) {
                         boolean isAdmin = "admin".equalsIgnoreCase(usernameFromDb);
-                        request.getSession().setAttribute("isAdmin", isAdmin);
+                        
+                        // Ottieni la sessione e imposta gli attributi
+                        HttpSession session = request.getSession(true); // Crea sessione se non esiste
+                        session.setAttribute("username", usernameFromDb);
+                        session.setAttribute("isAdmin", isAdmin);
+                        
+                        // Imposta timeout sessione (30 minuti)
+                        session.setMaxInactiveInterval(30 * 60);
 
-                        System.out.println("✅ LOGIN OK: utente riconosciuto. isAdmin = " + isAdmin);
+                        System.out.println("✅ LOGIN OK");
+                        System.out.println("usernameFromDb = " + usernameFromDb);
+                        System.out.println("🟢 Sessione ID: " + session.getId());
+                        System.out.println("🟢 Username in sessione: " + session.getAttribute("username"));
 
-                        if (isAdmin) {
-                            response.sendRedirect("index.jsp");
-                        } else {
-                            response.sendRedirect("index.jsp");
-                        }
+                        // Aggiungi header per evitare cache
+                        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+                        response.setHeader("Pragma", "no-cache");
+                        response.setDateHeader("Expires", 0);
+                        
+                        response.sendRedirect("index.jsp");
                         return;
                     } else {
                         errors.add("Password errata!");
+                        System.out.println("❌ Password errata per utente: " + username);
                     }
                 } else {
                     errors.add("Utente non trovato!");
+                    System.out.println("❌ Utente non trovato: " + username);
                 }
             }
         } catch (SQLException e) {
@@ -87,13 +99,12 @@ public class Login extends HttpServlet {
             errors.add("Errore di connessione al database.");
         } finally {
             try {
-                if (conn != null) conn.close(); // con JNDI chiudi solo la connessione
+                if (conn != null) conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
 
-        // ❌ Login fallito
         System.out.println("❌ LOGIN FALLITO.");
         request.setAttribute("errors", errors);
         dispatcherToLoginPage.forward(request, response);

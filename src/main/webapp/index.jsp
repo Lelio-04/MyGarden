@@ -1,5 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+    String username = (String) session.getAttribute("username");
+%>
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -9,7 +11,6 @@
     <link rel="stylesheet" href="styles/styleBase.css">
     <link rel="stylesheet" href="styles/styleHomePage.css">
     <link rel="icon" href="images/favicon.png" type="image/png">
-    
 </head>
 <body>
     <header>
@@ -17,19 +18,23 @@
             <img src="images/logo.png" alt="MyGarden Logo" class="logo">
             <span class="site-title">MyGarden</span>
             <div class="header-icons">
-                <a href="carrello.html" class="icon-link" title="Carrello">
+                <a href="carrello.jsp" class="icon-link" title="Carrello">
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="9" cy="21" r="1"></circle>
                         <circle cx="20" cy="21" r="1"></circle>
                         <path d="m1 1 4 4 14 1-1 9H6"></path>
                     </svg>
                 </a>
-                <a href="login.jsp" class="icon-link" title="Profilo">
+
+                <!-- Icona profilo dinamica -->
+                <a href="<%= (username != null) ? "profilo.jsp" : "login.jsp" %>" class="icon-link" title="Profilo">
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                         <circle cx="12" cy="7" r="4"></circle>
                     </svg>
                 </a>
+
+                <!-- Registrazione sempre visibile -->
                 <a href="register.jsp" class="icon-link" title="Registrati">
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
@@ -39,16 +44,22 @@
                 </a>
             </div>
         </div>
+
         <nav class="main-nav">
             <ul class="nav-links">
                 <li><a href="index.jsp">Home</a></li>
                 <li><a href="catalogo.jsp">Catalogo</a></li>
-                <li><a href="login.jsp">Login</a></li>
                 <li><a href="carrello.jsp">Carrello</a></li>
                 <li><a href="#contattaci">Contattaci</a></li>
+                <% if (username != null) { %>
+                    <li><a href="Logout">Logout</a></li>
+                <% } else { %>
+                    <li><a href="login.jsp">Login</a></li>
+                <% } %>
             </ul>
         </nav>
     </header>
+
     <main>
         <section class="hero">
             <h2>Benvenuto su MyGarden</h2>
@@ -74,10 +85,10 @@
             </div>
         </section>
     </main>
+
     <footer>
         <p>&copy; 2025 MyGarden - Tutti i diritti riservati.</p>
     </footer>
     <script src="scripts/main.js"></script>
 </body>
 </html>
-

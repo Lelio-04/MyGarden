@@ -84,31 +84,55 @@
         <div class="form-errors">Errore durante la registrazione. Riprova.</div>
     <% } %>
 
-    <form name="regForm" action="register" method="post" onsubmit="return validateForm();">
-        <div class="form-group">
-            <label for="username">Username:</label>
-            <input id="username" type="text" name="username" placeholder= "Inserisci il tuo Username" required>
-        </div>
+<form name="regForm" action="register" method="post" onsubmit="return validateForm();">
+    <div class="form-group">
+        <label for="username">Username:</label>
+        <input id="username" type="text" name="username" placeholder="Inserisci il tuo Username" required>
+    </div>
 
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input id="email" type="email" name="email" placeholder= "Inserisci la tua email" required>
-        </div>
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input id="email" type="email" name="email" placeholder="Inserisci la tua email" required>
+    </div>
 
-        <div class="form-group">
-            <label for="password">Password:</label>
-            <input id="password" type="password" name="password" placeholder= "Inserisci la tua password" required>
-        </div>
-        
-        <div class="form-group">
-        	<label for="telefono">Telefono:</label>
-        	<input id="telefono"  type="tel" name="telefono" pattern="[0-9]{10}" placeholder="Es: 3201234567" required>
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input id="password" type="password" name="password" placeholder="Inserisci la tua password" required>
+    </div>
 
-        
-        </div>
+    <div class="form-group">
+        <label for="telefono">Telefono:</label>
+        <input id="telefono" type="tel" name="telefono" pattern="[0-9]{10}" placeholder="Es: 3201234567" required>
+    </div>
 
-        <button type="submit" class="btn">REGISTRATI</button>
-    </form>
+    <div class="form-group">
+        <label for="dataNascita">Data di Nascita:</label>
+        <input id="dataNascita" type="date" name="dataNascita" required>
+    </div>
+
+    <div class="form-group">
+        <label for="indirizzo">Indirizzo:</label>
+        <input id="indirizzo" type="text" name="indirizzo" placeholder="Via/Piazza e numero civico" required>
+    </div>
+
+    <div class="form-group">
+        <label for="citta">Città:</label>
+        <input id="citta" type="text" name="citta" placeholder="Inserisci la tua città" required>
+    </div>
+
+    <div class="form-group">
+        <label for="provincia">Provincia:</label>
+        <input id="provincia" type="text" name="provincia" placeholder="Es: NA, MI, RM" maxlength="2" required>
+    </div>
+
+    <div class="form-group">
+        <label for="cap">CAP:</label>
+        <input id="cap" type="text" name="cap" pattern="[0-9]{5}" placeholder="Es: 80100" required>
+    </div>
+
+    <button type="submit" class="btn">REGISTRATI</button>
+</form>
+
 
     <div class="register-link">
         <p>Hai già un account? <a href="login.jsp">Accedi qui</a></p>

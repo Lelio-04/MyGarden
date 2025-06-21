@@ -1,9 +1,7 @@
 package it.unisa.register;
 
 import java.io.IOException;
-
 import javax.sql.DataSource;
-
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,6 +18,13 @@ public class RegisterServlet extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
+        String telefono = req.getParameter("telefono");
+        String dataNascita = req.getParameter("dataNascita");
+        String indirizzo = req.getParameter("indirizzo");
+        String citta = req.getParameter("citta");
+        String provincia = req.getParameter("provincia");
+        String cap = req.getParameter("cap");
+
         if (username != null) username = username.trim();
         if (email != null) email = email.trim();
         if (password != null) password = password.trim();
@@ -31,7 +36,6 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
 
-        // Recupera il DataSource dal contesto
         DataSource ds = (DataSource) getServletContext().getAttribute("DataSourceUtenti");
         if (ds == null) {
             res.sendRedirect("register.jsp?error=datasource");
@@ -50,7 +54,15 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
 
-        User user = new User(username, email, password); // la DAO farà l'hash
+        // Crea l'oggetto User con tutti i nuovi campi
+        User user = new User(username, email, password);
+        user.setTelefono(telefono);
+        user.setDataNascita(dataNascita);
+        user.setIndirizzo(indirizzo);
+        user.setCitta(citta);
+        user.setProvincia(provincia);
+        user.setCap(cap);
+
         boolean success = dao.register(user);
 
         if (success) {
