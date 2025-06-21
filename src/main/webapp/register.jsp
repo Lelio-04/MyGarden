@@ -1,4 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    String username = (String) session.getAttribute("username");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,7 +44,7 @@
                         <path d="m1 1 4 4 14 1-1 9H6"></path>
                     </svg>
                 </a>
-                <a href="login.jsp" class="icon-link" title="Profilo">
+                 <a href="login.jsp" class="icon-link" title="<%= (username != null) ? "Profilo" : "Accedi" %>">
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                         <circle cx="12" cy="7" r="4"></circle>
@@ -60,9 +63,10 @@
             <ul class="nav-links">
                 <li><a href="index.jsp">Home</a></li>
                 <li><a href="catalogo.jsp">Catalogo</a></li>
-                <li><a href="login.jsp">Login</a></li>
+                
                 <li><a href="carrello.jsp">Carrello</a></li>
                 <li><a href="#contattaci">Contattaci</a></li>
+                <li><a href="login.jsp">Accedi</a></li>
             </ul>
         </nav>
     </header>
