@@ -9,8 +9,12 @@
         return;
     }
 
-    Collection<ProductBean> products = (Collection<ProductBean>) request.getAttribute("products");
-    ProductBean product = (ProductBean) request.getAttribute("product");
+	Collection<?> products = (Collection<?>) request.getAttribute("products");
+	if(products == null) {
+		response.sendRedirect("../product");	
+		return;
+	}
+	ProductBean product = (ProductBean) request.getAttribute("product");
 %>
 
 <!DOCTYPE html>
@@ -19,7 +23,7 @@
     <meta charset="UTF-8">
     <title>Gestione Prodotti - Admin</title>
     <link rel="stylesheet" href="styles/styleBase.css">
-    <link rel="stylesheet" href="styles/styleAdminProduct.css">
+   <!-- <link rel="stylesheet" href="styles/styleAdminProduct.css"> --> 
 </head>
 <body>
 
@@ -55,9 +59,11 @@
             </thead>
             <tbody>
             <%
-                if (products != null && !products.isEmpty()) {
-                    for (ProductBean p : products) {
-            %>
+			if (products != null && products.size() != 0) {
+				Iterator<?> it = products.iterator();
+				while (it.hasNext()) {
+					ProductBean p = (ProductBean) it.next();
+		%>
                 <tr>
                     <td><%= p.getCode() %></td>
                     <td><%= p.getName() %></td>

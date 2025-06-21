@@ -70,9 +70,9 @@ public class Login extends HttpServlet {
                         System.out.println("✅ LOGIN OK: utente riconosciuto. isAdmin = " + isAdmin);
 
                         if (isAdmin) {
-                            response.sendRedirect("admin/adminCatalogo.jsp");
+                            response.sendRedirect("index.jsp");
                         } else {
-                            response.sendRedirect("catalogo.jsp");
+                            response.sendRedirect("index.jsp");
                         }
                         return;
                     } else {

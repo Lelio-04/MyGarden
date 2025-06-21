@@ -24,8 +24,8 @@
 <header>
     <h1>Area Amministratore - Gestione Prodotti</h1>
     <nav>
-        <a href="index.jsp">Torna al sito</a> |
-        <a href="logout.jsp">Logout</a>
+        <a href="./index.jsp">Torna al sito</a> |
+        <a href="admin/adminCatalogo.jsp">Gestione Catalogo</a>
     </nav>
 </header>
 

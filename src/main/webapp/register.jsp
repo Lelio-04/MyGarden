@@ -99,6 +99,13 @@
             <label for="password">Password:</label>
             <input id="password" type="password" name="password" placeholder= "Inserisci la tua password" required>
         </div>
+        
+        <div class="form-group">
+        	<label for="telefono">Telefono:</label>
+        	<input id="telefono"  type="tel" name="telefono" pattern="[0-9]{10}" placeholder="Es: 3201234567" required>
+
+        
+        </div>
 
         <button type="submit" class="btn">REGISTRATI</button>
     </form>

@@ -118,7 +118,7 @@ public class ProductControl extends HttpServlet {
 		}
 
 		Boolean isAdmin = (Boolean) request.getSession().getAttribute("isAdmin");
-		String nextPage = (isAdmin != null && isAdmin) ? "/adminProduct.jsp" : "/catalogo.jsp";
+		String nextPage = (isAdmin != null && isAdmin) ? "/admin/adminProduct.jsp" : "/catalogo.jsp";
 
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextPage);
 		dispatcher.forward(request, response);
