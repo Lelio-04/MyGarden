@@ -16,7 +16,9 @@
     <header>
         <div class="header-top">
             <img src="images/logo.png" alt="MyGarden Logo" class="logo">
-            <span class="site-title">MyGarden</span>
+            <span class="site-title">
+            	<span class="yellow">My</span><span class="green">Garden</span>
+            </span>
             <div class="header-icons">
                 <a href="carrello.jsp" class="icon-link" title="Carrello">
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -52,7 +54,7 @@
 
         <nav class="main-nav">
             <ul class="nav-links">
-                <li><a href="index.jsp">Home</a></li>
+                <li><a href="index.jsp" id = "home">Home</a></li>
                 <% Boolean isAdmin = (Boolean) request.getSession().getAttribute("isAdmin");  
                    if(isAdmin != null && isAdmin){
                 	
@@ -92,16 +94,19 @@
 
     <main>
         <section class="hero">
-            <h2>Benvenuto su MyGarden</h2>
-            <p>Scopri il verde perfetto per la tua casa e il tuo giardino.</p>
+        	<section class = "evid">
+            	<h2>Benvenuto su MyGarden</h2>
+            	<p>Scopri il verde perfetto per la tua casa e il tuo giardino.</p>
+            </section>
             <a href="catalogo.jsp" class="btn">Sfoglia il catalogo</a>
         </section>
 
         <section id="contattaci" class="contact-section">
             <div class="container">
+                
+                <form class="contact-form" action="#" method="POST">
                 <h2>Contattaci</h2>
                 <p>Hai domande o suggerimenti? Scrivici!</p>
-                <form class="contact-form" action="#" method="POST">
                     <div class="form-group">
                         <label for="email">Email *</label>
                         <input type="email" id="email" name="email" required>

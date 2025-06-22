@@ -244,11 +244,11 @@ main {
 }
 
 .hero {
-    background: linear-gradient(rgba(45,80,22,0.7), rgba(74,124,89,0.7)), 
-                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%234a7c59" width="1200" height="600"/><path fill="%235a8c69" d="M0 300L50 325C100 350 200 400 300 425C400 450 500 450 600 425C700 400 800 350 900 325C1000 300 1100 300 1150 300L1200 300V600H1150C1100 600 1000 600 900 600C800 600 700 600 600 600C500 600 400 600 300 600C200 600 100 600 50 600H0V300Z"/></svg>') no-repeat center center;
+    
+    background-image: url("https://wp-s.ru/wallpapers/10/10/547782981407972/giardino-giapponese-ponte-rosso-fiume-con-pietre-paesaggio.jpg");
     background-size: cover;
     text-align: center;
-    padding: 100px 20px;
+    padding: 100px 10px;
     color: white;
 }
 
