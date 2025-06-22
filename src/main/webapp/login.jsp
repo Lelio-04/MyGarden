@@ -18,7 +18,9 @@
 	 <header>
         <div class="header-top">
             <img src="images/logo.png" alt="MyGarden Logo" class="logo">
-            <span class="site-title">MyGarden</span>
+            <span class="site-title">
+            	<span class="yellow">My</span><span class="green">Garden</span>
+            </span>
             <div class="header-icons">
                 <a href="carrello.html" class="icon-link" title="Carrello">
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -44,7 +46,7 @@
         </div>
         <nav class="main-nav">
             <ul class="nav-links">
-                <li><a href="index.jsp">Home</a></li>
+                <li><a href="index.jsp" id= "home">Home</a></li>
                 <li><a href="catalogo.jsp">Catalogo</a></li>
                 <li><a href="carrello.html">Carrello</a></li>
                 <li><a href="#contattaci">Contattaci</a></li>

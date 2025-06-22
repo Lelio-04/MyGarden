@@ -461,3 +461,26 @@ footer {
         padding: 25px 15px;
     }
 }
+
+.site-title {
+  font-size: 3rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.site-title .yellow {
+  color: rgb(227, 170, 37); /* giallo oro */
+}
+
+.site-title .green {
+  color: rgb(37, 85, 45); /* verde lime */
+}
+
+
+
+.nav-links a{
+	color: white;
+}
+
+#home{
+	color: rgb(37, 85, 45);
+}

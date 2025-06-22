@@ -97,8 +97,9 @@
         	<section class = "evid">
             	<h2>Benvenuto su MyGarden</h2>
             	<p>Scopri il verde perfetto per la tua casa e il tuo giardino.</p>
+            	<a href="catalogo.jsp" class="btn">Sfoglia il catalogo</a>
             </section>
-            <a href="catalogo.jsp" class="btn">Sfoglia il catalogo</a>
+            
         </section>
 
         <section id="contattaci" class="contact-section">
