@@ -10,20 +10,18 @@ main {
     /*background: linear-gradient(rgba(45,80,22,0.7), rgba(74,124,89,0.7)),
                 url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%234a7c59" width="1200" height="600"/><path fill="%235a8c69" d="M0 300L50 325C100 350 200 400 300 425C400 450 500 450 600 425C700 400 800 350 900 325C1000 300 1100 300 1150 300L1200 300V600H1150C1100 600 1000 600 900 600C800 600 700 600 600 600C500 600 400 600 300 600C200 600 100 600 50 600H0V300Z"/></svg>') no-repeat center center;
     */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://www.planetasrl.net/wp-content/uploads/2025/01/Progettazione-giardini_1-scaled.jpg");
     
-    background-image: /*url("https://static.vecteezy.com/ti/foto-gratuito/p2/4336200-foglie-verdi-naturali-per-sfondo-e-sfondi-che-puo-utilizzare-per-pubblicita-online-gratuito-foto.jpg") no-repeat center center;*/
-    					/*url("https://plus.unsplash.com/premium_photo-1661954483883-edd65eac3577?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8SmFwYW5lc2UlMjBHYXJkZW58ZW58MHx8MHx8fDA%3D");*/
-    					url("https://www.planetasrl.net/wp-content/uploads/2025/01/Progettazione-giardini_1-scaled.jpg");
     background-size: cover;
     text-align: center;
-    padding: 150px 20px;
+    padding: 140px 20px;
     color: white;
     height:650px;
 }
 
 .hero .evid{
 	text-align: center;
-	background-color: rgb(37, 85, 45);
+	background-color: transparent;
 	border-radius: 20px;
 	width: 40%;
   	margin: 0 auto;
