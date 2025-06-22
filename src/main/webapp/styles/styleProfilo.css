@@ -1,77 +1,110 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f9f4;
-    margin: 0;
-    padding: 0;
-}
-
-header {
-    background-color: #4CAF50;
-    color: white;
-    padding: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.logo {
-    height: 50px;
-}
-
-.site-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.header-icons .icon-link {
-    color: white;
-    margin-left: 1rem;
-    text-decoration: none;
-    font-weight: bold;
-}
+/* ===============================
+   STILE PAGINA profilo.jsp
+   Basato su styleBase.css
+================================= */
 
 main {
-    padding: 2rem;
-}
-
-h2 {
-    color: #333;
+    margin-top: 170px; /* compatibile con header+nav */
+    padding: 40px 20px;
+    background-color: #f4f9f4;
+    min-height: calc(100vh - 250px); /* per riempire la pagina */
 }
 
 .profile-section {
-    background-color: white;
-    padding: 1.5rem;
-    border-radius: 8px;
-    max-width: 500px;
-    margin: 2rem auto;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 40px;
+    max-width: 600px;
+    margin: 0 auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
 }
 
 .profile-section h3 {
-    border-bottom: 2px solid #4CAF50;
-    padding-bottom: 0.5rem;
-    margin-bottom: 1rem;
-    color: #4CAF50;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #4a7c59;
+    font-family: 'Arial Black', sans-serif;
+    border-bottom: 2px solid #8CBF3F;
+    padding-bottom: 10px;
 }
 
 .profile-list {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .profile-list li {
-    padding: 0.5rem 0;
+    padding: 12px 0;
+    font-size: 1.1rem;
     border-bottom: 1px solid #ddd;
+    color: #333;
 }
 
 .profile-list li:last-child {
     border-bottom: none;
 }
 
-footer {
-    text-align: center;
-    padding: 1rem;
-    background-color: #e1f5e1;
-    color: #333;
-    font-size: 0.9rem;
+.profile-list strong {
+    color: #2d5016;
+    margin-right: 10px;
+}
+
+/* Logout link stile coerente con gli altri link */
+.logout-link {
+    display: inline-block;
+    margin-top: 30px;
+    background-color: #4a7c59;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.logout-link:hover {
+    background-color: #3b6448;
+    transform: translateY(-2px);
+}
+
+/* Pulsanti Home e Logout, coerenti con stile principale */
+
+.btn-link {
+  display: inline-block;
+  background: linear-gradient(45deg, #ff6b35, #f7931e);
+  color: white;
+  padding: 10px 20px;
+  margin: 0 8px;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: 'Arial Black', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.btn-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(45deg, #e55a2b, #e0841a);
+}
+
+
+/* Responsive per dispositivi mobili */
+@media (max-width: 600px) {
+    .profile-section {
+        padding: 25px 20px;
+        margin: 20px;
+    }
+
+    .profile-section h3 {
+        font-size: 1.5rem;
+    }
+
+    .profile-list li {
+        font-size: 1rem;
+    }
 }

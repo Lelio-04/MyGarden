@@ -38,6 +38,7 @@
     <meta charset="UTF-8">
     <title>Profilo Utente</title>
     <link rel="stylesheet" href="styles/styleBase.css"> <!-- già include il tuo stile -->
+   	<link rel="stylesheet" href="styles/styleProfilo.css">
     <link rel="icon" href="images/favicon.png" type="image/png">
 </head>
 <body>
@@ -48,8 +49,8 @@
         <span class="site-title">MyGarden</span>
     </div>
     <div class="header-icons">
-        <a href="index.jsp" class="icon-link">Home</a>
-        <a href="Logout" class="icon-link">Logout</a>
+        <a href="index.jsp" class="btn-link">Home</a>
+        <a href="Logout" class="btn-link">Logout</a>
     </div>
 </header>
 
