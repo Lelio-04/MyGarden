@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/Logout")
 public class Logout extends HttpServlet {
@@ -13,12 +14,17 @@ public class Logout extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // Invalida la sessione corrente
-        if (request.getSession(false) != null) {
-            request.getSession().invalidate();
+        HttpSession session = request.getSession(false); // Recupera la sessione esistente (senza crearne una nuova)
+
+        if (session != null) {
+            System.out.println("🔒 Logout utente: " + session.getAttribute("username"));
+            session.invalidate(); // Invalida la sessione
+            System.out.println("✅ Sessione invalidata");
+        } else {
+            System.out.println("⚠️ Nessuna sessione attiva da invalidare");
         }
 
-        // Reindirizza alla homepage o alla login
-        response.sendRedirect("index.jsp");  // oppure "login.jsp" se preferisci
+        // Reindirizzamento dopo logout
+        response.sendRedirect("index.jsp");  // Cambia con "login.jsp" se vuoi forzare il login
     }
 }

@@ -10,18 +10,10 @@
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
 
-  <!-- RISORSA JNDI: Database STORAGE -->
+  <!-- RISORSA JNDI: Database STOREGE (unificato) -->
   <resource-ref>
-    <description>JNDI reference to a data source for products</description>
+    <description>JNDI reference to a unified data source (users + products)</description>
     <res-ref-name>jdbc/storage</res-ref-name>
-    <res-type>javax.sql.DataSource</res-type>
-    <res-auth>Container</res-auth>
-  </resource-ref>
-
-  <!-- RISORSA JNDI: Database UTENTI -->
-  <resource-ref>
-    <description>JNDI reference to a data source for users</description>
-    <res-ref-name>jdbc/utenti</res-ref-name>
     <res-type>javax.sql.DataSource</res-type>
     <res-auth>Container</res-auth>
   </resource-ref>
@@ -37,14 +29,15 @@
     <url-pattern>/product</url-pattern>
   </servlet-mapping>
   
-<security-constraint>
-	<web-resource-collection>
-	<web-resource-name>All</web-resource-name>
-	<url-pattern>/*</url-pattern>
-	</web-resource-collection>
-	<user-data-constraint>
-	<transport-guarantee>CONFIDENTIAL</transport-guarantee>
-	</user-data-constraint>
-</security-constraint>
+  <!-- HTTPS obbligatorio -->
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>All</web-resource-name>
+      <url-pattern>/*</url-pattern>
+    </web-resource-collection>
+    <user-data-constraint>
+      <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+    </user-data-constraint>
+  </security-constraint>
 
 </web-app>

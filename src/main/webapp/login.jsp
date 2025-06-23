@@ -48,7 +48,7 @@
             <ul class="nav-links">
                 <li><a href="index.jsp" id= "home">Home</a></li>
                 <li><a href="catalogo.jsp">Catalogo</a></li>
-                <li><a href="carrello.html">Carrello</a></li>
+                <li><a href="carrello.jsp">Carrello</a></li>
                 <li><a href="#contattaci">Contattaci</a></li>
                 <li><a href="register.jsp">Registrati</a></li>
             </ul>

@@ -1,8 +1,10 @@
 package it.unisa.db;
 
+import it.unisa.cart.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.List;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -33,25 +35,43 @@ public class ProductControl extends HttpServlet {
 			productDao = new ProductDaoDriverMan(dm);
 		}
 
-		Cart cart = (Cart) request.getSession().getAttribute("cart");
-		if (cart == null) {
-			cart = new Cart();
-			request.getSession().setAttribute("cart", cart);
-		}
+		DriverManagerConnectionPool pool = (DriverManagerConnectionPool) getServletContext()
+				.getAttribute("DriverManager");
+
+		CartDAO cartDao = new CartDAO(pool);
+
+		// Recupera username e ID utente dalla sessione
+		String username = (String) request.getSession().getAttribute("username");
+		Integer userId = (Integer) request.getSession().getAttribute("userId"); // Assicurati di settarlo in login
 
 		String action = request.getParameter("action");
 
 		try {
-			if (action != null) {
+			if (action != null && userId != null) {
 				switch (action.toLowerCase()) {
+
 					case "addc":
 						int addId = Integer.parseInt(request.getParameter("id"));
-						cart.addProduct(productDao.doRetrieveByKey(addId));
+						cartDao.addToCart(userId, addId, 1); // aggiunge 1 quantità
+
+						// ✅ DEBUG: conferma inserimento
+						System.out.println("✅ DEBUG: Prodotto con ID " + addId + " aggiunto al carrello per l'utente con ID " + userId);
+
+						// ✅ DEBUG: mostra stato carrello attuale
+						try {
+							List<CartBean> debugCart = cartDao.getCartItems(userId);
+							System.out.println("🛒 DEBUG: Contenuto attuale del carrello:");
+							for (CartBean item : debugCart) {
+								System.out.println("- Prodotto ID: " + item.getProductCode() + " | Quantità: " + item.getQuantity());
+							}
+						} catch (SQLException e) {
+							System.out.println("❌ Errore nel recuperare il carrello per debug: " + e.getMessage());
+						}
 						break;
 
 					case "deletec":
 						int delId = Integer.parseInt(request.getParameter("id"));
-						cart.deleteProduct(productDao.doRetrieveByKey(delId));
+						cartDao.removeItem(userId, delId);
 						break;
 
 					case "read":
@@ -106,8 +126,18 @@ public class ProductControl extends HttpServlet {
 			request.setAttribute("errorMessage", "Errore: " + e.getMessage());
 		}
 
-		request.getSession().setAttribute("cart", cart);
+		// Mostra articoli nel carrello
+		try {
+			if (userId != null) {
+				List<CartBean> cartItems = cartDao.getCartItems(userId);
+				request.setAttribute("cartItems", cartItems);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			request.setAttribute("errorMessage", "Errore caricamento carrello: " + e.getMessage());
+		}
 
+		// Carica lista prodotti
 		String sort = request.getParameter("sort");
 		try {
 			Collection<ProductBean> products = productDao.doRetrieveAll(sort);

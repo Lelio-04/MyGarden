@@ -29,7 +29,7 @@ public class ProductDaoDriverMan implements IProductDao {
             preparedStatement = connection.prepareStatement(insertSQL);
             preparedStatement.setString(1, product.getName());
             preparedStatement.setString(2, product.getDescription());
-            preparedStatement.setInt(3, product.getPrice());
+            preparedStatement.setDouble(3, product.getPrice());
             preparedStatement.setInt(4, product.getQuantity());
             preparedStatement.setString(5, product.getImage());
 
@@ -63,7 +63,7 @@ public class ProductDaoDriverMan implements IProductDao {
                 bean.setCode(rs.getInt("CODE"));
                 bean.setName(rs.getString("NAME"));
                 bean.setDescription(rs.getString("DESCRIPTION"));
-                bean.setPrice(rs.getInt("PRICE"));
+                bean.setPrice(rs.getDouble("PRICE"));
                 bean.setQuantity(rs.getInt("QUANTITY"));
                 bean.setImage(rs.getString("IMAGE"));
             }
@@ -120,7 +120,7 @@ public class ProductDaoDriverMan implements IProductDao {
             preparedStatement = connection.prepareStatement(updateSQL);
             preparedStatement.setString(1, product.getName());
             preparedStatement.setString(2, product.getDescription());
-            preparedStatement.setInt(3, product.getPrice());
+            preparedStatement.setDouble(3, product.getPrice());
             preparedStatement.setInt(4, product.getQuantity());
             preparedStatement.setString(5, product.getImage());
             preparedStatement.setInt(6, product.getCode());
@@ -159,7 +159,7 @@ public class ProductDaoDriverMan implements IProductDao {
                 bean.setCode(rs.getInt("CODE"));
                 bean.setName(rs.getString("NAME"));
                 bean.setDescription(rs.getString("DESCRIPTION"));
-                bean.setPrice(rs.getInt("PRICE"));
+                bean.setPrice(rs.getDouble("PRICE"));
                 bean.setQuantity(rs.getInt("QUANTITY"));
                 bean.setImage(rs.getString("IMAGE"));
                 products.add(bean);

@@ -47,42 +47,41 @@ public class Login extends HttpServlet {
 
         Connection conn = null;
         try {
-            DataSource dsUtenti = (DataSource) getServletContext().getAttribute("DataSourceUtenti");
-            if (dsUtenti == null) {
-                throw new SQLException("DataSource 'DataSourceUtenti' non trovato nel ServletContext.");
+            // ✅ Usa il nuovo DataSource unificato
+            DataSource dsStorege = (DataSource) getServletContext().getAttribute("DataSourceStorage");
+            if (dsStorege == null) {
+                throw new SQLException("DataSource 'DataSourceStorage' non trovato nel ServletContext.");
             }
 
-            conn = dsUtenti.getConnection();
-            String sql = "SELECT username, password FROM users WHERE username = ?";
+            conn = dsStorege.getConnection();
+            String sql = "SELECT id, username, password FROM users WHERE username = ?";
             try (PreparedStatement ps = conn.prepareStatement(sql)) {
                 ps.setString(1, username);
                 ResultSet rs = ps.executeQuery();
 
                 if (rs.next()) {
-                    String passwordFromDb = rs.getString("password").trim();
+                    int userId = rs.getInt("id");
                     String usernameFromDb = rs.getString("username").trim();
+                    String passwordFromDb = rs.getString("password").trim();
 
                     if (hashPassword.equals(passwordFromDb)) {
                         boolean isAdmin = "admin".equalsIgnoreCase(usernameFromDb);
-                        
-                        // Ottieni la sessione e imposta gli attributi
-                        HttpSession session = request.getSession(true); // Crea sessione se non esiste
+
+                        HttpSession session = request.getSession(true);
                         session.setAttribute("username", usernameFromDb);
                         session.setAttribute("isAdmin", isAdmin);
-                        
-                        // Imposta timeout sessione (30 minuti)
-                        session.setMaxInactiveInterval(30 * 60);
+                        session.setAttribute("userId", userId);
+                        session.setMaxInactiveInterval(30 * 60); // 30 minuti
 
                         System.out.println("✅ LOGIN OK");
-                        System.out.println("usernameFromDb = " + usernameFromDb);
                         System.out.println("🟢 Sessione ID: " + session.getId());
                         System.out.println("🟢 Username in sessione: " + session.getAttribute("username"));
+                        System.out.println("🟢 userId in sessione: " + session.getAttribute("userId"));
 
-                        // Aggiungi header per evitare cache
                         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
                         response.setHeader("Pragma", "no-cache");
                         response.setDateHeader("Expires", 0);
-                        
+
                         response.sendRedirect("index.jsp");
                         return;
                     } else {

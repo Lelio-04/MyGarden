@@ -1,22 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*, it.unisa.cart.*, it.unisa.db.*" %>
 <%
-    Collection<?> products = (Collection<?>) request.getAttribute("products");
-    if (products == null) {
-        response.sendRedirect("./product");
+    List<CartBean> cartItems = (List<CartBean>) request.getAttribute("cartItems");
+    if (cartItems == null) {
+        response.sendRedirect("cart");
         return;
     }
     String username = (String) session.getAttribute("username");
     Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
+    double total = 0;
 %>
 
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Catalogo Prodotti</title>
+    <title>Carrello</title>
     <link rel="stylesheet" href="styles/styleBase.css">
-    <link rel="stylesheet" href="styles/styleCatalogo.css">
+    <link rel="stylesheet" href="styles/styleCarrello.css">
     <link rel="icon" href="images/favicon.png" type="image/png">
 </head>
 <body>
@@ -68,50 +69,45 @@
 </header>
 
 <main>
-    <h2>Catalogo Prodotti</h2>
+    <h2>Carrello</h2>
     <table border="1">
         <thead>
         <tr>
-            <th>Codice</th>
-            <th>Nome</th>
-            <th>Descrizione</th>
+            <th>Prodotto</th>
             <th>Prezzo</th>
             <th>Quantità</th>
-            <th>Immagine</th>
-            <th>Azione</th>
+            <th>Subtotale</th>
         </tr>
         </thead>
         <tbody>
         <%
-            if (!products.isEmpty()) {
-                for (Object obj : products) {
-                    ProductBean bean = (ProductBean) obj;
+            if (!cartItems.isEmpty()) {
+                for (CartBean item : cartItems) {
+                    ProductBean product = item.getProduct();
+                    if (product != null) {
+                        double subtotal = item.getSubtotal();
+                        total += subtotal;
         %>
         <tr>
-            <td><%= bean.getCode() %></td>
-            <td><%= bean.getName() %></td>
-            <td><%= bean.getDescription() %></td>
-            <td>€ <%= String.format("%.2f", bean.getPrice()) %></td>
-            <td><%= bean.getQuantity() %></td>
-            <td><img src="<%= bean.getImage() %>" alt="<%= bean.getName() %>" width="50"></td>
-            <td>
-                <form action="AddToCartServlet" method="post">
-                    <input type="hidden" name="productCode" value="<%= bean.getCode() %>">
-                    <input type="number" name="quantity" value="1" min="1" max="<%= bean.getQuantity() %>" required>
-                    <input type="submit" value="Aggiungi al Carrello">
-                </form>
-            </td>
+            <td><%= product.getName() %></td>
+            <td>€ <%= String.format("%.2f", product.getPrice()) %></td>
+            <td><%= item.getQuantity() %></td>
+            <td>€ <%= String.format("%.2f", subtotal) %></td>
         </tr>
         <%
+                    }
                 }
             } else {
         %>
         <tr>
-            <td colspan="7">Nessun prodotto disponibile.</td>
+            <td colspan="4">Il carrello è vuoto.</td>
         </tr>
         <% } %>
         </tbody>
     </table>
+    <div class="total">
+        <strong>Totale: € <%= String.format("%.2f", total) %></strong>
+    </div>
 </main>
 </body>
 </html>

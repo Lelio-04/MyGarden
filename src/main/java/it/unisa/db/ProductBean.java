@@ -4,74 +4,74 @@ import java.io.Serializable;
 
 public class ProductBean implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	int code;
-	String name;
-	String description;
-	int price;
-	int quantity;
-	String image;
+    private static final long serialVersionUID = 1L;
+    
+    private int code;
+    private String name;
+    private String description;
+    private double price; // Cambiato da int a double
+    private int quantity;
+    private String image;
 
-	public ProductBean() {
-		code = -1;
-		name = "";
-		description = "";
-		quantity = 0;
-		image="";
-	}
+    public ProductBean() {
+        this.code = -1;
+        this.name = "";
+        this.description = "";
+        this.price = 0.0;
+        this.quantity = 0;
+        this.image = "";
+    }
 
-	public int getCode() {
-		return code;
-	}
+    public int getCode() {
+        return code;
+    }
 
-	public void setCode(int code) {
-		this.code = code;
-	}
+    public void setCode(int code) {
+        this.code = code;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public int getPrice() {
-		return price;
-	}
+    public double getPrice() {
+        return price;
+    }
 
-	public void setPrice(int price) {
-		this.price = price;
-	}
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
-	public int getQuantity() {
-		return quantity;
-	}
+    public int getQuantity() {
+        return quantity;
+    }
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-	
-	public void setImage(String image) {
-		this.image=image;
-	}
-	
-	public String getImage() {
-		return image;
-	}
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
-	@Override
-	public String toString() {
-		return name + " (" + code + "), " + price + " " + quantity + ". " + description + " "+image;
-	}
+    public String getImage() {
+        return image;
+    }
 
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    @Override
+    public String toString() {
+        return name + " (" + code + "), " + price + "€ - Quantità: " + quantity + ". " + description + " " + image;
+    }
 }

@@ -20,21 +20,17 @@ public class MainContext implements ServletContextListener {
             Context initCtx = new InitialContext();
             Context envCtx = (Context) initCtx.lookup("java:comp/env");
 
-            // 🔹 DataSource per "storage"
+            // 🔹 Corretto: DataSource unico per "storage"
             DataSource dsStorage = (DataSource) envCtx.lookup("jdbc/storage");
             context.setAttribute("DataSourceStorage", dsStorage);
-            System.out.println("✅ DataSource 'storage' inizializzato");
-
-            // 🔹 DataSource per "utenti"
-            DataSource dsUtenti = (DataSource) envCtx.lookup("jdbc/utenti");
-            context.setAttribute("DataSourceUtenti", dsUtenti);
-            System.out.println("✅ DataSource 'utenti' inizializzato");
+            context.setAttribute("DataSourceUtenti", dsStorage); // Retrocompatibilità se usavi anche utenti separati
+            System.out.println("✅ DataSource 'storage' inizializzato correttamente");
 
         } catch (NamingException e) {
             System.out.println("❌ Errore JNDI: " + e.getMessage());
         }
 
-        // ✅ DriverManagerConnectionPool (opzionale, usato come fallback)
+        // ✅ DriverManagerConnectionPool (fallback)
         DriverManagerConnectionPool dm = new DriverManagerConnectionPool();
         context.setAttribute("DriverManager", dm);
         System.out.println("✅ DriverManagerConnectionPool creato: " + dm.toString());
@@ -42,6 +38,6 @@ public class MainContext implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        // Niente da fare alla distruzione del contesto
+        // Cleanup in chiusura del contesto, se necessario
     }
 }
