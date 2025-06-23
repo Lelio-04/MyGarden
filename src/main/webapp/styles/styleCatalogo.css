@@ -1,91 +1,428 @@
-/* styleCatalogo.css */
+/* Stile specifico per la pagina del catalogo prodotti */
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f5f5f5;
-    margin: 0;
-    padding: 0;
-    margin-top: 250px;
+main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 
-h2 {
+main h2 {
+    color: #2d5016;
+    font-size: 2.5rem;
     text-align: center;
-    margin-top: 20px;
-    color: #2e7d32;
-}
-
-table {
-    width: 90%;
-    margin: 30px auto;
-    border-collapse: collapse;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-table th, table td {
-    padding: 12px 16px;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
-}
-
-table th {
-    background-color: #388e3c;
-    color: white;
+    margin-bottom: 2rem;
+    border-bottom: 3px solid #e8b923;
+    padding-bottom: 1rem;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 1px;
 }
 
-table tr:hover {
-    background-color: #f1f1f1;
+/* Stile tabella catalogo */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    border: none !important;
 }
 
-img {
-    border-radius: 4px;
-    max-height: 60px;
+thead {
+    background: linear-gradient(135deg, #2d5016, #4a7c23);
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
-form {
+thead th {
+    padding: 1.5rem 1rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    border: none;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+tbody tr {
+    transition: all 0.3s ease;
+    border-bottom: 1px solid #e0e0e0;
+    background: #fff;
+}
+
+tbody tr:nth-child(even) {
+    background: #f8f9fa;
+}
+
+tbody tr:hover {
+    background: linear-gradient(135deg, #f0f8e8, #e8f5e8);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+tbody tr:last-child {
+    border-bottom: none;
+}
+
+tbody td {
+    padding: 1.5rem 1rem;
+    border: none;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+/* Stili specifici per le celle */
+tbody td:nth-child(1) {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    color: #666;
+    background: #f8f9fa;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+tbody td:nth-child(2) {
+    font-weight: 600;
+    color: #2d5016;
+    font-size: 1.1rem;
+    text-align: left;
+}
+
+tbody td:nth-child(3) {
+    text-align: left;
+    color: #555;
+    line-height: 1.4;
+    max-width: 200px;
+    word-wrap: break-word;
+}
+
+tbody td:nth-child(4) {
+    color: #e8b923;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+tbody td:nth-child(5) {
+    background: #e8f5e8;
+    border-radius: 8px;
+    color: #2d5016;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* Stile immagini prodotto */
+tbody td:nth-child(6) {
+    padding: 1rem;
+}
+
+tbody td img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #e8b923;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+tbody td img:hover {
+    transform: scale(2.5);
+    z-index: 20;
+    position: relative;
+    border-color: #2d5016;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+/* Stile form azione */
+tbody td:nth-child(7) {
+    padding: 1rem;
+}
+
+tbody td form {
     display: flex;
     flex-direction: column;
+    gap: 0.8rem;
     align-items: center;
-    gap: 8px;
+    min-width: 120px;
 }
 
-input[type="number"] {
+tbody td form input[type="number"] {
     width: 60px;
-    padding: 4px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-input[type="submit"] {
-    padding: 6px 12px;
-    background-color: #4caf50;
-    border: none;
-    color: white;
+    padding: 0.5rem;
+    border: 2px solid #e8b923;
+    border-radius: 6px;
+    text-align: center;
     font-weight: bold;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    color: #2d5016;
+    background: #fff;
+    transition: all 0.3s ease;
 }
 
-input[type="submit"]:hover {
-    background-color: #388e3c;
+tbody td form input[type="number"]:focus {
+    outline: none;
+    border-color: #2d5016;
+    box-shadow: 0 0 8px rgba(45, 80, 22, 0.3);
+    transform: scale(1.05);
+}
+
+tbody td form input[type="submit"] {
+    background: linear-gradient(135deg, #e8b923, #d4a017);
+    color: #2d5016;
+    border: none;
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-width: 100px;
+}
+
+tbody td form input[type="submit"]:hover {
+    background: linear-gradient(135deg, #d4a017, #b8941a);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+tbody td form input[type="submit"]:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Messaggio nessun prodotto */
+tbody td[colspan="7"] {
+    text-align: center;
+    font-size: 1.3rem;
+    color: #666;
+    font-style: italic;
+    padding: 4rem;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 12px;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    main {
+        padding: 1.5rem;
+        margin: 1.5rem;
+    }
+    
+    table {
+        font-size: 0.9rem;
+    }
+    
+    tbody td:nth-child(3) {
+        max-width: 150px;
+    }
+    
+    tbody td img {
+        width: 50px;
+        height: 50px;
+    }
 }
 
 @media (max-width: 768px) {
+    main {
+        padding: 1rem;
+        margin: 1rem;
+        border-radius: 8px;
+    }
+    
+    main h2 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+    
     table {
-        font-size: 14px;
+        font-size: 0.8rem;
+        border-radius: 8px;
     }
-
-    form {
-        flex-direction: column;
+    
+    thead th {
+        padding: 1rem 0.5rem;
+        font-size: 0.8rem;
     }
+    
+    tbody td {
+        padding: 1rem 0.5rem;
+    }
+    
+    tbody td:nth-child(3) {
+        max-width: 120px;
+        font-size: 0.8rem;
+    }
+    
+    tbody td img {
+        width: 40px;
+        height: 40px;
+    }
+    
+    tbody td form {
+        gap: 0.5rem;
+    }
+    
+    tbody td form input[type="number"] {
+        width: 50px;
+        padding: 0.4rem;
+    }
+    
+    tbody td form input[type="submit"] {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.75rem;
+        min-width: 80px;
+    }
+}
 
-    input[type="number"],
-    input[type="submit"] {
-        width: 100%;
+@media (max-width: 480px) {
+    /* Layout mobile con card */
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+        display: block;
+    }
+    
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    
+    tbody tr {
+        border: 2px solid #e8b923;
+        border-radius: 12px;
+        margin-bottom: 1.5rem;
+        padding: 1.5rem;
+        background: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        position: relative;
+    }
+    
+    tbody tr:hover {
+        transform: none;
+        background: #fff;
+    }
+    
+    tbody td {
+        border: none;
+        padding: 0.8rem 0;
+        text-align: left;
+        position: relative;
+        padding-left: 40%;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    tbody td:last-child {
+        border-bottom: none;
+        padding-left: 0;
+        text-align: center;
+        margin-top: 1rem;
+    }
+    
+    tbody td:before {
+        content: attr(data-label) ": ";
+        position: absolute;
+        left: 0;
+        width: 35%;
+        font-weight: bold;
+        color: #2d5016;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+    }
+    
+    /* Labels per mobile */
+    tbody td:nth-child(1):before { content: "Codice"; }
+    tbody td:nth-child(2):before { content: "Nome"; }
+    tbody td:nth-child(3):before { content: "Descrizione"; }
+    tbody td:nth-child(4):before { content: "Prezzo"; }
+    tbody td:nth-child(5):before { content: "Quantità"; }
+    tbody td:nth-child(6):before { content: "Immagine"; }
+    
+    tbody td:nth-child(6) {
+        text-align: center;
+        padding-left: 0;
+    }
+    
+    tbody td img {
+        width: 80px;
+        height: 80px;
+    }
+    
+    tbody td form {
+        flex-direction: row;
+        justify-content: center;
+        gap: 1rem;
+    }
+    
+    main h2 {
+        font-size: 1.8rem;
+    }
+}
+
+/* Animazioni */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+table {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+tbody tr {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+/* Indicatori di stock */
+tbody td:nth-child(5) {
+    position: relative;
+}
+
+tbody tr:hover td:nth-child(5):after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -10px;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #4CAF50;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(76, 175, 80, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
     }
 }
