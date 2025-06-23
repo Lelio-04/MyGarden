@@ -279,6 +279,27 @@ main {
     letter-spacing: 1px;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    border: none;
+    outline: none;
+}
+
+.btn-contact {
+   	display: block;
+    width: auto;
+    padding: 15px 30px;
+    font-size: 1rem;
+    margin: 20px auto 0;
+    background: linear-gradient(45deg, #ff6b35, #f7931e);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    border: none;
+    outline: none;
 }
 
 .btn:hover {

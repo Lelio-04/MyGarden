@@ -110,13 +110,13 @@
                 <p>Hai domande o suggerimenti? Scrivici!</p>
                     <div class="form-group">
                         <label for="email">Email *</label>
-                        <input type="email" id="email" name="email" required>
+                        <input type="email" id="email" name="email" required placeholder = "Inserisci la tua email">
                     </div>
                     <div class="form-group">
                         <label for="messaggio">Messaggio *</label>
                         <textarea id="messaggio" name="messaggio" rows="6" required placeholder="Scrivi qui il tuo messaggio..."></textarea>
                     </div>
-                    <button type="submit" class="btn btn-contact">Invia Messaggio</button>
+                    <button type="submit" class="btn-contact">Invia Messaggio</button>
                 </form>
             </div>
         </section>
