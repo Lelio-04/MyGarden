@@ -6,9 +6,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/cart")
@@ -17,24 +19,32 @@ public class CartControl extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Integer userId = (Integer) request.getSession().getAttribute("userId");
+        HttpSession session = request.getSession();
+        Integer userId = (Integer) session.getAttribute("userId");
 
-        if (userId == null) {
-            response.sendRedirect("login.jsp");
-            return;
+        List<CartBean> cartItems = new ArrayList<>();
+
+        if (userId != null) {
+            // Utente loggato: carica carrello da DB
+            DriverManagerConnectionPool pool = (DriverManagerConnectionPool) getServletContext().getAttribute("DriverManager");
+            CartDAO cartDao = new CartDAO(pool);
+
+            try {
+                cartItems = cartDao.getCartItems(userId);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                request.setAttribute("errorMessage", "Errore nel caricamento del carrello: " + e.getMessage());
+            }
+        } else {
+            // Utente non loggato: carrello dalla sessione
+            @SuppressWarnings("unchecked")
+            List<CartBean> guestCart = (List<CartBean>) session.getAttribute("guestCart");
+            if (guestCart != null) {
+                cartItems = guestCart;
+            }
         }
 
-        DriverManagerConnectionPool pool = (DriverManagerConnectionPool) getServletContext().getAttribute("DriverManager");
-        CartDAO cartDao = new CartDAO(pool);
-
-        try {
-            List<CartBean> cartItems = cartDao.getCartItems(userId);
-            request.setAttribute("cartItems", cartItems);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            request.setAttribute("errorMessage", "Errore nel caricamento del carrello: " + e.getMessage());
-        }
-
+        request.setAttribute("cartItems", cartItems);
         request.getRequestDispatcher("carrello.jsp").forward(request, response);
     }
 

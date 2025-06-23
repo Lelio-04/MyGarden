@@ -7,43 +7,71 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet("/AddToCart")
 public class CartServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-
     private final DriverManagerConnectionPool pool = new DriverManagerConnectionPool();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String userIdStr = request.getParameter("userId");
         String productCodeStr = request.getParameter("productCode");
         String quantityStr = request.getParameter("quantity");
 
-        if (userIdStr == null || productCodeStr == null || quantityStr == null) {
+        if (productCodeStr == null || quantityStr == null) {
             response.sendRedirect("errore.jsp");
             return;
         }
 
         try {
-            int userId = Integer.parseInt(userIdStr);
             int productCode = Integer.parseInt(productCodeStr);
             int quantity = Integer.parseInt(quantityStr);
 
+            HttpSession session = request.getSession();
+            Integer userId = (Integer) session.getAttribute("userId");
+
             CartBean cartItem = new CartBean();
-            cartItem.setUserId(userId);
             cartItem.setProductCode(productCode);
             cartItem.setQuantity(quantity);
 
-            addToCart(cartItem);
+            if (userId != null) {
+                // Utente loggato → salva nel DB
+                cartItem.setUserId(userId);
+                addToCart(cartItem);
+            } else {
+                // Utente non loggato → salva nella sessione
+                @SuppressWarnings("unchecked")
+                List<CartBean> sessionCart = (List<CartBean>) session.getAttribute("guestCart");
+
+                if (sessionCart == null) {
+                    sessionCart = new ArrayList<>();
+                    session.setAttribute("guestCart", sessionCart);
+                }
+
+                // Se il prodotto è già presente, aggiorna la quantità
+                boolean found = false;
+                for (CartBean item : sessionCart) {
+                    if (item.getProductCode() == productCode) {
+                        item.setQuantity(item.getQuantity() + quantity);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    sessionCart.add(cartItem);
+                }
+            }
 
             response.sendRedirect("carrello.jsp?success=1");
 
@@ -54,7 +82,8 @@ public class CartServlet extends HttpServlet {
     }
 
     private void addToCart(CartBean item) throws SQLException {
-        String sql = "INSERT INTO cart_items (user_id, product_code, quantity) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO cart_items (user_id, product_code, quantity) VALUES (?, ?, ?) " +
+                     "ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)";
 
         try (Connection con = pool.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {

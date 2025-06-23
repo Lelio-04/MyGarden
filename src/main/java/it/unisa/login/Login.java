@@ -3,18 +3,15 @@ package it.unisa.login;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import javax.sql.DataSource;
 
+import it.unisa.cart.CartBean;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 
 @WebServlet("/Login")
 public class Login extends HttpServlet {
@@ -47,7 +44,6 @@ public class Login extends HttpServlet {
 
         Connection conn = null;
         try {
-            // ✅ Usa il nuovo DataSource unificato
             DataSource dsStorege = (DataSource) getServletContext().getAttribute("DataSourceStorage");
             if (dsStorege == null) {
                 throw new SQLException("DataSource 'DataSourceStorage' non trovato nel ServletContext.");
@@ -72,6 +68,17 @@ public class Login extends HttpServlet {
                         session.setAttribute("isAdmin", isAdmin);
                         session.setAttribute("userId", userId);
                         session.setMaxInactiveInterval(30 * 60); // 30 minuti
+
+                        // ✅ Se esiste un guestCart, migra gli articoli nel DB
+                        @SuppressWarnings("unchecked")
+                        List<CartBean> guestCart = (List<CartBean>) session.getAttribute("guestCart");
+
+                        if (guestCart != null && !guestCart.isEmpty()) {
+                            for (CartBean item : guestCart) {
+                                insertCartItem(conn, userId, item.getProductCode(), item.getQuantity());
+                            }
+                            session.removeAttribute("guestCart");
+                        }
 
                         System.out.println("✅ LOGIN OK");
                         System.out.println("🟢 Sessione ID: " + session.getId());
@@ -107,6 +114,17 @@ public class Login extends HttpServlet {
         System.out.println("❌ LOGIN FALLITO.");
         request.setAttribute("errors", errors);
         dispatcherToLoginPage.forward(request, response);
+    }
+
+    private void insertCartItem(Connection conn, int userId, int productCode, int quantity) throws SQLException {
+        String sql = "INSERT INTO cart_items (user_id, product_code, quantity) VALUES (?, ?, ?) " +
+                     "ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ps.setInt(2, productCode);
+            ps.setInt(3, quantity);
+            ps.executeUpdate();
+        }
     }
 
     private String toHash(String password) {

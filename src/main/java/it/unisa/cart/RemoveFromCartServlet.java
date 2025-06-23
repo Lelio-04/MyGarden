@@ -7,6 +7,8 @@ import jakarta.servlet.http.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Iterator;
 
 @WebServlet("/remove-from-cart")
 public class RemoveFromCartServlet extends HttpServlet {
@@ -23,13 +25,8 @@ public class RemoveFromCartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession(false);
-        Integer userId = (session != null) ? (Integer) session.getAttribute("userId") : null;
-
-        if (userId == null) {
-            response.sendRedirect("login.jsp");
-            return;
-        }
+        HttpSession session = request.getSession(true);
+        Integer userId = (Integer) session.getAttribute("userId");
 
         String productCodeParam = request.getParameter("productCode");
         if (productCodeParam == null) {
@@ -39,9 +36,31 @@ public class RemoveFromCartServlet extends HttpServlet {
 
         try {
             int productCode = Integer.parseInt(productCodeParam);
-            cartDAO.removeItem(userId, productCode);
+
+            if (userId != null) {
+                // Utente loggato → rimozione da DB
+                cartDAO.removeItem(userId, productCode);
+            } else {
+                // Utente non loggato → rimozione da guestCart in sessione
+                @SuppressWarnings("unchecked")
+                List<CartBean> guestCart = (List<CartBean>) session.getAttribute("guestCart");
+
+                if (guestCart != null) {
+                    Iterator<CartBean> iterator = guestCart.iterator();
+                    while (iterator.hasNext()) {
+                        CartBean item = iterator.next();
+                        if (item.getProductCode() == productCode) {
+                            iterator.remove();
+                            break;
+                        }
+                    }
+                    session.setAttribute("guestCart", guestCart);
+                }
+            }
+
         } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Codice prodotto non valido.");
+            return;
         } catch (SQLException e) {
             throw new ServletException("Errore nella rimozione dal carrello", e);
         }
