@@ -55,9 +55,7 @@
             <li><a href="index.jsp">Home</a></li>
             <li><a href="<%=request.getContextPath()%>/product" id="signed"><%= (isAdmin != null && isAdmin) ? "Gestione Catalogo" : "Catalogo" %></a></li>
             <li><a href="cart"><%= (isAdmin != null && isAdmin) ? "Gestione Ordini" : "Carrello" %></a></li>
-            <% if (isAdmin == null || !isAdmin) { %>
-                <li><a href="#contattaci">Contattaci</a></li>
-            <% } %>
+            
             <% if (username != null) { %>
                 <li><a href="Logout">Logout</a></li>
             <% } else { %>
@@ -97,6 +95,8 @@
         <% } %>
     </div>
 </main>
-
+	<footer>
+        <p>&copy; 2025 MyGarden - Tutti i diritti riservati.</p>
+    </footer>
 </body>
 </html>

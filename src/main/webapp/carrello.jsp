@@ -86,9 +86,7 @@
                 
                 %>
                     
-                <% } else { %>
-                    <li><a href="#contattaci">Contattaci</a></li>
-                <% } %>
+                <% }  %>
                 
                 <% if (username != null) { %>
                     <li><a href="Logout">Logout</a></li>
@@ -100,68 +98,80 @@
     </header>
 
 <main>
-    <h2>Carrello</h2>
     <form action="update-cart" method="post">
-        <table border="1">
-            <thead>
-            <tr>
-                <th>Prodotto</th>
-                <th>Prezzo</th>
-                <th>Quantità</th>
-                <th>Subtotale</th>
-                <th>Azione</th>
-            </tr>
-            </thead>
-            <tbody>
-            <%
-                if (!cartItems.isEmpty()) {
-                    for (CartBean item : cartItems) {
-                        ProductBean product = item.getProduct();
-                        if (product != null) {
-                            double subtotal = item.getSubtotal();
-                            total += subtotal;
-            %>
-            <tr>
-                <td><%= product.getName() %></td>
-                <td>€ <%= String.format("%.2f", product.getPrice()) %></td>
-                <td>
-                    <input type="number" name="quantities[<%= product.getCode() %>]" value="<%= item.getQuantity() %>" min="1" max="<%= product.getQuantity() %>">
-                </td>
-                <td>€ <%= String.format("%.2f", subtotal) %></td>
-                <td>
-                    <button type="submit" formaction="remove-from-cart" formmethod="post" name="productCode" value="<%= product.getCode() %>">
-                        Rimuovi
-                    </button>
-                </td>
-            </tr>
-            <%
+        <div class="table-container">
+            <table>
+                <thead>
+                <tr>
+                    <th>Immagine</th>
+                    <th>Prodotto</th>
+                    <th>Prezzo</th>
+                    <th>Quantità</th>
+                    <th>Subtotale</th>
+                    <th>Azione</th>
+                </tr>
+                </thead>
+                <tbody>
+                <%
+                    if (!cartItems.isEmpty()) {
+                        for (CartBean item : cartItems) {
+                            ProductBean product = item.getProduct();
+                            if (product != null) {
+                                double subtotal = item.getSubtotal();
+                                total += subtotal;
+                %>
+                <tr>
+                    <td class="product-image-cell">
+                        <img src="<%= product.getImage() %>" alt="<%= product.getName() %>" class="cart-product-image">
+                    </td>
+                    <td class="product-name-cell"><%= product.getName() %></td>
+                    <td class="price-cell">€ <%= String.format("%.2f", product.getPrice()) %></td>
+                    <td>
+                        <input type="number" name="quantities[<%= product.getCode() %>]" value="<%= item.getQuantity() %>" min="1" max="<%= product.getQuantity() %>" class="quantity-input">
+                    </td>
+                    <td class="subtotal-cell">€ <%= String.format("%.2f", subtotal) %></td>
+                    <td>
+                        <button type="submit" formaction="remove-from-cart" formmethod="post" name="productCode" value="<%= product.getCode() %>" class="remove-btn">
+                            Rimuovi
+                        </button>
+                    </td>
+                </tr>
+                <%
+                            }
                         }
-                    }
-                } else {
-            %>
-            <tr>
-                <td colspan="5">Il carrello è vuoto.</td>
-            </tr>
-            <% } %>
-            </tbody>
-        </table>
-        <div class="cart-actions">
-            <strong>Totale: € <%= String.format("%.2f", total) %></strong><br><br>
-            <button type="submit">Aggiorna Quantità</button>
+                    } else {
+                %>
+                <tr>
+                    <td colspan="6" class="empty-cart-message">Il carrello è vuoto.</td>
+                </tr>
+                <% } %>
+                </tbody>
+            </table>
         </div>
+        
+	       <div class="cart-actions updated-layout">
+	        <div class="cart-summary-box">
+	    		<div class="left-section">
+	        		<p class="cart-total">Totale: € <%= String.format("%.2f", total) %></p>
+	
+	        		<% if (username != null) { %>
+	            	<button type="submit" formaction="checkout" formmethod="post" class="checkout-btn">Effettua Ordine</button>
+	        		<% } else { %>
+	            	<p class="login-message">Per effettuare l'ordine devi <a href="login.jsp">accedere</a>.</p>
+	       			 <% } %>
+	    		</div>
+	
+	    		
+			</div>
+				<div class="right-section">
+	        		<button type="submit" class="primary-btn">Aggiorna Quantità</button>
+	        		<button type="submit" formaction="clear-cart" formmethod="post" class="secondary-btn">Svuota Carrello</button>
+	    		</div>
+		</div>
     </form>
-
-    <form action="clear-cart" method="post">
-        <button type="submit">Svuota Carrello</button>
-    </form>
-
-    <% if (username != null) { %>
-        <form action="checkout" method="post">
-            <button type="submit">Effettua Ordine</button>
-        </form>
-    <% } else { %>
-        <p>Per effettuare l'ordine devi <a href="login.jsp">accedere</a>.</p>
-    <% } %>
 </main>
+	<footer>
+        <p>&copy; 2025 MyGarden - Tutti i diritti riservati.</p>
+    </footer>
 </body>
 </html>

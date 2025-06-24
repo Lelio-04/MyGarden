@@ -85,8 +85,6 @@
                 
                 %>
                     
-                <% } else { %>
-                    <li><a href="#contattaci">Contattaci</a></li>
                 <% } %>
                 
                 <% if (username != null) { %>
@@ -104,20 +102,28 @@
         <img class="product-image" src="<%= product.getImage() %>" alt="<%= product.getName() %>">
 
         <div class="product-info">
-            <h1><%= product.getName() %></h1>
-            <p class="description"><%= product.getDescription() %></p>
-            <p class="price">Prezzo: € <%= String.format("%.2f", product.getPrice()) %></p>
-            <p class="availability">Disponibilità: <%= product.getQuantity() %> unità</p>
+    <h1><%= product.getName() %></h1>
+    <p class="price">Prezzo: € <%= String.format("%.2f", product.getPrice()) %></p>
+    <p class="description"><%= product.getDescription() %></p>
 
-            <form action="AddToCartServlet" method="post" class="add-to-cart-form">
-                <input type="hidden" name="productCode" value="<%= product.getCode() %>">
+    <form action="AddToCartServlet" method="post" class="add-to-cart-form">
+        <input type="hidden" name="productCode" value="<%= product.getCode() %>">
+        
+        <div class="quantity-section">
+            <p class="availability">Disponibilità: <%= product.getQuantity() %> unità</p>
+            <div class="quantity-row">
                 <label for="quantity">Quantità:</label>
                 <input type="number" id="quantity" name="quantity" value="1" min="1" max="<%= product.getQuantity() %>" required>
-                <input type="submit" value="Aggiungi al carrello">
-            </form>
+            </div>
         </div>
+        
+        <input type="submit" value="Aggiungi al carrello">
+    </form>
+</div>
     </div>
 </main>
-
+	<footer>
+        <p>&copy; 2025 MyGarden - Tutti i diritti riservati.</p>
+    </footer>
 </body>
 </html>

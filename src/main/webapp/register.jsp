@@ -67,7 +67,7 @@
                 <li><a href="catalogo.jsp">Catalogo</a></li>
                 
                 <li><a href="carrello.jsp">Carrello</a></li>
-                <li><a href="#contattaci">Contattaci</a></li>
+                
                 <li><a href="login.jsp">Accedi</a></li>
             </ul>
         </nav>

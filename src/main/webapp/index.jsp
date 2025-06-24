@@ -55,6 +55,15 @@
         <nav class="main-nav">
             <ul class="nav-links">
                 <li><a href="index.jsp" id = "signed">Home</a></li>
+                <% Boolean isAdmin3 = (Boolean) request.getSession().getAttribute("isAdmin");  
+                   if(isAdmin3 != null && isAdmin3){
+                	
+                
+                %>
+                    
+                <% } else { %>
+                    <li><a href="#contattaci">Contattaci</a></li>
+                <% } %>
                 <% Boolean isAdmin = (Boolean) request.getSession().getAttribute("isAdmin");  
                    if(isAdmin != null && isAdmin){
                 	
@@ -73,15 +82,7 @@
                 <% } else { %>
                     <li><a href="carrello.jsp">Carrello</a></li>
                 <% } %>
-                <% Boolean isAdmin3 = (Boolean) request.getSession().getAttribute("isAdmin");  
-                   if(isAdmin3 != null && isAdmin3){
-                	
                 
-                %>
-                    
-                <% } else { %>
-                    <li><a href="#contattaci">Contattaci</a></li>
-                <% } %>
                 
                 <% if (username != null) { %>
                     <li><a href="Logout">Logout</a></li>
