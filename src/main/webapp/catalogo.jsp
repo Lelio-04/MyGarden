@@ -53,7 +53,7 @@
     <nav class="main-nav">
         <ul class="nav-links">
             <li><a href="index.jsp">Home</a></li>
-            <li><a href="<%=request.getContextPath()%>/product" id = "signed"><%= (isAdmin != null && isAdmin) ? "Gestione Catalogo" : "Catalogo" %></a></li>
+            <li><a href="<%=request.getContextPath()%>/product" id="signed"><%= (isAdmin != null && isAdmin) ? "Gestione Catalogo" : "Catalogo" %></a></li>
             <li><a href="cart"><%= (isAdmin != null && isAdmin) ? "Gestione Ordini" : "Carrello" %></a></li>
             <% if (isAdmin == null || !isAdmin) { %>
                 <li><a href="#contattaci">Contattaci</a></li>
@@ -61,58 +61,41 @@
             <% if (username != null) { %>
                 <li><a href="Logout">Logout</a></li>
             <% } else { %>
-            	<li><a href="login.jsp">Accedi</a></li>
-        	<% } %>
-            
+                <li><a href="login.jsp">Accedi</a></li>
+            <% } %>
         </ul>
     </nav>
 </header>
 
-<main>
-    <h2>Catalogo Prodotti</h2>
-    <table border="1">
-        <thead>
-        <tr>
-            <th>Codice</th>
-            <th>Nome</th>
-            <th>Descrizione</th>
-            <th>Prezzo</th>
-            <th>Quantità</th>
-            <th>Immagine</th>
-            <th>Azione</th>
-        </tr>
-        </thead>
-        <tbody>
+<main class="catalog-container">
+    <div class="catalog-grid">
         <%
             if (!products.isEmpty()) {
                 for (Object obj : products) {
                     ProductBean bean = (ProductBean) obj;
         %>
-        <tr>
-            <td><%= bean.getCode() %></td>
-            <td><%= bean.getName() %></td>
-            <td><%= bean.getDescription() %></td>
-            <td>€ <%= String.format("%.2f", bean.getPrice()) %></td>
-            <td><%= bean.getQuantity() %></td>
-            <td><img src="<%= bean.getImage() %>" alt="<%= bean.getName() %>" width="50"></td>
-            <td>
-                <form action="AddToCartServlet" method="post">
-                    <input type="hidden" name="productCode" value="<%= bean.getCode() %>">
-                    <input type="number" name="quantity" value="1" min="1" max="<%= bean.getQuantity() %>" required>
-                    <input type="submit" value="Aggiungi al Carrello">
-                </form>
-            </td>
-        </tr>
+        <div class="product-card">
+            <img src="<%= bean.getImage() %>" alt="<%= bean.getName() %>">
+            <h3><%= bean.getName() %></h3>
+            <p class="price">€ <%= String.format("%.2f", bean.getPrice()) %></p>
+            <form action="AddToCartServlet" method="post">
+                
+                <input type="hidden" name="productCode" value="<%= bean.getCode() %>">
+                <div class="quantity-row">
+        			<span class="available">Disponibilità: <%= bean.getQuantity() %></span>
+        			<input type="number" name="quantity" value="1" min="1" max="<%= bean.getQuantity() %>" required>
+    			</div>
+                <input type="submit" value="Aggiungi al Carrello">
+            </form>
+        </div>
         <%
                 }
             } else {
         %>
-        <tr>
-            <td colspan="7">Nessun prodotto disponibile.</td>
-        </tr>
+        <p>Nessun prodotto disponibile.</p>
         <% } %>
-        </tbody>
-    </table>
+    </div>
 </main>
+
 </body>
 </html>
