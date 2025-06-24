@@ -53,7 +53,7 @@
     <nav class="main-nav">
         <ul class="nav-links">
             <li><a href="index.jsp">Home</a></li>
-            <li><a href="<%=request.getContextPath()%>/product"><%= (isAdmin != null && isAdmin) ? "Gestione Catalogo" : "Catalogo" %></a></li>
+            <li><a href="<%=request.getContextPath()%>/product" id = "signed"><%= (isAdmin != null && isAdmin) ? "Gestione Catalogo" : "Catalogo" %></a></li>
             <li><a href="cart"><%= (isAdmin != null && isAdmin) ? "Gestione Ordini" : "Carrello" %></a></li>
             <% if (isAdmin == null || !isAdmin) { %>
                 <li><a href="#contattaci">Contattaci</a></li>
@@ -61,8 +61,9 @@
             <% if (username != null) { %>
                 <li><a href="Logout">Logout</a></li>
             <% } else { %>
-                <li><a href="login.jsp">Accedi</a></li>
-            <% } %>
+            	<li><a href="login.jsp">Accedi</a></li>
+        	<% } %>
+            
         </ul>
     </nav>
 </header>

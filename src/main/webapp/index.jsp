@@ -54,7 +54,7 @@
 
         <nav class="main-nav">
             <ul class="nav-links">
-                <li><a href="index.jsp" id = "home">Home</a></li>
+                <li><a href="index.jsp" id = "signed">Home</a></li>
                 <% Boolean isAdmin = (Boolean) request.getSession().getAttribute("isAdmin");  
                    if(isAdmin != null && isAdmin){
                 	

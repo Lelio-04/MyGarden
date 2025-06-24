@@ -255,3 +255,7 @@ tbody tr:hover td:first-child {
     color: #4a7c23;
     transition: color 0.3s ease;
 }
+
+#signed{
+	color: rgb(37, 85, 45);
+}
