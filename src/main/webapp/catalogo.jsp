@@ -75,16 +75,17 @@
                     ProductBean bean = (ProductBean) obj;
         %>
         <div class="product-card">
-            <img src="<%= bean.getImage() %>" alt="<%= bean.getName() %>">
+            <a href="DettaglioProdottoServlet?code=<%= bean.getCode() %>">
+                <img src="<%= bean.getImage() %>" alt="<%= bean.getName() %>">
+            </a>
             <h3><%= bean.getName() %></h3>
             <p class="price">€ <%= String.format("%.2f", bean.getPrice()) %></p>
             <form action="AddToCartServlet" method="post">
-                
                 <input type="hidden" name="productCode" value="<%= bean.getCode() %>">
                 <div class="quantity-row">
-        			<span class="available">Disponibilità: <%= bean.getQuantity() %></span>
-        			<input type="number" name="quantity" value="1" min="1" max="<%= bean.getQuantity() %>" required>
-    			</div>
+                    <span class="available">Disponibilità: <%= bean.getQuantity() %></span>
+                    <input type="number" name="quantity" value="1" min="1" max="<%= bean.getQuantity() %>" required>
+                </div>
                 <input type="submit" value="Aggiungi al Carrello">
             </form>
         </div>
