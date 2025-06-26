@@ -116,7 +116,7 @@ public class ProductDaoDataSource implements IProductDao {
 	}
 	
 	public void doUpdate(ProductBean product) throws SQLException {
-	    String sql = "UPDATE prodotti SET name=?, description=?, price=?, quantity=?, image=? WHERE code=?";
+	    String sql = "UPDATE product SET name=?, description=?, price=?, quantity=?, image=? WHERE code=?";
 	    try (Connection con = ds.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 	        ps.setString(1, product.getName());
 	        ps.setString(2, product.getDescription());

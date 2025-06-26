@@ -69,7 +69,7 @@
                 
                 
                 %>
-                    <li><a href="carrello.jsp">Gestione Ordini</a></li>
+                    <li><a href="">Gestione Ordini</a></li>
                 <% } else { %>
                     <li><a href="carrello.jsp">Carrello</a></li>
                 <% } %>

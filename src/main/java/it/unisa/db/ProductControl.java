@@ -87,7 +87,7 @@ public class ProductControl extends HttpServlet {
 					case "insert":
 						String name = request.getParameter("name");
 						String description = request.getParameter("description");
-						int price = Integer.parseInt(request.getParameter("price"));
+						double price = Double.parseDouble(request.getParameter("price"));
 						int quantity = Integer.parseInt(request.getParameter("quantity"));
 						String image = request.getParameter("image");
 
@@ -105,7 +105,7 @@ public class ProductControl extends HttpServlet {
 						int updateId = Integer.parseInt(request.getParameter("id"));
 						String nameU = request.getParameter("name");
 						String descU = request.getParameter("description");
-						int priceU = Integer.parseInt(request.getParameter("price"));
+						Double priceU = Double.parseDouble(request.getParameter("price"));
 						int qtyU = Integer.parseInt(request.getParameter("quantity"));
 						String imageU = request.getParameter("image");
 

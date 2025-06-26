@@ -24,8 +24,7 @@
 <header>
     <h1>Area Amministratore - Gestione Prodotti</h1>
     <nav>
-        <a href="./index.jsp">Torna al sito</a> |
-        <a href="admin/adminCatalogo.jsp">Gestione Catalogo</a>
+        <a href="./index.jsp">Torna al sito</a>
     </nav>
 </header>
 
@@ -83,7 +82,7 @@
         <textarea name="description" required><%= (selectedProduct != null) ? selectedProduct.getDescription() : "" %></textarea><br/>
 
         <label>Prezzo:</label><br/>
-        <input type="number" name="price" min="0" required value="<%= (selectedProduct != null) ? selectedProduct.getPrice() : "" %>"/><br/>
+        <input type="number" name="price" step="0.01" min="0" required value="<%= (selectedProduct != null) ? selectedProduct.getPrice() : "" %>"/><br/>
 
         <label>Quantità:</label><br/>
         <input type="number" name="quantity" min="1" required value="<%= (selectedProduct != null) ? selectedProduct.getQuantity() : "1" %>"/><br/>
