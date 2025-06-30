@@ -60,7 +60,7 @@
 
         <nav class="main-nav">
             <ul class="nav-links">
-                <li><a href="index.jsp" id = "signed">Home</a></li>
+                <li><a href="index.jsp">Home</a></li>
                 <% Boolean isAdmin = (Boolean) request.getSession().getAttribute("isAdmin");  
                    if(isAdmin != null && isAdmin){
                 	
@@ -68,7 +68,7 @@
                 %>
                     <li><a href="<%=request.getContextPath()%>/product">Gestione Catalogo</a></li>
                 <% } else { %>
-                    <li><a href="<%=request.getContextPath()%>/product">Catalogo</a></li>
+                    <li><a href="<%=request.getContextPath()%>/product" id = "signed">Catalogo</a></li>
                 <% } %>
                 <% Boolean isAdmin2 = (Boolean) request.getSession().getAttribute("isAdmin");  
                    if(isAdmin2 != null && isAdmin2){
