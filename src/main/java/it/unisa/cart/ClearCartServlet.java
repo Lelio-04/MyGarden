@@ -1,23 +1,24 @@
 package it.unisa.cart;
 
-import it.unisa.db.DriverManagerConnectionPool;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
 @WebServlet("/clear-cart")
 public class ClearCartServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    private transient CartDAODriverManager cartDAO;
+    private transient CartDAO cartDAO;
 
     @Override
     public void init() throws ServletException {
-        cartDAO = new CartDAODriverManager(new DriverManagerConnectionPool());
+        // 🔧 Recupera DataSource dal ServletContext
+        DataSource dataSource = (DataSource) getServletContext().getAttribute("DataSourceStorage");
+        this.cartDAO = new CartDAO(dataSource);
     }
 
     @Override

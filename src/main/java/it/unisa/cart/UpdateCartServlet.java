@@ -1,10 +1,10 @@
 package it.unisa.cart;
 
-import it.unisa.db.DriverManagerConnectionPool;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Map;
@@ -12,7 +12,16 @@ import java.util.Map;
 @WebServlet("/update-cart")
 public class UpdateCartServlet extends HttpServlet {
 
-    private final DriverManagerConnectionPool pool = new DriverManagerConnectionPool();
+    private ICartDao cartDao;
+
+    @Override
+    public void init() throws ServletException {
+        DataSource ds = (DataSource) getServletContext().getAttribute("DataSourceStorage");
+        if (ds == null) {
+            throw new ServletException("DataSource non disponibile nel contesto.");
+        }
+        cartDao = (ICartDao) new CartDAODataSource(ds);
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -26,14 +35,11 @@ public class UpdateCartServlet extends HttpServlet {
             return;
         }
 
-        ICartDao cartDao = new CartDAODriverManager(pool);
-
         try {
-            // Scorri tutti i parametri
             for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
-                String key = entry.getKey(); // tipo: "quantities[12]"
+                String key = entry.getKey(); // es. "quantities[12]"
                 if (key.startsWith("quantities[")) {
-                    String productCodeStr = key.substring("quantities[".length(), key.length() - 1); // estrae "12"
+                    String productCodeStr = key.substring("quantities[".length(), key.length() - 1);
                     int productCode = Integer.parseInt(productCodeStr);
                     int quantity = Integer.parseInt(entry.getValue()[0]);
 

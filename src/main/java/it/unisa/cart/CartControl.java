@@ -1,12 +1,15 @@
 package it.unisa.cart;
 
-import it.unisa.db.DriverManagerConnectionPool;
+import it.unisa.db.ProductBean;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -17,8 +20,23 @@ import java.util.List;
 public class CartControl extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
+    private DataSource dataSource;
+
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void init() throws ServletException {
+        try {
+            Context initContext = new InitialContext();
+            Context envContext = (Context) initContext.lookup("java:/comp/env");
+            dataSource = (DataSource) envContext.lookup("jdbc/mydb"); // 🔁 cambia con il tuo nome JNDI esatto
+        } catch (NamingException e) {
+            throw new ServletException("Impossibile ottenere il DataSource", e);
+        }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
         HttpSession session = request.getSession();
         Integer userId = (Integer) session.getAttribute("userId");
 
@@ -26,9 +44,7 @@ public class CartControl extends HttpServlet {
 
         if (userId != null) {
             // Utente loggato: carica carrello da DB
-            DriverManagerConnectionPool pool = (DriverManagerConnectionPool) getServletContext().getAttribute("DriverManager");
-            CartDAO cartDao = new CartDAO(pool);
-
+            CartDAO cartDao = new CartDAO(dataSource);
             try {
                 cartItems = cartDao.getCartItems(userId);
             } catch (SQLException e) {
@@ -49,7 +65,8 @@ public class CartControl extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         doGet(request, response);
     }
 }

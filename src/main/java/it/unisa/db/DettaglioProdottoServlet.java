@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -15,12 +15,15 @@ import java.sql.SQLException;
 public class DettaglioProdottoServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    private ProductDaoDriverMan productDao;
+    private ProductDaoDataSource productDao;
 
     @Override
     public void init() throws ServletException {
-        DriverManagerConnectionPool dmcp = new DriverManagerConnectionPool();
-        productDao = new ProductDaoDriverMan(dmcp);
+        DataSource ds = (DataSource) getServletContext().getAttribute("DataSourceStorage");
+        if (ds == null) {
+            throw new ServletException("DataSource non trovato nel contesto dell'applicazione.");
+        }
+        productDao = new ProductDaoDataSource(ds);
     }
 
     @Override

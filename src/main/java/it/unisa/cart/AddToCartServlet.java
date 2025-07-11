@@ -1,28 +1,30 @@
 package it.unisa.cart;
 
-import it.unisa.db.DriverManagerConnectionPool;
 import it.unisa.db.ProductBean;
-import it.unisa.db.ProductDaoDriverMan;
+import it.unisa.db.ProductDaoDataSource;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/AddToCartServlet")
-public class AddToCartServlet extends HttpServlet{
+public class AddToCartServlet extends HttpServlet {
+
     private static final long serialVersionUID = 1L;
-    private CartDAODriverManager cartDAO;
-    private ProductDaoDriverMan productDAO;
+    private transient CartDAO cartDAO;
+    private transient ProductDaoDataSource productDAO;
 
     @Override
     public void init() throws ServletException {
-        DriverManagerConnectionPool pool = new DriverManagerConnectionPool();
-        cartDAO = new CartDAODriverManager(pool);
-        productDAO = new ProductDaoDriverMan(pool);
+        DataSource dataSource = (DataSource) getServletContext().getAttribute("DataSourceStorage");
+        cartDAO = new CartDAO(dataSource);
+        productDAO = new ProductDaoDataSource(dataSource);
     }
 
     @Override
@@ -42,6 +44,7 @@ public class AddToCartServlet extends HttpServlet{
                 System.out.println("✅ Prodotto aggiunto al carrello (utente loggato): userId=" + userId);
             } else {
                 // Utente non loggato → salva in sessione
+                @SuppressWarnings("unchecked")
                 List<CartBean> guestCart = (List<CartBean>) session.getAttribute("guestCart");
                 if (guestCart == null) {
                     guestCart = new ArrayList<>();

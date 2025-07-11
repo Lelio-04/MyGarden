@@ -29,15 +29,6 @@ public class MainContext implements ServletContextListener {
         } catch (NamingException e) {
             System.out.println("❌ Errore JNDI: " + e.getMessage());
         }
-
-        // ✅ DriverManagerConnectionPool (fallback)
-        DriverManagerConnectionPool dm = new DriverManagerConnectionPool();
-        context.setAttribute("DriverManager", dm);
-        System.out.println("✅ DriverManagerConnectionPool creato: " + dm.toString());
     }
 
-    @Override
-    public void contextDestroyed(ServletContextEvent sce) {
-        // Cleanup in chiusura del contesto, se necessario
-    }
 }

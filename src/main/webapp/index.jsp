@@ -83,7 +83,7 @@
                     <li><a href="carrello.jsp">Carrello</a></li>
                 <% } %>
                 
-                
+                <li><a href="ordini.jsp">Ordini</a></li>
                 <% if (username != null) { %>
                     <li><a href="Logout">Logout</a></li>
                 <% } else { %>

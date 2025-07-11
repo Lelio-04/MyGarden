@@ -155,7 +155,7 @@
 	        		<p class="cart-total">Totale: € <%= String.format("%.2f", total) %></p>
 	
 	        		<% if (username != null) { %>
-	            	<button type="submit" formaction="checkout" formmethod="post" class="checkout-btn">Effettua Ordine</button>
+	            	<button type="submit" formaction="checkout-page" formmethod="post" class="checkout-btn">Effettua Ordine</button>
 	        		<% } else { %>
 	            	<p class="login-message">Per effettuare l'ordine devi <a href="login.jsp">accedere</a>.</p>
 	       			 <% } %>

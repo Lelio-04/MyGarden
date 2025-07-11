@@ -1,14 +1,10 @@
 package it.unisa.cart;
 
-import it.unisa.db.DriverManagerConnectionPool;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,7 +16,16 @@ import java.util.List;
 public class CartServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    private final DriverManagerConnectionPool pool = new DriverManagerConnectionPool();
+    private transient DataSource dataSource;
+
+    @Override
+    public void init() throws ServletException {
+        // Recupera il DataSource dal contesto applicativo
+        dataSource = (DataSource) getServletContext().getAttribute("DataSourceStorage");
+        if (dataSource == null) {
+            throw new ServletException("DataSource non configurato correttamente nel contesto.");
+        }
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -85,7 +90,7 @@ public class CartServlet extends HttpServlet {
         String sql = "INSERT INTO cart_items (user_id, product_code, quantity) VALUES (?, ?, ?) " +
                      "ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)";
 
-        try (Connection con = pool.getConnection();
+        try (Connection con = dataSource.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, item.getUserId());

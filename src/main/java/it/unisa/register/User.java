@@ -1,6 +1,7 @@
 package it.unisa.register;
 
 public class User {
+	private int id;
     private String username;
     private String email;
     private String password;
@@ -103,4 +104,13 @@ public class User {
     public void setCap(String cap) {
         this.cap = cap;
     }
+    
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 }
