@@ -26,12 +26,13 @@ public class CartControl extends HttpServlet {
     public void init() throws ServletException {
         try {
             Context initContext = new InitialContext();
-            Context envContext = (Context) initContext.lookup("java:/comp/env");
-            dataSource = (DataSource) envContext.lookup("jdbc/mydb"); // 🔁 cambia con il tuo nome JNDI esatto
+            Context envContext = (Context) initContext.lookup("java:comp/env"); // qui senza slash dopo java:
+            dataSource = (DataSource) envContext.lookup("jdbc/storage");        // qui il nome JNDI esatto
         } catch (NamingException e) {
             throw new ServletException("Impossibile ottenere il DataSource", e);
         }
     }
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

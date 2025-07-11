@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 
-@WebServlet("/product")
+
 public class ProductControl extends HttpServlet {
     private static final long serialVersionUID = 1L;
 

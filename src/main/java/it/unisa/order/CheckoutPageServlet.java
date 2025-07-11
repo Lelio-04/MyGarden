@@ -28,9 +28,10 @@ public class CheckoutPageServlet extends HttpServlet {
     public void init() throws ServletException {
         try {
             // Recupera il DataSource JNDI
-            Context initContext = new InitialContext();
-            Context envContext = (Context) initContext.lookup("java:/comp/env");
-            dataSource = (DataSource) envContext.lookup("jdbc/MyDB"); // Cambia "MyDB" con il tuo nome JNDI reale
+        	Context initContext = new InitialContext();
+        	Context envContext = (Context) initContext.lookup("java:comp/env");
+        	dataSource = (DataSource) envContext.lookup("jdbc/storage");  // usa il nome JNDI corretto
+
         } catch (NamingException e) {
             throw new ServletException("Errore nel recupero del DataSource", e);
         }

@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet("/checkout")
-public class CheckoutServlet extends HttpServlet {
+public class CheckoutServletControl extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
     private DataSource dataSource;

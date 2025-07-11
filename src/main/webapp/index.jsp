@@ -78,12 +78,12 @@
                 
                 
                 %>
-                    <li><a href="">Gestione Ordini</a></li>
+                    <li><a href="admin/adminOrders.jsp">Gestione Ordini</a></li>
                 <% } else { %>
                     <li><a href="carrello.jsp">Carrello</a></li>
+                    <li><a href="ordini.jsp">Ordini</a></li>
                 <% } %>
                 
-                <li><a href="ordini.jsp">Ordini</a></li>
                 <% if (username != null) { %>
                     <li><a href="Logout">Logout</a></li>
                 <% } else { %>

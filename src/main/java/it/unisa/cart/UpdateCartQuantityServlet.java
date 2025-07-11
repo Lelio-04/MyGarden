@@ -17,10 +17,10 @@ public class UpdateCartQuantityServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        // Recupera il DataSource dal ServletContext
         DataSource dataSource = (DataSource) getServletContext().getAttribute("DataSourceStorage");
-        cartDAO = new ICartDao(dataSource);
+        cartDAO = new CartDAO(dataSource); // ✅ uso della classe concreta
     }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
