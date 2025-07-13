@@ -7,6 +7,7 @@ import jakarta.servlet.http.*;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 @WebServlet("/update-cart")
@@ -27,30 +28,59 @@ public class UpdateCartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession(true);
         Integer userId = (Integer) session.getAttribute("userId");
 
-        if (userId == null) {
-            response.sendRedirect("login.jsp");
-            return;
-        }
-
         try {
-            for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
-                String key = entry.getKey(); // es. "quantities[12]"
-                if (key.startsWith("quantities[")) {
-                    String productCodeStr = key.substring("quantities[".length(), key.length() - 1);
-                    int productCode = Integer.parseInt(productCodeStr);
-                    int quantity = Integer.parseInt(entry.getValue()[0]);
+            if (userId != null) {
+                // utente loggato, aggiorna DB
+                for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
+                    String key = entry.getKey();
+                    if (key.startsWith("quantities[")) {
+                        String productCodeStr = key.substring("quantities[".length(), key.length() - 1);
+                        int productCode = Integer.parseInt(productCodeStr);
+                        int quantity = Integer.parseInt(entry.getValue()[0]);
 
-                    cartDao.updateQuantity(userId, productCode, quantity);
+                        cartDao.updateQuantity(userId, productCode, quantity); // userId è Integer, ok
+                    }
+                }
+            } else {
+                // utente ospite, aggiorna carrello in sessione
+                @SuppressWarnings("unchecked")
+                List<CartBean> guestCart = (List<CartBean>) session.getAttribute("guestCart");
+
+                if (guestCart != null) {
+                    for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
+                        String key = entry.getKey();
+                        if (key.startsWith("quantities[")) {
+                            String productCodeStr = key.substring("quantities[".length(), key.length() - 1);
+                            int productCode = Integer.parseInt(productCodeStr);
+                            int quantity = Integer.parseInt(entry.getValue()[0]);
+
+                            CartBean itemToUpdate = null;
+                            for (CartBean item : guestCart) {
+                                if (item.getProductCode() == productCode) {
+                                    itemToUpdate = item;
+                                    break;
+                                }
+                            }
+                            if (itemToUpdate != null) {
+                                if (quantity <= 0) {
+                                    guestCart.remove(itemToUpdate);
+                                } else {
+                                    itemToUpdate.setQuantity(quantity);
+                                }
+                            }
+                        }
+                    }
+                    session.setAttribute("guestCart", guestCart);
                 }
             }
-
         } catch (SQLException | NumberFormatException e) {
             throw new ServletException("Errore aggiornamento carrello", e);
         }
 
         response.sendRedirect("cart");
     }
+
 }

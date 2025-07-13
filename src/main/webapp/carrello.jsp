@@ -173,5 +173,30 @@
 	<footer>
         <p>&copy; 2025 MyGarden - Tutti i diritti riservati.</p>
     </footer>
+    <script>
+  const checkoutBtn = document.getElementById('checkoutBtn');
+  const quantityInputs = document.querySelectorAll('.quantity-input');
+
+  function validateQuantities() {
+    let valid = true;
+    quantityInputs.forEach(input => {
+      const val = Number(input.value);
+      const min = Number(input.min);
+      const max = Number(input.max);
+      if (val < min || val > max || isNaN(val)) {
+        valid = false;
+      }
+    });
+    checkoutBtn.disabled = !valid;
+  }
+
+  quantityInputs.forEach(input => {
+    input.addEventListener('input', validateQuantities);
+  });
+
+  // Esegui la validazione all'avvio per impostare lo stato iniziale
+  validateQuantities();
+</script>
+    
 </body>
 </html>
