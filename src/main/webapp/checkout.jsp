@@ -6,8 +6,8 @@
     List<CartBean> cartItems = (List<CartBean>) request.getAttribute("cartItems");
     User user = (User) request.getAttribute("user");
 
-    if (userId == null || username == null || user == null) {
-        response.sendRedirect("login.jsp");
+    if (username == null || userId == null || user == null) {
+        response.sendRedirect("login.jsp?next=checkout.jsp");
         return;
     }
 
@@ -17,6 +17,17 @@
     }
 
     double total = 0;
+
+    // ✅ Recupera token dalla sessione o cookie
+    String token = (String) session.getAttribute("sessionToken");
+    if (token == null && request.getCookies() != null) {
+        for (Cookie c : request.getCookies()) {
+            if ("sessionToken".equals(c.getName())) {
+                token = c.getValue();
+                break;
+            }
+        }
+    }
 %>
 
 <!DOCTYPE html>
@@ -60,17 +71,20 @@
     <h2>Conferma Ordine</h2>
 
     <form action="checkout" method="post">
+        <!-- ✅ Campo hidden per token -->
+        <input type="hidden" name="token" value="<%= token != null ? token : "" %>">
+
         <label for="fullName">Nome e Cognome</label>
-        <input type="text" name="fullName" id="fullName" value="<%= user.getUsername() %>" required>
+        <input type="text" name="fullName" id="fullName" value="<%= user.getUsername() != null ? user.getUsername() : "" %>" required>
 
         <label for="address">Indirizzo di spedizione</label>
-        <textarea name="address" id="address" rows="2" required><%= user.getIndirizzo() %></textarea>
+        <textarea name="address" id="address" rows="2" required><%= user.getIndirizzo() != null ? user.getIndirizzo() : "" %></textarea>
 
         <label for="city">Città</label>
-        <input type="text" name="city" id="city" value="<%= user.getCitta() %>" required>
+        <input type="text" name="city" id="city" value="<%= user.getCitta() != null ? user.getCitta() : "" %>" required>
 
         <label for="cap">CAP</label>
-        <input type="text" name="cap" id="cap" value="<%= user.getCap() %>" required>
+        <input type="text" name="cap" id="cap" value="<%= user.getCap() != null ? user.getCap() : "" %>" required>
 
         <label for="payment">Metodo di pagamento</label>
         <select name="payment" id="payment" required>
@@ -84,33 +98,35 @@
             <h3>Riepilogo ordine</h3>
             <table>
                 <thead>
-                <tr>
-                    <th>Prodotto</th>
-                    <th>Quantità</th>
-                    <th>Prezzo</th>
-                    <th>Subtotale</th>
-                </tr>
+                    <tr>
+                        <th>Prodotto</th>
+                        <th>Quantità</th>
+                        <th>Prezzo</th>
+                        <th>Subtotale</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <%
-                    for (CartBean item : cartItems) {
-                        ProductBean product = item.getProduct();
-                        double subtotal = product.getPrice() * item.getQuantity();
-                        total += subtotal;
-                %>
+                    <%
+                        for (CartBean item : cartItems) {
+                            ProductBean product = item.getProduct();
+                            double price = product.getPrice();
+                            int quantity = item.getQuantity();
+                            double subtotal = price * quantity;
+                            total += subtotal;
+                    %>
                     <tr>
                         <td><%= product.getName() %></td>
-                        <td><%= item.getQuantity() %></td>
-                        <td>€ <%= String.format("%.2f", product.getPrice()) %></td>
+                        <td><%= quantity %></td>
+                        <td>€ <%= String.format("%.2f", price) %></td>
                         <td>€ <%= String.format("%.2f", subtotal) %></td>
                     </tr>
-                <%
-                    }
-                %>
-                <tr>
-                    <td colspan="3"><strong>Totale</strong></td>
-                    <td><strong>€ <%= String.format("%.2f", total) %></strong></td>
-                </tr>
+                    <%
+                        }
+                    %>
+                    <tr>
+                        <td colspan="3"><strong>Totale</strong></td>
+                        <td><strong>€ <%= String.format("%.2f", total) %></strong></td>
+                    </tr>
                 </tbody>
             </table>
         </div>

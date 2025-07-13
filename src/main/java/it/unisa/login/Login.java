@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.*;
-
 import javax.sql.DataSource;
 
 import it.unisa.cart.CartBean;
@@ -18,38 +17,37 @@ public class Login extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        String next = request.getParameter("next");
 
         List<String> errors = new ArrayList<>();
-        RequestDispatcher dispatcherToLoginPage = request.getRequestDispatcher("login.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
 
         if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
             errors.add("Username e password sono obbligatori!");
             request.setAttribute("errors", errors);
-            dispatcherToLoginPage.forward(request, response);
+            dispatcher.forward(request, response);
             return;
         }
 
         username = username.trim();
         password = password.trim();
-        String hashPassword = toHash(password);
+        String hashedPassword = toHash(password);
 
-        System.out.println("Tentativo login:");
-        System.out.println("Username: " + username);
-        System.out.println("Password (hash): " + hashPassword);
+        System.out.println("Tentativo login: " + username);
 
         Connection conn = null;
         try {
-            DataSource dsStorege = (DataSource) getServletContext().getAttribute("DataSourceStorage");
-            if (dsStorege == null) {
-                throw new SQLException("DataSource 'DataSourceStorage' non trovato nel ServletContext.");
-            }
+            DataSource ds = (DataSource) getServletContext().getAttribute("DataSourceStorage");
+            if (ds == null) throw new SQLException("DataSource non trovato.");
 
-            conn = dsStorege.getConnection();
+            conn = ds.getConnection();
+
             String sql = "SELECT id, username, password FROM users WHERE username = ?";
             try (PreparedStatement ps = conn.prepareStatement(sql)) {
                 ps.setString(1, username);
@@ -57,19 +55,23 @@ public class Login extends HttpServlet {
 
                 if (rs.next()) {
                     int userId = rs.getInt("id");
-                    String usernameFromDb = rs.getString("username").trim();
-                    String passwordFromDb = rs.getString("password").trim();
+                    String dbUsername = rs.getString("username").trim();
+                    String dbPassword = rs.getString("password").trim();
 
-                    if (hashPassword.equals(passwordFromDb)) {
-                        boolean isAdmin = "admin".equalsIgnoreCase(usernameFromDb);
+                    if (hashedPassword.equals(dbPassword)) {
+                        boolean isAdmin = "admin".equalsIgnoreCase(dbUsername);
 
                         HttpSession session = request.getSession(true);
-                        session.setAttribute("username", usernameFromDb);
-                        session.setAttribute("isAdmin", isAdmin);
+                        session.setAttribute("username", dbUsername); // per coerenza
                         session.setAttribute("userId", userId);
-                        session.setMaxInactiveInterval(30 * 60); // 30 minuti
+                        session.setAttribute("isAdmin", isAdmin);     // ✅ Booleano usato dalle JSP
+                        session.setAttribute("role", isAdmin ? "admin" : "cliente");
 
-                        // ✅ Se esiste un guestCart, migra gli articoli nel DB
+                        // ✅ Token CSRF per la sessione
+                        String token = UUID.randomUUID().toString();
+                        session.setAttribute("sessionToken", token);
+
+                        // ✅ Guest cart migration
                         @SuppressWarnings("unchecked")
                         List<CartBean> guestCart = (List<CartBean>) session.getAttribute("guestCart");
 
@@ -80,16 +82,18 @@ public class Login extends HttpServlet {
                             session.removeAttribute("guestCart");
                         }
 
-                        System.out.println("✅ LOGIN OK");
-                        System.out.println("🟢 Sessione ID: " + session.getId());
-                        System.out.println("🟢 Username in sessione: " + session.getAttribute("username"));
-                        System.out.println("🟢 userId in sessione: " + session.getAttribute("userId"));
+                        System.out.println("✅ LOGIN OK — Session ID: " + session.getId());
+                        System.out.println("🟢 Username: " + dbUsername + " | Admin: " + isAdmin);
 
                         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
                         response.setHeader("Pragma", "no-cache");
                         response.setDateHeader("Expires", 0);
 
-                        response.sendRedirect("index.jsp");
+                        if (next != null && !next.isBlank()) {
+                            response.sendRedirect(next);
+                        } else {
+                            response.sendRedirect("index.jsp");
+                        }
                         return;
                     } else {
                         errors.add("Password errata!");
@@ -104,16 +108,12 @@ public class Login extends HttpServlet {
             e.printStackTrace();
             errors.add("Errore di connessione al database.");
         } finally {
-            try {
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
         }
 
-        System.out.println("❌ LOGIN FALLITO.");
+        System.out.println("❌ LOGIN FALLITO");
         request.setAttribute("errors", errors);
-        dispatcherToLoginPage.forward(request, response);
+        dispatcher.forward(request, response);
     }
 
     private void insertCartItem(Connection conn, int userId, int productCode, int quantity) throws SQLException {
@@ -128,16 +128,15 @@ public class Login extends HttpServlet {
     }
 
     private String toHash(String password) {
-        StringBuilder hashString = new StringBuilder();
         try {
             java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-512");
             byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
-            for (byte b : hash) {
-                hashString.append(String.format("%02x", b));
-            }
-        } catch (java.security.NoSuchAlgorithmException e) {
-            System.out.println("Errore hashing: " + e.getMessage());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : hash) sb.append(String.format("%02x", b));
+            return sb.toString();
+        } catch (Exception e) {
+            System.err.println("Errore hash: " + e.getMessage());
+            return "";
         }
-        return hashString.toString();
     }
 }

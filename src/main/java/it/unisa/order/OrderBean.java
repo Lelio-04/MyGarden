@@ -1,6 +1,7 @@
 package it.unisa.order;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderBean {
@@ -9,28 +10,54 @@ public class OrderBean {
     private Timestamp createdAt;
     private double total;
 
-    // ✅ Nuovo campo per i prodotti acquistati
-    private List<OrderItemBean> orderItems;
+    // ✅ Lista inizializzata per evitare nullPointerException
+    private List<OrderItemBean> orderItems = new ArrayList<>();
 
-    // Getter e Setter
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    // Costruttore vuoto obbligatorio per JSP / BeanUtils
+    public OrderBean() {}
 
-    public int getUserId() { return userId; }
-    public void setUserId(int userId) { this.userId = userId; }
+    // Getter e Setter standard
+    public int getId() {
+        return id;
+    }
 
-    public Timestamp getCreatedAt() { return createdAt; }
-    public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public double getTotal() { return total; }
-    public void setTotal(double total) { this.total = total; }
+    public int getUserId() {
+        return userId;
+    }
 
-    // ✅ Getter e Setter per i prodotti associati all'ordine
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
     public List<OrderItemBean> getOrderItems() {
         return orderItems;
     }
 
     public void setOrderItems(List<OrderItemBean> orderItems) {
-        this.orderItems = orderItems;
+        if (orderItems != null) {
+            this.orderItems = orderItems;
+        } else {
+            this.orderItems = new ArrayList<>();
+        }
     }
 }

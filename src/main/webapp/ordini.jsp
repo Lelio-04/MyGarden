@@ -2,13 +2,25 @@
 <%@ page import="java.util.*, it.unisa.order.OrderDAO, it.unisa.order.OrderBean, it.unisa.order.OrderItemBean" %>
 <%@ page import="javax.sql.DataSource" %>
 <%@ page session="true" %>
+
 <%
     String username = (String) session.getAttribute("username");
     Integer userId = (Integer) session.getAttribute("userId");
 
-    if (userId == null) {
-        response.sendRedirect("login.jsp");
+    if (userId == null || username == null) {
+        response.sendRedirect("login.jsp?next=ordini.jsp");
         return;
+    }
+
+    // ✅ Recupero del token dalla sessione o cookie
+    String token = (String) session.getAttribute("sessionToken");
+    if (token == null && request.getCookies() != null) {
+        for (Cookie c : request.getCookies()) {
+            if ("sessionToken".equals(c.getName())) {
+                token = c.getValue();
+                break;
+            }
+        }
     }
 
     DataSource dataSource = (DataSource) application.getAttribute("DataSourceStorage");
@@ -64,7 +76,7 @@
             <% Boolean isAdmin = (Boolean) session.getAttribute("isAdmin"); %>
             <% if (isAdmin != null && isAdmin) { %>
                 <li><a href="<%=request.getContextPath()%>/product">Gestione Catalogo</a></li>
-                <li><a href="">Gestione Ordini</a></li>
+                <li><a href="#">Gestione Ordini</a></li>
             <% } else { %>
                 <li><a href="#contattaci">Contattaci</a></li>
                 <li><a href="<%=request.getContextPath()%>/product">Catalogo</a></li>
@@ -112,6 +124,7 @@
                     </li>
                 <% } %>
             </ul>
+
         <%
             }
         %>

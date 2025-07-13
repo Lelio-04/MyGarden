@@ -17,6 +17,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 
 @WebServlet("/checkout-page")
 public class CheckoutPageServlet extends HttpServlet {
@@ -27,11 +28,9 @@ public class CheckoutPageServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         try {
-            // Recupera il DataSource JNDI
-        	Context initContext = new InitialContext();
-        	Context envContext = (Context) initContext.lookup("java:comp/env");
-        	dataSource = (DataSource) envContext.lookup("jdbc/storage");  // usa il nome JNDI corretto
-
+            Context initContext = new InitialContext();
+            Context envContext = (Context) initContext.lookup("java:comp/env");
+            dataSource = (DataSource) envContext.lookup("jdbc/storage");
         } catch (NamingException e) {
             throw new ServletException("Errore nel recupero del DataSource", e);
         }
@@ -50,18 +49,20 @@ public class CheckoutPageServlet extends HttpServlet {
         Integer userId = (Integer) session.getAttribute("userId");
 
         try {
-            // ✅ Recupera info utente
             UserDAO userDAO = new UserDAO(dataSource);
             User user = userDAO.getUserById(userId);
 
-            // ✅ Recupera carrello
             CartDAO cartDAO = new CartDAO(dataSource);
             List<CartBean> cartItems = cartDAO.getCartItems(userId);
+
+            // ✅ Genera token e salvalo in sessione
+            String token = UUID.randomUUID().toString();
+            session.setAttribute("sessionToken", token);
+            // 👉 Il valore sarà recuperato nella JSP da session
 
             request.setAttribute("user", user);
             request.setAttribute("cartItems", cartItems);
 
-            // ✅ Vai alla pagina checkout.jsp
             request.getRequestDispatcher("checkout.jsp").forward(request, response);
 
         } catch (SQLException e) {
@@ -69,4 +70,5 @@ public class CheckoutPageServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore nel caricamento dati utente/carrello.");
         }
     }
+
 }

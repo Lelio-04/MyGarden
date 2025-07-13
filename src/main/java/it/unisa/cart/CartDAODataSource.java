@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartDAODataSource {
+public class CartDAODataSource implements ICartDao{
 
     private final DataSource dataSource;
 

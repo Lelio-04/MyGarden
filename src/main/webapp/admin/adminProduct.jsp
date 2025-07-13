@@ -10,6 +10,16 @@
     Collection<ProductBean> products = (Collection<ProductBean>) request.getAttribute("products");
     ProductBean selectedProduct = (ProductBean) request.getAttribute("product");
     String errorMessage = (String) request.getAttribute("errorMessage");
+
+    String token = (String) session.getAttribute("sessionToken");
+    if (token == null && request.getCookies() != null) {
+        for (Cookie c : request.getCookies()) {
+            if ("sessionToken".equals(c.getName())) {
+                token = c.getValue();
+                break;
+            }
+        }
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -57,7 +67,10 @@
             <td><img src="<%= p.getImage() %>" alt="<%= p.getName() %>" width="50"/></td>
             <td>
                 <a href="product?action=read&id=<%= p.getCode() %>">Modifica</a> |
-                <a href="product?action=delete&id=<%= p.getCode() %>" onclick="return confirm('Sei sicuro di voler eliminare questo prodotto?');">Elimina</a>
+                <a href="product?action=delete&id=<%= p.getCode() %>&token=<%= token %>"
+                   onclick="return confirm('Sei sicuro di voler eliminare questo prodotto?');">
+                   Elimina
+                </a>
             </td>
         </tr>
         <%
@@ -74,6 +87,7 @@
         <% if (selectedProduct != null) { %>
             <input type="hidden" name="id" value="<%= selectedProduct.getCode() %>"/>
         <% } %>
+        <input type="hidden" name="token" value="<%= token %>"/>
 
         <label>Nome:</label><br/>
         <input type="text" name="name" required value="<%= (selectedProduct != null) ? selectedProduct.getName() : "" %>"/><br/>

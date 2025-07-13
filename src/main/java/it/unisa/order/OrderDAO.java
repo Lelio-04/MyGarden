@@ -16,6 +16,10 @@ public class OrderDAO {
     }
 
     public int createOrder(int userId, List<CartBean> cartItems) throws SQLException {
+        if (cartItems == null || cartItems.isEmpty()) {
+            throw new SQLException("Il carrello è vuoto. Impossibile creare l'ordine.");
+        }
+
         String insertOrderSQL = "INSERT INTO orders (user_id, total) VALUES (?, ?)";
         String insertItemSQL = "INSERT INTO order_items (order_id, product_code, quantity, price_at_purchase) VALUES (?, ?, ?, ?)";
         String updateProductQuantitySQL = "UPDATE product SET quantity = quantity - ? WHERE code = ? AND quantity >= ?";
@@ -28,21 +32,21 @@ public class OrderDAO {
         int orderId = -1;
 
         try (Connection conn = dataSource.getConnection()) {
-            conn.setAutoCommit(false);
+            conn.setAutoCommit(false); // 🛑 Avvia transazione
 
             try (
                 PreparedStatement orderStmt = conn.prepareStatement(insertOrderSQL, Statement.RETURN_GENERATED_KEYS);
                 PreparedStatement itemStmt = conn.prepareStatement(insertItemSQL);
                 PreparedStatement updateQtyStmt = conn.prepareStatement(updateProductQuantitySQL)
             ) {
-                // Inserisci ordine
+                // ✅ Inserimento ordine
                 orderStmt.setInt(1, userId);
                 orderStmt.setDouble(2, total);
                 int orderRows = orderStmt.executeUpdate();
 
                 if (orderRows == 0) {
                     conn.rollback();
-                    return -1;
+                    throw new SQLException("Creazione ordine fallita.");
                 }
 
                 try (ResultSet rs = orderStmt.getGeneratedKeys()) {
@@ -50,11 +54,11 @@ public class OrderDAO {
                         orderId = rs.getInt(1);
                     } else {
                         conn.rollback();
-                        return -1;
+                        throw new SQLException("Errore nel recupero dell'ID ordine generato.");
                     }
                 }
 
-                // Inserisci items e aggiorna quantità prodotti
+                // ✅ Inserimento items e aggiornamento quantità
                 for (CartBean item : cartItems) {
                     double price = item.getProduct().getPrice();
 
@@ -79,10 +83,10 @@ public class OrderDAO {
                 conn.commit();
 
             } catch (SQLException e) {
-                conn.rollback();
+                conn.rollback(); // rollback in caso di errore interno
                 throw e;
             } finally {
-                conn.setAutoCommit(true);
+                conn.setAutoCommit(true); // ripristina lo stato originale
             }
         }
 
