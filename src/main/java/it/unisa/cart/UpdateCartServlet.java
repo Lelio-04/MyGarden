@@ -48,7 +48,8 @@ public class UpdateCartServlet extends HttpServlet {
                 // utente ospite, aggiorna carrello in sessione
                 @SuppressWarnings("unchecked")
                 List<CartBean> guestCart = (List<CartBean>) session.getAttribute("guestCart");
-
+                
+                
                 if (guestCart != null) {
                     for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
                         String key = entry.getKey();
