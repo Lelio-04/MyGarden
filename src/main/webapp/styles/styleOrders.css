@@ -1,82 +1,66 @@
-/* styleOrders.css - Stili specifici per la pagina ordini */
-
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f9f9f7;
-    color: #25352d; /* verde scuro */
-    margin: 0;
-    padding: 0 20px 50px 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f6f9f6;
+    color: #333;
+    margin: 100px;
+    padding: 0;
 }
 
 h1 {
     text-align: center;
-    font-size: 2.8rem;
-    margin: 40px 0 30px;
-    color: rgb(37, 85, 45);
-    text-shadow: 1px 1px 3px rgba(74,124,89,0.4);
-}
-
-.order-box {
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 8px 20px rgba(74,124,89,0.15);
-    margin: 20px auto;
-    padding: 25px 30px;
-    max-width: 600px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.order-box:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 28px rgba(74,124,89,0.3);
-}
-
-.order-box h3 {
-    color: rgb(74, 124, 89);
-    font-size: 1.8rem;
-    margin-bottom: 15px;
-}
-
-.order-box p {
-    font-size: 1.1rem;
-    margin: 8px 0;
-    color: #485a43;
+    margin-top: 40px;
+    color: #2e7d32;
+    font-size: 2rem;
 }
 
 .no-orders {
     text-align: center;
-    font-size: 1.3rem;
-    color: #8a9a84;
     margin-top: 50px;
+    font-size: 1.2rem;
+    color: #666;
 }
 
-@media (max-width: 768px) {
-    h1 {
-        font-size: 2.2rem;
-    }
-    .order-box {
-        padding: 20px 20px;
-        max-width: 90%;
-    }
-    .order-box h3 {
-        font-size: 1.5rem;
-    }
-    .order-box p {
-        font-size: 1rem;
-    }
+.order-box {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #c8e6c9;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-@media (max-width: 480px) {
-    h1 {
-        font-size: 1.8rem;
-    }
-    .order-box {
-        padding: 15px 15px;
-    }
-    .order-box h3 {
-        font-size: 1.3rem;
-    }
-    .order-box p {
-        font-size: 0.95rem;
-    }
+.order-box h3 {
+    margin-top: 0;
+    color: #1b5e20;
 }
+
+.order-box p {
+    margin: 8px 0;
+    font-size: 1rem;
+}
+
+.order-box ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 10px;
+}
+
+.order-box li {
+    padding: 8px 12px;
+    background-color: #f1f8e9;
+    border: 1px solid #dcedc8;
+    border-radius: 5px;
+    margin-bottom: 6px;
+    font-size: 0.95rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-box li strong {
+    color: #33691e;
+    margin-right: 10px;
+}
+
+

@@ -9,9 +9,10 @@ public class ProductBean implements Serializable {
     private int code;
     private String name;
     private String description;
-    private double price; // Cambiato da int a double
+    private double price;
     private int quantity;
     private String image;
+    private boolean isDeleted; // ✅ Aggiunto per soft delete
 
     public ProductBean() {
         this.code = -1;
@@ -20,6 +21,7 @@ public class ProductBean implements Serializable {
         this.price = 0.0;
         this.quantity = 0;
         this.image = "";
+        this.isDeleted = false; // ✅ Inizializzato come non eliminato
     }
 
     public int getCode() {
@@ -70,8 +72,17 @@ public class ProductBean implements Serializable {
         this.image = image;
     }
 
+    public boolean isDeleted() { // ✅ Getter
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean isDeleted) { // ✅ Setter
+        this.isDeleted = isDeleted;
+    }
+
     @Override
     public String toString() {
         return name + " (" + code + "), " + price + "€ - Quantità: " + quantity + ". " + description + " " + image;
+        // puoi aggiungere: + " [Eliminato: " + isDeleted + "]"
     }
 }

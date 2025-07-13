@@ -1,7 +1,6 @@
 package it.unisa.order;
 
 import it.unisa.cart.CartBean;
-import it.unisa.db.ProductBean;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -20,8 +19,8 @@ public class OrderDAO {
         String insertOrderSQL = "INSERT INTO orders (user_id, total) VALUES (?, ?)";
         String insertItemSQL = "INSERT INTO order_items (order_id, product_code, quantity, price_at_purchase) VALUES (?, ?, ?, ?)";
         String updateProductQuantitySQL = "UPDATE product SET quantity = quantity - ? WHERE code = ? AND quantity >= ?";
-        double total = 0.0;
 
+        double total = 0.0;
         for (CartBean item : cartItems) {
             total += item.getProduct().getPrice() * item.getQuantity();
         }
@@ -59,14 +58,12 @@ public class OrderDAO {
                 for (CartBean item : cartItems) {
                     double price = item.getProduct().getPrice();
 
-                    // Inserisci item
                     itemStmt.setInt(1, orderId);
-                    itemStmt.setInt(2, item.getProduct().getCode()); // product.code
+                    itemStmt.setInt(2, item.getProduct().getCode());
                     itemStmt.setInt(3, item.getQuantity());
                     itemStmt.setDouble(4, price);
                     itemStmt.addBatch();
 
-                    // Aggiorna quantità prodotto
                     updateQtyStmt.setInt(1, item.getQuantity());
                     updateQtyStmt.setInt(2, item.getProduct().getCode());
                     updateQtyStmt.setInt(3, item.getQuantity());
@@ -104,10 +101,17 @@ public class OrderDAO {
 
             while (rs.next()) {
                 OrderBean order = new OrderBean();
-                order.setId(rs.getInt("id"));
+                int orderId = rs.getInt("id");
+
+                order.setId(orderId);
                 order.setUserId(rs.getInt("user_id"));
                 order.setCreatedAt(rs.getTimestamp("created_at"));
                 order.setTotal(rs.getDouble("total"));
+
+                // Recupera i prodotti dell'ordine
+                List<OrderItemBean> items = getOrderItemsByOrderId(orderId);
+                order.setOrderItems(items);
+
                 orders.add(order);
             }
         }
@@ -125,10 +129,17 @@ public class OrderDAO {
 
             while (rs.next()) {
                 OrderBean order = new OrderBean();
-                order.setId(rs.getInt("id"));
+                int orderId = rs.getInt("id");
+
+                order.setId(orderId);
                 order.setUserId(rs.getInt("user_id"));
                 order.setCreatedAt(rs.getTimestamp("created_at"));
                 order.setTotal(rs.getDouble("total"));
+
+                // Recupera i prodotti dell'ordine
+                List<OrderItemBean> items = getOrderItemsByOrderId(orderId);
+                order.setOrderItems(items);
+
                 orders.add(order);
             }
         }
@@ -150,7 +161,51 @@ public class OrderDAO {
             ps.setString(6, paymentMethod);
 
             ps.executeUpdate();
-            System.out.println("📝 [OrderDAO] Dettagli ordine salvati.");
         }
+    }
+
+    public List<String> getProductNamesByOrderId(int orderId) throws SQLException {
+        List<String> productNames = new ArrayList<>();
+        String sql = "SELECT p.name FROM order_items oi JOIN product p ON oi.product_code = p.code WHERE oi.order_id = ?";
+
+        try (Connection con = dataSource.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, orderId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    productNames.add(rs.getString("name"));
+                }
+            }
+        }
+        return productNames;
+    }
+
+    public List<OrderItemBean> getOrderItemsByOrderId(int orderId) throws SQLException {
+        List<OrderItemBean> items = new ArrayList<>();
+
+        String sql = """
+            SELECT p.name, p.image, oi.quantity, oi.price_at_purchase
+            FROM order_items oi
+            JOIN product p ON oi.product_code = p.code
+            WHERE oi.order_id = ?
+        """;
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, orderId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    OrderItemBean item = new OrderItemBean();
+                    item.setProductName(rs.getString("name"));
+                    item.setProductImage(rs.getString("image")); // nuovo campo
+                    item.setQuantity(rs.getInt("quantity"));
+                    item.setPriceAtPurchase(rs.getDouble("price_at_purchase"));
+                    items.add(item);
+                }
+            }
+        }
+
+        return items;
     }
 }

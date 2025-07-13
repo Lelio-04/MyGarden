@@ -18,6 +18,18 @@
     <link rel="stylesheet" href="styles/styleBase.css">
     <link rel="stylesheet" href="styles/styleCatalogo.css">
     <link rel="icon" href="images/favicon.png" type="image/png">
+    <style>
+        .not-available {
+            display: inline-block;
+            padding: 10px;
+            background-color: #ffcdd2;
+            color: #b71c1c;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 <header>
@@ -78,14 +90,19 @@
             </a>
             <h3><%= bean.getName() %></h3>
             <p class="price">€ <%= String.format("%.2f", bean.getPrice()) %></p>
-            <form action="AddToCartServlet" method="post">
-                <input type="hidden" name="productCode" value="<%= bean.getCode() %>">
-                <div class="quantity-row">
-                    <span class="available">Disponibilità: <%= bean.getQuantity() %></span>
-                    <input type="number" name="quantity" value="1" min="1" max="<%= bean.getQuantity() %>" required>
-                </div>
-                <input type="submit" value="Aggiungi al Carrello">
-            </form>
+
+            <% if (bean.getQuantity() > 0) { %>
+                <form action="AddToCartServlet" method="post">
+                    <input type="hidden" name="productCode" value="<%= bean.getCode() %>">
+                    <div class="quantity-row">
+                        <span class="available">Disponibilità: <%= bean.getQuantity() %></span>
+                        <input type="number" name="quantity" value="1" min="1" max="<%= bean.getQuantity() %>" required>
+                    </div>
+                    <input type="submit" value="Aggiungi al Carrello">
+                </form>
+            <% } else { %>
+                <div class="not-available">Non disponibile</div>
+            <% } %>
         </div>
         <%
                 }
@@ -95,8 +112,9 @@
         <% } %>
     </div>
 </main>
-	<footer>
-        <p>&copy; 2025 MyGarden - Tutti i diritti riservati.</p>
-    </footer>
+
+<footer>
+    <p>&copy; 2025 MyGarden - Tutti i diritti riservati.</p>
+</footer>
 </body>
 </html>
