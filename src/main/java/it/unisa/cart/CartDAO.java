@@ -102,4 +102,23 @@ public class CartDAO implements ICartDao {
             ps.executeUpdate();
         }
     }
+    
+    public int getAvailableQuantity(int productCode) throws SQLException {
+        String sql = "SELECT quantity FROM product WHERE code = ?";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, productCode);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("quantity");
+                } else {
+                    // Prodotto non trovato, per sicurezza restituisci 0
+                    return 0;
+                }
+            }
+        }
+    }
+
 }
+

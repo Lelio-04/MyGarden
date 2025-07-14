@@ -55,10 +55,30 @@ public class CheckoutPageServlet extends HttpServlet {
             CartDAO cartDAO = new CartDAO(dataSource);
             List<CartBean> cartItems = cartDAO.getCartItems(userId);
 
-            // ✅ Genera token e salvalo in sessione
+            // ✅ Verifica se qualche prodotto ha quantità maggiore della disponibilità
+            boolean superaDisponibilita = false;
+
+            for (CartBean item : cartItems) {
+                int richiesta = item.getQuantity();
+                int disponibile = cartDAO.getAvailableQuantity(item.getProductCode());
+
+                if (richiesta > disponibile) {
+                    superaDisponibilita = true;
+                    break;
+                }
+            }
+
+            if (superaDisponibilita) {
+                // ⚠️ Messaggio e redirect al carrello
+                request.setAttribute("erroreQuantita", "Alcuni prodotti superano la quantità disponibile. Riduci le quantità prima di procedere.");
+                request.setAttribute("cartItems", cartItems);
+                request.getRequestDispatcher("catalogo.jsp").forward(request, response);
+                return;
+            }
+
+            // ✅ Se tutto è valido, procedi col checkout
             String token = UUID.randomUUID().toString();
             session.setAttribute("sessionToken", token);
-            // 👉 Il valore sarà recuperato nella JSP da session
 
             request.setAttribute("user", user);
             request.setAttribute("cartItems", cartItems);
@@ -70,5 +90,8 @@ public class CheckoutPageServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore nel caricamento dati utente/carrello.");
         }
     }
-
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        doPost(request, response);
+    }
 }

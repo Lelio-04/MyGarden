@@ -24,72 +24,69 @@ public class UpdateCartQuantityServlet extends HttpServlet {
         cartDAO = new CartDAO(dataSource);
     }
 
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession(true);
         Integer userId = (Integer) session.getAttribute("userId");
 
-        String productCodeStr = request.getParameter("productCode");
-        String quantityStr = request.getParameter("quantity");
+        String[] productCodes = request.getParameterValues("productCode");
+        String[] quantities = request.getParameterValues("quantity");
 
-        if (productCodeStr == null || quantityStr == null) {
-            // Parametri mancanti, redirect senza modifiche
-            response.sendRedirect("cart");
+        if (productCodes == null || quantities == null || productCodes.length != quantities.length) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"status\":\"error\", \"message\":\"Parametri mancanti o incoerenti\"}");
             return;
         }
 
         try {
-            int productCode = Integer.parseInt(productCodeStr);
-            int quantity = Integer.parseInt(quantityStr);
-
             if (userId != null) {
                 // Utente loggato: aggiorna nel DB
-                if (quantity <= 0) {
-                    cartDAO.removeItem(userId, productCode);
-                } else {
-                    cartDAO.updateQuantity(userId, productCode, quantity);
+                for (int i = 0; i < productCodes.length; i++) {
+                    int code = Integer.parseInt(productCodes[i]);
+                    int qty = Integer.parseInt(quantities[i]);
+                    if (qty <= 0) {
+                        cartDAO.removeItem(userId, code);
+                    } else {
+                        cartDAO.updateQuantity(userId, code, qty);
+                    }
                 }
             } else {
-                // Utente ospite: aggiorna nella guestCart in sessione
+                // Utente guest: aggiorna nella guestCart in sessione
                 @SuppressWarnings("unchecked")
                 List<CartBean> guestCart = (List<CartBean>) session.getAttribute("guestCart");
 
                 if (guestCart != null) {
-                    CartBean itemToUpdate = null;
-                    // Cerca elemento con productCode uguale
-                    for (CartBean item : guestCart) {
-                        // usa equals per confrontare gli Integer
-                        if (Integer.valueOf(productCode).equals(item.getProductCode())) {
-                            itemToUpdate = item;
-                            break;
-                        }
-                    }
+                    for (int i = 0; i < productCodes.length; i++) {
+                        int code = Integer.parseInt(productCodes[i]);
+                        int qty = Integer.parseInt(quantities[i]);
 
-                    if (itemToUpdate != null) {
-                        if (quantity <= 0) {
-                            guestCart.remove(itemToUpdate);
-                        } else {
-                            itemToUpdate.setQuantity(quantity);
+                        CartBean itemToUpdate = null;
+                        for (CartBean item : guestCart) {
+                            if (Integer.valueOf(code).equals(item.getProductCode())) {
+                                itemToUpdate = item;
+                                break;
+                            }
                         }
-                        session.setAttribute("guestCart", guestCart);
-                    } else {
-                        // Se non trovato, potresti aggiungere log o comportamento alternativo
-                        System.out.println("Prodotto non trovato in guestCart: " + productCode);
+
+                        if (itemToUpdate != null) {
+                            if (qty <= 0) {
+                                guestCart.remove(itemToUpdate);
+                            } else {
+                                itemToUpdate.setQuantity(qty);
+                            }
+                        }
                     }
-                } else {
-                    // guestCart non esiste, puoi decidere di crearla o loggare
-                    System.out.println("guestCart non presente in sessione.");
+                    session.setAttribute("guestCart", guestCart);
                 }
             }
-        } catch (NumberFormatException e) {
-            System.err.println("Parametro productCode o quantity non valido: " + e.getMessage());
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Potresti aggiungere messaggi di errore più dettagliati per l’utente
+            response.getWriter().write("{\"status\":\"success\"}");
+        } catch (NumberFormatException | SQLException e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"status\":\"error\", \"message\":\"" + e.getMessage() + "\"}");
         }
-
-        response.sendRedirect("cart");
     }
+
 }

@@ -6,6 +6,7 @@ import jakarta.servlet.http.*;
 
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -21,19 +22,21 @@ public class UpdateCartServlet extends HttpServlet {
         if (ds == null) {
             throw new ServletException("DataSource non disponibile nel contesto.");
         }
-        cartDao = (ICartDao) new CartDAODataSource(ds);
+        cartDao = new CartDAODataSource(ds);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+
         HttpSession session = request.getSession(true);
         Integer userId = (Integer) session.getAttribute("userId");
 
         try {
             if (userId != null) {
-                // utente loggato, aggiorna DB
                 for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
                     String key = entry.getKey();
                     if (key.startsWith("quantities[")) {
@@ -41,15 +44,17 @@ public class UpdateCartServlet extends HttpServlet {
                         int productCode = Integer.parseInt(productCodeStr);
                         int quantity = Integer.parseInt(entry.getValue()[0]);
 
-                        cartDao.updateQuantity(userId, productCode, quantity); // userId è Integer, ok
+                        if (quantity <= 0) {
+                            cartDao.removeItem(userId, productCode);
+                        } else {
+                            cartDao.updateQuantity(userId, productCode, quantity);
+                        }
                     }
                 }
             } else {
-                // utente ospite, aggiorna carrello in sessione
                 @SuppressWarnings("unchecked")
                 List<CartBean> guestCart = (List<CartBean>) session.getAttribute("guestCart");
-                
-                
+
                 if (guestCart != null) {
                     for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
                         String key = entry.getKey();
@@ -77,11 +82,15 @@ public class UpdateCartServlet extends HttpServlet {
                     session.setAttribute("guestCart", guestCart);
                 }
             }
+
+            // Successo
+            out.print("{\"success\":true}");
         } catch (SQLException | NumberFormatException e) {
-            throw new ServletException("Errore aggiornamento carrello", e);
+            // Errore - risposta JSON con messaggio
+            String errorMsg = e.getMessage() != null ? e.getMessage().replace("\"", "\\\"") : "Errore sconosciuto";
+            out.print("{\"success\":false,\"error\":\"" + errorMsg + "\"}");
         }
 
-        response.sendRedirect("cart");
+        out.flush();
     }
-
 }

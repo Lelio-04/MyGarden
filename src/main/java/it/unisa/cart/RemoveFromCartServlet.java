@@ -18,8 +18,10 @@ public class RemoveFromCartServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        // Recupera il DataSource dal ServletContext
         DataSource dataSource = (DataSource) getServletContext().getAttribute("DataSourceStorage");
+        if (dataSource == null) {
+            throw new ServletException("DataSource non trovato nel contesto");
+        }
         cartDAO = new CartDAO(dataSource);
     }
 
@@ -27,12 +29,16 @@ public class RemoveFromCartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
         HttpSession session = request.getSession(true);
         Integer userId = (Integer) session.getAttribute("userId");
         String productCodeParam = request.getParameter("productCode");
 
         if (productCodeParam == null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Codice prodotto mancante.");
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"status\":\"error\", \"message\":\"Codice prodotto mancante.\"}");
             return;
         }
 
@@ -40,33 +46,37 @@ public class RemoveFromCartServlet extends HttpServlet {
             int productCode = Integer.parseInt(productCodeParam);
 
             if (userId != null) {
-                // Utente loggato: rimuove dal DB
                 cartDAO.removeItem(userId, productCode);
             } else {
-                // Utente ospite: rimuove da guestCart nella sessione
                 @SuppressWarnings("unchecked")
                 List<CartBean> guestCart = (List<CartBean>) session.getAttribute("guestCart");
 
                 if (guestCart != null) {
                     Iterator<CartBean> iterator = guestCart.iterator();
+                    boolean removed = false;
                     while (iterator.hasNext()) {
                         CartBean item = iterator.next();
                         if (item.getProductCode() == productCode) {
                             iterator.remove();
+                            removed = true;
                             break;
                         }
                     }
-                    session.setAttribute("guestCart", guestCart);
+                    if (removed) {
+                        session.setAttribute("guestCart", guestCart);
+                    }
                 }
             }
 
-        } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Codice prodotto non valido.");
-            return;
-        } catch (SQLException e) {
-            throw new ServletException("Errore nella rimozione dal carrello", e);
-        }
+            response.getWriter().write("{\"status\":\"success\"}");
 
-        response.sendRedirect("cart");
+        } catch (NumberFormatException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"status\":\"error\", \"message\":\"Codice prodotto non valido.\"}");
+        } catch (SQLException e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"status\":\"error\", \"message\":\"Errore durante la rimozione dal carrello.\"}");
+            e.printStackTrace();
+        }
     }
 }
