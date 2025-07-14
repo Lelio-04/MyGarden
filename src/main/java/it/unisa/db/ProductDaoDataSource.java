@@ -165,4 +165,45 @@ public class ProductDaoDataSource implements IProductDao {
         }
         return products;
     }
+    
+    public synchronized Collection<ProductBean> doRetrieveByCategory(String categoryName) throws SQLException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        Collection<ProductBean> products = new LinkedList<>();
+
+        String selectSQL = "SELECT p.* FROM " + TABLE_NAME + " p " +
+                           "JOIN categories c ON p.category_id = c.id " +
+                           "WHERE c.name = ? AND p.is_deleted = FALSE";
+
+        try {
+            connection = ds.getConnection();
+            preparedStatement = connection.prepareStatement(selectSQL);
+            preparedStatement.setString(1, categoryName);
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                ProductBean bean = new ProductBean();
+                bean.setCode(rs.getInt("CODE"));
+                bean.setName(rs.getString("NAME"));
+                bean.setDescription(rs.getString("DESCRIPTION"));
+                bean.setPrice(rs.getDouble("PRICE"));
+                bean.setQuantity(rs.getInt("QUANTITY"));
+                bean.setImage(rs.getString("IMAGE"));
+                // Salva solo il nome della categoria se hai un campo per questo
+                // bean.setCategory(categoryName);
+                products.add(bean);
+            }
+
+        } finally {
+            try {
+                if (preparedStatement != null) preparedStatement.close();
+            } finally {
+                if (connection != null) connection.close();
+            }
+        }
+
+        return products;
+    }
+
 }

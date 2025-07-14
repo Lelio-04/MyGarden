@@ -3,6 +3,8 @@
     String username = (String) session.getAttribute("username");
     Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
 %>
+
+<link rel="stylesheet" href="styles/dropdown.css">
 <header>
     <div class="header-top">
         <img src="images/logo.png" alt="MyGarden Logo" class="logo">
@@ -45,7 +47,18 @@
                 <li><a href="admin/adminOrders.jsp">Gestione Ordini</a></li>
             <% } else { %>
                 <li><a href="#contattaci">Contattaci</a></li>
-                <li><a href="<%= request.getContextPath() %>/product">Catalogo</a></li>
+
+                <li class="dropdown">
+                    <a href="<%= request.getContextPath() %>/product" class="dropdown-toggle">Catalogo</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="product?categoria=Piante da Interno">Piante da Interno</a></li>
+                        <li><a href="product?categoria=Piante da Esterno">Piante da Esterno</a></li>
+                        <li><a href="product?categoria=Piante Aromatiche">Piante Aromatiche</a></li>
+                        <li><a href="product?categoria=Piante Fiorite">Piante Fiorite</a></li>
+                        <li><a href="product?categoria=Piante Grasse">Piante Grasse</a></li>
+                    </ul>
+                </li>
+
                 <li><a href="carrello.jsp">Carrello</a></li>
                 <li><a href="ordini.jsp">Ordini</a></li>
             <% } %>

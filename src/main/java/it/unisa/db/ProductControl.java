@@ -100,13 +100,21 @@ public class ProductControl extends HttpServlet {
 
         // Carica catalogo prodotti
         String sort = request.getParameter("sort");
+        String categoria = request.getParameter("categoria");
+
         try {
-            Collection<ProductBean> products = productDao.doRetrieveAll(sort);
+            Collection<ProductBean> products;
+            if (categoria != null && !categoria.isEmpty()) {
+                products = ((ProductDaoDataSource) productDao).doRetrieveByCategory(categoria);
+            } else {
+                products = productDao.doRetrieveAll(sort);
+            }
             request.setAttribute("products", products);
         } catch (SQLException e) {
             e.printStackTrace();
             request.setAttribute("errorMessage", "Errore durante il recupero dei prodotti: " + e.getMessage());
         }
+
 
         // Destinazione finale
         Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");

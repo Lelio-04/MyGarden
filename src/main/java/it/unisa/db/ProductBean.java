@@ -12,8 +12,9 @@ public class ProductBean implements Serializable {
     private double price;
     private int quantity;
     private String image;
-    private boolean isDeleted; // ✅ Aggiunto per soft delete
-
+    private boolean isDeleted; 
+    private String category;// ✅ Aggiunto per soft delete
+    
     public ProductBean() {
         this.code = -1;
         this.name = "";
@@ -22,7 +23,18 @@ public class ProductBean implements Serializable {
         this.quantity = 0;
         this.image = "";
         this.isDeleted = false; // ✅ Inizializzato come non eliminato
+        this.category = "";
     }
+    
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
 
     public int getCode() {
         return code;
