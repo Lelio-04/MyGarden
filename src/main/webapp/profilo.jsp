@@ -43,16 +43,8 @@
 </head>
 <body>
 
-<header>
-    <div>
-        <img src="images/logo.png" alt="MyGarden Logo" class="logo">
-        <span class="site-title">MyGarden</span>
-    </div>
-    <div class="header-icons">
-        <a href="index.jsp" class="btn-link">Home</a>
-        <a href="Logout" class="btn-link">Logout</a>
-    </div>
-</header>
+<jsp:include page="header.jsp" />
+
 
 <main>
     <div class="profile-section">
@@ -70,9 +62,7 @@
     </div>
 </main>
 
-<footer>
-    <p>&copy; 2025 MyGarden - Tutti i diritti riservati.</p>
-</footer>
-
+   	<jsp:include page="footer.jsp" />
+    
 </body>
 </html>

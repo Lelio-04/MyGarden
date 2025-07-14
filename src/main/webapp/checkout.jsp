@@ -44,6 +44,7 @@
             border: 1px solid #ddd;
             border-radius: 8px;
             background-color: #f9f9f9;
+            margin-top: 200px
         }
         .checkout-form h2 { margin-bottom: 20px; }
         .checkout-form label { display: block; margin-top: 10px; font-weight: bold; }
@@ -66,6 +67,8 @@
     </style>
 </head>
 <body>
+
+<jsp:include page="header.jsp" />
 
 <div class="checkout-form">
     <h2>Conferma Ordine</h2>
@@ -134,6 +137,8 @@
         <button type="submit">Conferma ed effettua ordine</button>
     </form>
 </div>
+
+<jsp:include page="footer.jsp" />
 
 </body>
 </html>

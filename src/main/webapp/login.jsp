@@ -15,46 +15,10 @@
     <link rel="icon" href="images/favicon.png" type="image/png">
 </head>
 <body>
-	 <header>
-        <div class="header-top">
-            <img src="images/logo.png" alt="MyGarden Logo" class="logo">
-            <span class="site-title">
-            	<span class="yellow">My</span><span class="green">Garden</span>
-            </span>
-            <div class="header-icons">
-                <a href="carrello.html" class="icon-link" title="Carrello">
-                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="9" cy="21" r="1"></circle>
-                        <circle cx="20" cy="21" r="1"></circle>
-                        <path d="m1 1 4 4 14 1-1 9H6"></path>
-                    </svg>
-                </a>
-                <a href="login.jsp" class="icon-link" title="<%= (username != null) ? "Profilo" : "Accedi" %>">
-                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
-                </a>
-                <a href="register.jsp" class="icon-link" title="Registrati">
-                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="9" cy="7" r="4"></circle>
-                        <path d="m22 11-3-3m0 0-3 3m3-3v12"></path>
-                    </svg>
-                </a>
-            </div>
-        </div>
-        <nav class="main-nav">
-            <ul class="nav-links">
-                <li><a href="index.jsp" id= "home">Home</a></li>
-                <li><a href="catalogo.jsp">Catalogo</a></li>
-                <li><a href="carrello.jsp">Carrello</a></li>
-                <li><a href="register.jsp">Registrati</a></li>
-            </ul>
-        </nav>
-    </header>
-    
-    <div class="login-container">
+	
+	<jsp:include page="header.jsp" />
+	
+	    <div class="login-container">
         <div class="login-header">
             <h2>Accedi</h2>
             <p>Benvenuto su MyGarden</p>
@@ -95,9 +59,7 @@
         </div>
     </div>
     
-        <footer>
-        <p>&copy; 2025 MyGarden - Tutti i diritti riservati.</p>
-    </footer>
+       	<jsp:include page="footer.jsp" />
     
 </body>
 </html>
