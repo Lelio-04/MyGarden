@@ -100,7 +100,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-bottom: 30px; /* Più spazio sotto il testo */
+    padding-bottom: 15px; /* Più spazio sotto il testo */
     box-shadow: 0 10px 25px rgba(0,0,0,0.06); /* Ombra leggera */
 }
 
@@ -111,7 +111,7 @@
 
 .category-card img {
     width: 100%;
-    height: 250px; /* Altezza aumentata per immagini d'impatto */
+    height: 315px; /* Altezza aumentata per immagini d'impatto */
     object-fit: cover;
     margin-bottom: 25px;
     transition: transform 0.4s ease;
@@ -415,4 +415,47 @@
     .featured-categories-section h2, .why-choose-us-section h2, .contact-section h2 {
         font-size: 2em;
     }
+}
+
+
+.video-hero {
+    position: relative;
+    width: 100%;
+    height: 90vh;
+    overflow: hidden;
+}
+
+.video-hero video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+/* video */
+.video-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+    z-index: 2;
+}
+
+.video-overlay h1 {
+    font-size: 5em; /* Titolo dominante */
+    margin-bottom: 25px;
+    color: var(--color-background-white);
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.video-overlay p {
+    font-size: 1.8em; /* Testo intro grande */
+    margin-bottom: 60px; /* Spazio generoso */
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+    line-height: 1.5;
 }

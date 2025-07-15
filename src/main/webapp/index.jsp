@@ -28,16 +28,23 @@
  <body>
 
     <jsp:include page="header.jsp" />
+    
+    
+    <section class="video-hero">
+	    <video autoplay muted loop playsinline >
+	        <source src="video/home-banner.mp4" type="video/mp4">
+	        Il tuo browser non supporta il tag video.
+	    </video>
+	    <div class="video-overlay">
+	        <h1>Benvenuto su MyGarden</h1>
+	        <p>Scopri il verde perfetto per la tua casa e il tuo giardino.</p>
+	    </div>
+	</section>
+	
+
+    
 
      <main>
-         <section class="hero">
-             <section class="evid">
-                 <h2>Benvenuto su MyGarden</h2>
-                 <p>Scopri il verde perfetto per la tua casa e il tuo giardino.</p>
-                 <a href="catalogo.jsp" class="btn">Sfoglia il catalogo</a>
-             </section>
-         </section>
-
          <section class="featured-categories-section">
              <div class="container">
                  <h2>Esplora il Nostro Mondo Verde</h2>
@@ -45,19 +52,19 @@
 
                  <div class="category-grid">
                      <a href="product?categoria=Piante da Interno" class="category-card">
-                         <img src="images/categoria_interni.jpg" alt="Piante da Interno">
+                         <img src="images/pianteInterno.jpg" alt="Piante da Interno">
                          <h3>Piante da Interno</h3>
                      </a>
                      <a href="product?categoria=Piante da Esterno" class="category-card">
-                         <img src="images/categoria_esterni.jpg" alt="Piante da Esterno">
+                         <img src="images/pianteEsterno.jpg" alt="Piante da Esterno">
                          <h3>Piante da Esterno</h3>
                      </a>
                      <a href="product?categoria=Piante Aromatiche" class="category-card">
-                         <img src="images/categoria_aromatiche.jpg" alt="Piante Aromatiche">
+                         <img src="images/pianteAaromatiche.jpg" alt="Piante Aromatiche" >
                          <h3>Piante Aromatiche</h3>
                      </a>
                      <a href="product?categoria=Piante Grasse" class="category-card">
-                         <img src="images/categoria_grasse.jpg" alt="Piante Grasse">
+                         <img src="images/piantaGrassa.jpg" alt="Piante Grasse">
                          <h3>Piante Grasse</h3>
                      </a>
                  </div>
@@ -74,24 +81,19 @@
 
                  <div class="features-grid">
                      <div class="feature-item">
-                         <img src="images/icon_qualita.png" alt="Icona Qualità">
+                         <img src="https://egarden.store/wp-content/uploads/2020/01/egarden-category-sidebar-imballaggio.png" alt="Icona Qualità">
                          <h3>Qualità Garantita</h3>
                          <p>Solo le migliori piante, selezionate con cura dai nostri esperti.</p>
                      </div>
                      <div class="feature-item">
-                         <img src="images/icon_spedizione.png" alt="Icona Spedizione">
+                         <img src="https://egarden.store/wp-content/uploads/2020/01/egarden-category-sidebar-spedizione.png" alt="Icona Spedizione">
                          <h3>Spedizione Sicura</h3>
                          <p>Consegna rapida e protetta, direttamente a casa tua.</p>
                      </div>
                      <div class="feature-item">
-                         <img src="images/icon_supporto.png" alt="Icona Supporto">
+                         <img src="https://egarden.store/wp-content/uploads/2020/01/egarden-category-sidebar-servizio-clienti.png" alt="Icona Supporto">
                          <h3>Supporto Dedicato</h3>
                          <p>Siamo qui per consigliarti e aiutarti in ogni fase.</p>
-                     </div>
-                     <div class="feature-item">
-                         <img src="images/icon_varieta.png" alt="Icona Varietà">
-                         <h3>Vasta Selezione</h3>
-                         <p>Dalle piante rare alle classiche, trova ciò che cerchi.</p>
                      </div>
                  </div>
              </div>
