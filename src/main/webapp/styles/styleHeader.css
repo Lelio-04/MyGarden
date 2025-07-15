@@ -1,297 +1,358 @@
-/* Header generale */
+/* UGMONK INSPIRED HEADER LAYOUT */
+
+/* Global box-sizing for consistency across all elements */
+* {
+  box-sizing: border-box;
+}
+
+/* Styles for the main <header> element (full width background) */
 header {
-    background-color: var(--color-background-white);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Ombra più morbida e diffusa */
-    padding: 20px 25px; /* Padding aumentato */
-    border-bottom: none; /* Rimuoviamo il bordo inferiore, la shadow è sufficiente */
+  background-color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.03); /* Ombra molto leggera e diffusa */
+  border-bottom: 1px solid #e8e8e8; /* Bordo sottile e pulito */
+  position: sticky; /* Rende l'header "appiccicoso" in cima alla pagina */
+  top: 0;
+  z-index: 1000; /* Assicura che l'header sia sopra altri contenuti */
+  padding-top: 20px; /* Padding verticale per l'header a tutta larghezza */
+  padding-bottom: 20px; /* Padding verticale per l'header a tutta larghezza */
 }
 
-.header-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1100px; /* Allineato al container generale del body */
-    margin: 0 auto;
-    padding-bottom: 20px; /* Più spazio sotto la top bar */
-    border-bottom: 1px solid var(--color-border); /* Separatore più leggero */
+/* Styles for the content wrapper inside the header */
+/* Questo div contiene il logo, la navigazione e le icone. */
+/* Si estende per tutta la larghezza dello schermo con padding laterale. */
+.header-content-wrapper {
+  display: flex;
+  align-items: center; /* Allinea gli elementi verticalmente al centro */
+  /* max-width rimosso per permettere al contenuto di estendersi per tutta la larghezza dello schermo */
+  margin: 0 auto; /* Mantiene il margine auto per un centraggio logico, anche se non visibile con larghezza piena */
+  padding-left: 40px; /* Padding orizzontale per il contenuto su schermi grandi */
+  padding-right: 40px; /* Padding orizzontale per il contenuto su schermi grandi */
+  transition: all 0.3s ease; /* Applica transizioni fluide al wrapper del contenuto e ai suoi figli */
 }
 
-.logo {
-    height: 55px; /* Logo leggermente più grande */
-    margin-right: 20px; /* Più spazio a destra del logo */
+/* Logo (Brand Name) */
+.brand {
+  font-size: 40px;
+  text-decoration: none;
+  color: #2c2c2c;
+  white-space: nowrap; /* Impedisce che il testo del logo vada a capo */
+  font-family: 'Goudy Old Style', serif;
+  letter-spacing: 0.7px;
+  transition: color 0.3s ease;
+  margin-right: 40px; /* Spazio a destra del logo */
 }
 
-.site-title {
-    font-family: 'Montserrat', sans-serif; /* Cambiato a Montserrat */
-    font-size: 2.5em; /* Dimensioni più grandi per il titolo */
-    font-weight: 800; /* Extra-bold per impatto */
-    flex-grow: 1;
-    white-space: nowrap;
-}
-
-/* Colori per il titolo del sito (dovrebbero essere in styleBase.css, ma li ripeto qui per chiarezza se non li hai ancora lì) */
-.site-title .yellow {
-    color: var(--color-accent); /* Giallo brillante per "My" */
-}
-
-.site-title .green {
-    color: var(--color-primary); /* Verde vibrante per "Garden" */
-}
-
-.header-icons {
-    display: flex;
-    gap: 25px; /* Spazio aumentato tra le icone */
-}
-
-.icon-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-text-light); /* Colore icona più chiaro di default */
-    transition: color 0.3s ease;
-}
-
-.icon-link:hover {
-    color: var(--color-primary); /* Verde vibrante all'hover */
-}
-
-.icon-link .icon {
-    width: 30px; /* Icone più grandi per maggiore visibilità */
-    height: 30px;
-    stroke: currentColor;
+.brand:hover {
+  color: #4a4a4a;
 }
 
 /* Main Navigation */
 .main-nav {
-    margin-top: 20px; /* Più spazio sopra la navigazione */
-    max-width: 1100px;
-    margin-left: auto;
-    margin-right: auto;
+  display: flex;
+  justify-content: center; /* Centra i link della navigazione all'interno del suo spazio */
+  flex-grow: 1; /* Permette alla navigazione di occupare tutto lo spazio disponibile tra logo e icone */
 }
 
 .nav-links {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 40px; /* Spazio maggiore tra gli elementi del menu */
+  list-style: none;
+  display: flex;
+  gap: 40px; /* Spazio tra i link di navigazione */
+  padding: 0;
+  margin: 0;
+}
+
+.nav-links li {
+  position: relative;
 }
 
 .nav-links li a {
-    display: block;
-    padding: 12px 0; /* Padding verticale aumentato */
-    color: var(--color-text-dark);
-    font-weight: 600; /* Semibold */
-    font-size: 1.1em; /* Testo navigazione leggermente più grande */
-    position: relative;
-    transition: color 0.3s ease;
+  text-decoration: none;
+  color: #2c2c2c;
+  font-weight: 400;
+  font-size: 20px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  padding: 8px 0;
+  transition: color 0.3s ease;
+  position: relative;
 }
 
 .nav-links li a:hover {
-    color: var(--color-primary);
+  color: #777;
 }
 
-/* Sottolineatura animata all'hover e per active */
+/* Animated underline for navigation links */
 .nav-links li a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 3px; /* Sottolineatura più spessa */
-    bottom: -5px; /* Spostata leggermente più in basso */
-    left: 0;
-    background-color: var(--color-primary);
-    transition: width 0.3s ease-in-out;
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 1px;
+  background-color: #2c2c2c;
+  transition: width 0.3s ease;
 }
 
-.nav-links li a:hover::after,
-.nav-links li a.active::after {
-    width: 100%;
+.nav-links li a:hover::after {
+  width: 100%; /* Sottolineatura si espande all'hover */
 }
 
-/* Stili per il Dropdown Menu */
+/* Dropdown Menu Styles */
 .dropdown {
-    position: relative;
-    /* Rimuovi padding-bottom e margin-bottom da qui, li spostiamo */
+  position: relative;
 }
 
 .dropdown-toggle::after {
-    content: ' \25BE'; /* Freccetta verso il basso */
-    font-size: 0.8em;
-    margin-left: 8px; /* Più spazio per la freccetta */
-    transition: transform 0.3s ease; /* Transizione per la freccetta */
-}
-
-.dropdown:hover .dropdown-toggle::after {
-    transform: rotate(180deg); /* Ruota la freccetta all'apertura */
+  content: ' ▾'; /* Freccetta verso il basso per indicare il dropdown */
+  margin-left: 6px;
+  font-size: 12px;
+  color: #777;
 }
 
 .dropdown-menu {
-    display: none;
-    position: absolute;
-    background-color: var(--color-background-white);
-    min-width: 220px; /* Larghezza minima aumentata */
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1); /* Ombra più pronunciata */
-    z-index: 1000;
-    list-style: none;
-    padding: 10px 0;
-    border-radius: 8px; /* Angoli più arrotondati */
-    border: 1px solid var(--color-border);
+  /* Rimosso display: none; per permettere transizioni fluide */
+  position: absolute;
+  /* Posizionamento per creare un "ponte" di hover tra il toggle e il menu */
+  top: calc(100% - 10px); /* Sposta il menu leggermente in alto per sovrapporsi al link */
+  left: 50%;
+  transform: translateX(-50%) translateY(10px); /* Aggiunge una leggera traslazione iniziale per l'animazione */
+  background-color: #ffffff;
+  list-style: none;
+  margin-top: 0; /* Rimuove qualsiasi gap dal margine */
+  /* Miglioramenti per il dropdown */
+  padding: 20px 25px; /* Padding verticale aumentato per più spazio, e orizzontale */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); /* Ombra più morbida e diffusa */
+  border-radius: 8px; /* Angoli più arrotondati */
+  border: 1px solid #e0e0e0; /* Bordo sottile per una definizione pulita */
+  min-width: 600px; /* Larghezza minima aumentata per 3 colonne */
+  z-index: 1001;
+  opacity: 0; /* Inizialmente trasparente */
+  visibility: hidden; /* Inizialmente non visibile agli eventi del mouse */
+  pointer-events: none; /* Impedisce interazioni quando il menu è nascosto */
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
 
-    /* --- INIZIO NUOVE REGOLE PER EVITARE CHIUSURA PREMATURA --- */
-    margin-top: 0; /* Assicurati che non ci sia margine superiore predefinito */
-    padding-top: 15px; /* Aggiungi padding in alto al menu stesso */
-    top: calc(100% - 10px); /* Sposta il menu verso l'alto per sovrapporsi leggermente al link */
-    /* --- FINE NUOVE REGOLE --- */
-
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-    opacity: 0; /* Partenza con opacità 0 */
-    visibility: hidden; /* Nascosto da screen reader */
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+  /* Layout a tre colonne */
+  display: grid; /* Usa grid per il layout a colonne */
+  grid-template-columns: repeat(3, 1fr); /* Tre colonne di larghezza uguale */
+  gap: 15px 20px; /* Spazio tra le righe e tra le colonne */
 }
 
 .dropdown:hover .dropdown-menu {
-    display: block;
-    opacity: 1; /* Appare con fade-in */
-    visibility: visible;
-    transform: translateX(-50%) translateY(0); /* Nessun movimento extra */
+  /* Rimosso display: block; */
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0); /* Anima alla posizione finale */
+  pointer-events: auto; /* Permette interazioni quando il menu è visibile */
 }
 
 .dropdown-menu li a {
-    color: var(--color-text-dark);
-    padding: 12px 25px; /* Padding aumentato */
-    text-decoration: none;
-    display: block;
-    font-weight: 500; /* Peso normale per i sub-link */
-    font-size: 1.05em;
-    transition: background-color 0.2s ease, color 0.2s ease;
+  display: block;
+  /* Miglioramenti per i link del dropdown */
+  padding: 10px 15px; /* Padding adeguato per ogni voce nella griglia */
+  color: #2c2c2c;
+  font-size: 15px; /* Dimensione del font leggermente aumentata */
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  text-align: center; /* Centra il testo all'interno di ogni elemento */
 }
 
 .dropdown-menu li a:hover {
-    background-color: var(--color-hover-bg-light); /* Sfondo molto leggero all'hover */
-    color: var(--color-primary); /* Testo verde all'hover */
+  background-color: #f0f0f0; /* Sfondo leggermente più scuro all'hover */
+  color: #2c2c2c; /* Mantiene il colore del testo scuro all'hover */
 }
 
+/* Header Icons (Carrello, Profilo, Registrati) */
+.header-icons {
+  display: flex;
+  gap: 20px; /* Spazio tra le icone */
+  align-items: center;
+  margin-left: auto; /* Questo spinge le icone all'estrema destra del header-content-wrapper */
+}
 
-/* Media Queries per la responsività */
+.icon-link {
+  color: #2c2c2c;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.icon-link:hover {
+  color: #777;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+  stroke: currentColor; /* Usa il colore del testo per il bordo SVG */
+  fill: none;
+  stroke-width: 1.5;
+}
+
+/* Responsive Design - Media Queries */
+
+/* Desktop to Mid-Tablet Transition (max-width: 992px) */
+/* Questa media query gestisce la transizione tra desktop e schermi di medie dimensioni,
+   riducendo le dimensioni degli elementi per adattarsi meglio. */
 @media (max-width: 992px) {
-    header {
-        padding: 15px 20px;
-    }
-    .header-top {
-        padding-bottom: 15px;
-    }
-    .site-title {
-        font-size: 2.2em;
-    }
-    .nav-links {
-        gap: 25px;
-    }
-    .nav-links li a {
-        font-size: 1em;
-    }
+  .header-content-wrapper {
+    padding-left: 20px; /* Riduci il padding orizzontale */
+    padding-right: 20px; /* Riduci il padding orizzontale */
+  }
+
+  .brand {
+    font-size: 32px; /* Riduci la dimensione del font del logo */
+    margin-right: 25px; /* Riduci il margine a destra del logo */
+  }
+
+  .main-nav {
+    gap: 25px; /* Riduci il gap tra i link di navigazione */
+  }
+
+  .nav-links li a {
+    font-size: 18px; /* Riduci la dimensione del font dei link di navigazione */
+  }
+
+  .header-icons {
+    gap: 15px; /* Riduci il gap tra le icone */
+  }
+
+  .icon {
+    width: 28px; /* Riduci la dimensione delle icone */
+    height: 28px;
+  }
+
+  /* Adatta il dropdown per schermi più piccoli */
+  .dropdown-menu {
+    min-width: 450px; /* Riduci la larghezza minima per adattarsi meglio */
+    grid-template-columns: repeat(2, 1fr); /* Due colonne invece di tre */
+    gap: 10px 15px;
+    padding: 15px 20px;
+  }
 }
 
+/* Intermediate Tablet Size (max-width: 880px) */
+/* Questa nuova media query mira a migliorare la leggibilità tra 769px e 880px,
+   rendendo gli elementi ancora più compatti prima del layout a colonna. */
+@media (max-width: 880px) {
+  .header-content-wrapper {
+    padding-left: 15px; /* Ulteriore riduzione del padding orizzontale */
+    padding-right: 15px; /* Ulteriore riduzione del padding orizzontale */
+  }
+
+  .brand {
+    font-size: 28px; /* Ulteriore riduzione del font del logo */
+    margin-right: 20px; /* Ulteriore riduzione del margine a destra del logo */
+  }
+
+  .nav-links {
+    gap: 20px; /* Ulteriore riduzione del gap tra i link di navigazione */
+  }
+
+  .nav-links li a {
+    font-size: 16px; /* Ulteriore riduzione del font dei link di navigazione */
+  }
+
+  .header-icons {
+    gap: 10px; /* Ulteriore riduzione del gap tra le icone */
+  }
+
+  .icon {
+    width: 24px; /* Ulteriore riduzione della dimensione delle icone */
+    height: 24px;
+  }
+}
+
+
+/* Tablet and Smaller Devices (max-width: 768px) */
+/* Questa media query impila gli elementi verticalmente per schermi più piccoli. */
 @media (max-width: 768px) {
-    .header-top {
-        flex-direction: column;
-        text-align: center;
-        padding-bottom: 10px;
-    }
+  header {
+    padding: 16px 0; /* Riduce il padding verticale dell'header a tutta larghezza */
+  }
 
-    .logo {
-        height: 45px;
-        margin-bottom: 10px;
-        margin-right: 0;
-    }
+  .header-content-wrapper {
+    flex-direction: column; /* Gli elementi si impilano verticalmente */
+    align-items: flex-start; /* Allinea gli elementi a sinistra quando impilati */
+    gap: 16px; /* Spazio tra gli elementi impilati */
+    padding: 0 20px; /* Riduce il padding orizzontale per il contenuto su tablet */
+  }
 
-    .site-title {
-        font-size: 2em;
-        margin-bottom: 15px;
-    }
+  .brand {
+    font-size: 24px; /* Riduce la dimensione del font del logo */
+    margin-right: 0; /* Rimuove il margine a destra del logo */
+  }
 
-    .header-icons {
-        margin-top: 10px;
-        gap: 20px;
-    }
+  .main-nav {
+    width: 100%; /* La navigazione occupa tutta la larghezza disponibile */
+    justify-content: center; /* Centra i link di navigazione */
+    flex-grow: 0; /* Rimuove flex-grow su mobile per evitare espansioni indesiderate */
+  }
 
-    .icon-link .icon {
-        width: 26px;
-        height: 26px;
-    }
+  .nav-links {
+    flex-direction: column; /* I link di navigazione si impilano verticalmente */
+    align-items: center; /* Centra i link di navigazione impilati */
+    gap: 20px; /* Spazio tra i link impilati */
+    text-align: center;
+  }
 
-    .main-nav {
-        margin-top: 10px;
-    }
+  .header-icons {
+    margin-left: 0; /* Rimuove il margin-left: auto su mobile */
+    align-self: flex-end; /* Allinea le icone a destra quando gli elementi sono impilati */
+    margin-top: 10px; /* Spazio sopra le icone */
+  }
 
-    .nav-links {
-        flex-direction: column;
-        gap: 0;
-    }
+  /* Dropdown su mobile: statico, gestito via JS (se presente) */
+  .dropdown-menu {
+    position: static; /* Il dropdown non è più posizionato assolutamente */
+    transform: none; /* Rimuove la trasformazione */
+    box-shadow: none; /* Rimuove l'ombra */
+    background-color: #f8f8f8; /* Sfondo leggermente diverso per il dropdown mobile */
+    margin-top: 0;
+    opacity: 1; /* Visibile se gestito da JS per mostrare/nascondere */
+    visibility: visible;
+    padding-top: 10px; /* Reset padding-top */
+    top: auto;
+    /* Su mobile, il dropdown può tornare a una colonna o due a seconda dello spazio */
+    grid-template-columns: repeat(1, 1fr); /* Una colonna su mobile */
+    min-width: auto; /* Rimuovi la larghezza minima fissa */
+    width: 100%; /* Occupa tutta la larghezza disponibile */
+    gap: 10px; /* Riduce il gap */
+    padding: 10px 15px; /* Riduce il padding */
+  }
 
-    .nav-links li {
-        width: 100%;
-        text-align: center;
-    }
-
-    .nav-links li a {
-        padding: 15px 0; /* Padding verticale aumentato per i link su mobile */
-        border-bottom: 1px solid var(--color-border);
-    }
-
-    .nav-links li:last-child a {
-        border-bottom: none;
-    }
-
-    .nav-links li a::after {
-        display: none; /* Rimuovi l'effetto sottolineatura su mobile */
-    }
-
-    /* Dropdown su mobile: completamente statico */
-    .dropdown-menu {
-        position: static;
-        width: 100%;
-        box-shadow: none;
-        border: none;
-        border-top: 1px solid var(--color-border);
-        border-radius: 0;
-        transform: translateX(0);
-        margin-top: 0;
-        opacity: 1; /* Sempre visibile (se toggled via JS) */
-        visibility: visible;
-        /* Rimuovi padding-top e top per mobile */
-        padding-top: 10px; /* Reset al padding originale */
-        top: auto;
-    }
-    /* Disabilita l'apertura hover su mobile */
-    .dropdown:hover .dropdown-menu {
-        display: none; /* Questo nasconderà il dropdown per hover */
-    }
-    /* La freccetta si disattiva se il dropdown è gestito via JS su mobile */
-    .dropdown-toggle::after {
-        transform: none !important; /* Reset della rotazione */
-    }
-    /* Potresti voler aggiungere una classe 'open' gestita via JS per mostrare/nascondere il dropdown su click mobile */
+  .dropdown-menu li a {
+    text-align: left; /* Allinea il testo a sinistra su mobile per leggibilità */
+  }
 }
 
+/* Smaller Mobile Devices (max-width: 480px) */
+/* Ulteriori ottimizzazioni per schermi di smartphone molto piccoli. */
 @media (max-width: 480px) {
-    .site-title {
-        font-size: 1.8em;
-    }
-    .logo {
-        height: 40px;
-    }
-    .header-icons {
-        gap: 15px;
-    }
-    .icon-link .icon {
-        width: 24px;
-        height: 24px;
-    }
-    .nav-links li a {
-        font-size: 0.95em;
-    }
+  .brand {
+    font-size: 20px; /* Ulteriore riduzione della dimensione del font del logo */
+  }
+  .header-content-wrapper {
+    padding: 0 15px; /* Riduce ulteriormente il padding orizzontale per schermi molto piccoli */
+  }
+  .main-nav {
+    /* Nessuna modifica necessaria qui se le regole 768px sono sufficienti */
+  }
+  .nav-links {
+    gap: 15px; /* Riduce il gap tra i link di navigazione */
+  }
+  .nav-links li a {
+    font-size: 16px; /* Riduce la dimensione del font dei link di navigazione */
+    padding: 6px 0;
+  }
+  .header-icons {
+    gap: 15px; /* Riduce il gap tra le icone */
+  }
+  .icon {
+    width: 24px; /* Riduce la dimensione delle icone */
+    height: 24px;
+  }
+}
+
+/* Transitions for smooth animations on hover and state changes */
+/* Applica transizioni a tutti gli elementi all'interno dell'header per un'esperienza fluida */
+header * {
+  transition: all 0.3s ease;
 }

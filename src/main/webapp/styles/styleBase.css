@@ -1,98 +1,150 @@
-/* Palette Colori - Ispirata a MadTasty */
+/* -- Ugmonk-like Palette & Base Styles -- */
+
 :root {
-    --color-primary: #5cb85c; /* Un verde vibrante, simile al loro accento verde */
-    --color-secondary: #479a47; /* Un verde leggermente più scuro per hover */
-    --color-text-dark: #333333; /* Grigio scuro per il testo */
-    --color-text-light: #666666; /* Grigio più chiaro */
-    --color-background-light: #FDFDFD; /* Quasi bianco, molto pulito */
-    --color-background-white: #FFFFFF; /* Bianco puro */
-    --color-border: #EEEEEE; /* Bordi molto leggeri */
-    --color-accent: #FFD700; /* Giallo brillante per "My" nel logo, come loro usano un giallo acceso */
-    --color-error: #D9534F; /* Rosso per errori/svuota carrello */
-    --color-hover-bg-light: #F5F5F5; /* Sfondo leggero per hover (es. nel menu dropdown) */
+    /* Colori Ugmonk (toni neutri e caldi) */
+    --color-primary: #8a3324; /* Un rosso/marrone caldo per accenti (es. bottoni primari) */
+    --color-secondary: #a64d3b; /* Una tonalità leggermente più scura per hover */
+    --color-text-dark: #222222; /* Quasi nero per testo principale e titoli */
+    --color-text-medium: #666666; /* Grigio medio per testo secondario */
+    --color-text-light: #999999; /* Grigio chiaro per dettagli minori */
+    --color-background-light: #F8F8F8; /* Sfondo grigio molto chiaro, quasi bianco */
+    --color-background-white: #FFFFFF; /* Bianco puro per elementi prominenti */
+    --color-border: #E0E0E0; /* Bordi molto sottili e chiari */
+    --color-accent: #FFD700; /* Giallo (se vuoi mantenerlo per il logo "My") */
+    --color-error: #D9534F; /* Rosso per messaggi di errore */
+    --color-hover-bg-light: #F0F0F0; /* Sfondo leggero per hover (es. nel menu dropdown) */
 }
 
-/* Base Body & Typography */
+/* Base HTML Elements */
+html {
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
 body {
-    font-family: 'Montserrat', sans-serif; /* Font pulito e moderno, simile a MadTasty */
+    font-family: 'Inter', sans-serif; /* Ugmonk usa un font simile a Inter/Graphik */
+    /* Se vuoi usare un font simile a Montserrat che abbiamo usato prima, cambia a: */
+    /* font-family: 'Montserrat', sans-serif; */
     margin: 0;
     padding: 0;
-    line-height: 1.7; /* Aumentato per migliore leggibilità */
+    line-height: 1.6; /* Aumentato per migliore leggibilità */
     color: var(--color-text-dark);
     background-color: var(--color-background-white); /* Sfondo principale bianco */
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    font-size: 16px; /* Dimensione base del font */
 }
 
+/* Headings */
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Montserrat', sans-serif; /* Usiamo lo stesso font per coerenza, ma con pesi diversi */
-    color: var(--color-text-dark); /* I titoli sono scuri, non verdi */
+    font-family: 'Inter', sans-serif; /* Usa lo stesso font di body per coerenza, pesi diversi */
+    /* Se usi Montserrat: font-family: 'Montserrat', sans-serif; */
+    color: var(--color-text-dark);
+    margin-top: 0;
     margin-bottom: 0.8em;
-    font-weight: 700; /* Più audace per i titoli */
+    font-weight: 700; /* Audace per i titoli */
+    line-height: 1.2;
 }
 
 h2 {
-    font-size: 2.8em; /* Titoli più grandi e d'impatto */
+    font-size: 3em; /* Titoli di sezione grandi */
     text-align: center;
-    line-height: 1.2;
+    margin-bottom: 0.7em;
+    font-weight: 800; /* Extra bold per impatto */
+}
+
+h3 {
+    font-size: 1.8em;
+    font-weight: 700;
 }
 
 p {
     margin-bottom: 1em;
     font-size: 1.05em; /* Leggermente più grande per il corpo del testo */
+    color: var(--color-text-medium);
 }
 
+/* Links */
 a {
-    color: var(--color-primary);
+    color: var(--color-text-dark); /* Link scuri di default */
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 a:hover {
-    color: var(--color-secondary);
+    color: var(--color-primary); /* Colore accento all'hover */
 }
 
-/* Container generico per centrare il contenuto */
-.container {
-    max-width: 1100px; /* Leggermente più stretto per un look più controllato */
-    margin: 0 auto;
-    padding: 0 25px; /* Padding generoso */
-}
-
-/* Stile per i bottoni generici */
+/* Buttons */
 .btn {
     display: inline-block;
     background-color: var(--color-primary);
     color: var(--color-background-white);
-    padding: 14px 30px; /* Padding aumentato */
+    padding: 16px 32px; /* Padding generoso */
     border: none;
-    border-radius: 30px; /* Molto arrotondato, simile a MadTasty */
+    border-radius: 35px; /* Molto arrotondato */
     text-decoration: none;
-    font-weight: 600; /* Semibold */
+    font-weight: 600;
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
     cursor: pointer;
     font-size: 1.05em;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Leggera ombra */
+    text-align: center;
+    white-space: nowrap;
 }
 
 .btn:hover {
     background-color: var(--color-secondary);
-    transform: translateY(-3px); /* Effetto leggermente più pronunciato */
+    transform: translateY(-3px);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* Stili per la sidebar del carrello */
+.btn-secondary-outline {
+    background-color: transparent;
+    color: var(--color-text-dark);
+    border: 2px solid var(--color-border);
+    box-shadow: none;
+    padding: 14px 30px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary-outline:hover {
+    background-color: var(--color-hover-bg-light);
+    color: var(--color-text-dark);
+    border-color: var(--color-text-medium);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    transform: translateY(-2px);
+}
+
+/* Utility Classes */
+.container {
+    max-width: 1200px; /* Larghezza massima più ampia per il contenuto principale */
+    margin: 0 auto;
+    padding: 0 30px; /* Padding generoso sui lati */
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* Sidebar Carrello (uguale a prima, ma con variabili) */
 #sidebar-carrello {
     background: var(--color-background-white) !important;
     border-left: 1px solid var(--color-border) !important;
-    box-shadow: -6px 0 20px rgba(0,0,0,0.1) !important; /* Ombra più pronunciata */
-    padding: 30px !important; /* Padding aumentato */
+    box-shadow: -6px 0 20px rgba(0,0,0,0.1) !important;
+    padding: 30px !important;
     box-sizing: border-box;
 }
 
 #sidebar-carrello h3 {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Inter', sans-serif; /* O Montserrat */
     color: var(--color-text-dark);
     margin-top: 0;
     padding-bottom: 15px;
@@ -102,7 +154,7 @@ a:hover {
 }
 
 #sidebar-carrello button {
-    border-radius: 5px; /* Meno arrotondato qui per contrasto */
+    border-radius: 5px;
     padding: 10px 20px;
     font-weight: 600;
     transition: background-color 0.3s ease, transform 0.2s ease;
@@ -111,11 +163,11 @@ a:hover {
 #sidebar-carrello button[onclick="chiudiSidebar()"] {
     background: none;
     color: var(--color-text-dark);
-    font-size: 30px; /* Icona più grande */
+    font-size: 30px;
     float: right;
     border: none;
     padding: 0;
-    line-height: 1; /* Per allineare il simbolo 'x' */
+    line-height: 1;
 }
 
 #sidebar-carrello button[onclick="chiudiSidebar()"]:hover {
@@ -131,7 +183,7 @@ a:hover {
 }
 
 #sidebar-carrello button[onclick="svuotaCarrello()"]:hover {
-    background: #c9302c; /* Scurisce leggermente */
+    background: #c9302c;
     transform: translateY(-2px);
 }
 
@@ -152,12 +204,13 @@ a:hover {
     font-weight: 700;
 }
 
-/* Stili base per il footer */
+/* Footer (adattato allo stile Ugmonk) */
 footer {
-    background-color: var(--color-text-dark); /* Manteniamo scuro, come MadTasty ha sezioni scure */
-    color: var(--color-background-white);
+    background-color: var(--color-background-light); /* Sfondo chiaro per un footer pulito */
+    color: var(--color-text-medium);
     text-align: center;
-    padding: 30px; /* Padding aumentato */
+    padding: 50px 30px; /* Padding generoso */
     margin-top: auto;
-    font-size: 0.95em;
+    font-size: 0.9em;
+    border-top: 1px solid var(--color-border); /* Bordo superiore sottile */
 }

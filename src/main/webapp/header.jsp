@@ -2,20 +2,51 @@
 <%
     String username = (String) session.getAttribute("username");
     Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
-%>
-<%
     String activePage = (String) request.getAttribute("activePage");
-    if (activePage == null) {
-        activePage = "";
-    }
+    if (activePage == null) activePage = "";
 %>
 <link rel="stylesheet" href="styles/dropdown.css">
 <link rel="stylesheet" href="styles/styleHeader.css">
-<header>
-    <div class="header-top">
-        <img src="images/logo.png" alt="MyGarden Logo" class="logo">
-        <span class="site-title"><span class="yellow">My</span><span class="green">Garden</span></span>
 
+<header>
+    <!-- Il div header-content-wrapper ora gestisce la larghezza massima e il centraggio del contenuto -->
+    <div class="header-content-wrapper">
+        <!-- Logo -->
+        <a href="index.jsp" class="brand">MyGarden</a>
+
+        <!-- NAVBAR -->
+        <nav class="main-nav">
+            <ul class="nav-links">
+                <li><a href="index.jsp" id="signed">Home</a></li>
+
+                <% if (isAdmin != null && isAdmin) { %>
+                    <li><a href="<%= request.getContextPath() %>/product">Gestione Catalogo</a></li>
+                    <li><a href="admin/adminOrders.jsp">Gestione Ordini</a></li>
+                <% } else { %>
+                    <li><a href="#contattaci">Contattaci</a></li>
+                    <li class="dropdown">
+                        <a href="<%= request.getContextPath() %>/product" class="dropdown-toggle">Catalogo</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="product?categoria=Piante da Interno">Piante da Interno</a></li>
+                            <li><a href="product?categoria=Piante da Esterno">Piante da Esterno</a></li>
+                            <li><a href="product?categoria=Piante Aromatiche">Piante Aromatiche</a></li>
+                            <li><a href="product?categoria=Piante Fiorite">Piante Fiorite</a></li>
+                            <li><a href="product?categoria=Piante Grasse">Piante Grasse</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="carrello.jsp">Carrello</a></li>
+                    <li><a href="ordini.jsp">Ordini</a></li>
+                <% } %>
+
+                <% if (username != null) { %>
+                    <li><a href="Logout">Logout</a></li>
+                <% } else { %>
+                    <li><a href="login.jsp">Accedi</a></li>
+                <% } %>
+            </ul>
+        </nav>
+
+        <!-- ICONE -->
         <div class="header-icons">
             <a href="#" class="icon-link" title="Carrello" onclick="apriSidebarCarrello(event)">
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -43,37 +74,4 @@
             <% } %>
         </div>
     </div>
-
-    <nav class="main-nav">
-        <ul class="nav-links">
-            <li><a href="index.jsp" id="signed">Home</a></li>
-
-            <% if (isAdmin != null && isAdmin) { %>
-                <li><a href="<%= request.getContextPath() %>/product">Gestione Catalogo</a></li>
-                <li><a href="admin/adminOrders.jsp">Gestione Ordini</a></li>
-            <% } else { %>
-                <li><a href="#contattaci">Contattaci</a></li>
-
-                <li class="dropdown">
-                    <a href="<%= request.getContextPath() %>/product" class="dropdown-toggle">Catalogo</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="product?categoria=Piante da Interno">Piante da Interno</a></li>
-                        <li><a href="product?categoria=Piante da Esterno">Piante da Esterno</a></li>
-                        <li><a href="product?categoria=Piante Aromatiche">Piante Aromatiche</a></li>
-                        <li><a href="product?categoria=Piante Fiorite">Piante Fiorite</a></li>
-                        <li><a href="product?categoria=Piante Grasse">Piante Grasse</a></li>
-                    </ul>
-                </li>
-
-                <li><a href="carrello.jsp">Carrello</a></li>
-                <li><a href="ordini.jsp">Ordini</a></li>
-            <% } %>
-
-            <% if (username != null) { %>
-                <li><a href="Logout">Logout</a></li>
-            <% } else { %>
-                <li><a href="login.jsp">Accedi</a></li>
-            <% } %>
-        </ul>
-    </nav>
 </header>
