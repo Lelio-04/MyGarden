@@ -52,19 +52,19 @@
 
                  <div class="category-grid">
                      <a href="product?categoria=Piante da Interno" class="category-card">
-                         <img src="images/pianteInterno.jpg" alt="Piante da Interno">
+                         <img src="https://i.pinimg.com/736x/a4/46/45/a446450e863c1be420adbb2f664b53e9.jpg" alt="Piante da Interno">
                          <h3>Piante da Interno</h3>
                      </a>
                      <a href="product?categoria=Piante da Esterno" class="category-card">
-                         <img src="images/pianteEsterno.jpg" alt="Piante da Esterno">
+                         <img src="https://i.pinimg.com/1200x/c4/f2/1c/c4f21c38fbdefd12a514ed814a6e4cde.jpg" alt="Piante da Esterno">
                          <h3>Piante da Esterno</h3>
                      </a>
                      <a href="product?categoria=Piante Aromatiche" class="category-card">
-                         <img src="images/pianteAaromatiche.jpg" alt="Piante Aromatiche" >
+                         <img src="https://i.pinimg.com/1200x/3f/1f/89/3f1f894095e6d7494c10fe0d3b0aa551.jpg" alt="Piante Aromatiche" >
                          <h3>Piante Aromatiche</h3>
                      </a>
                      <a href="product?categoria=Piante Grasse" class="category-card">
-                         <img src="images/piantaGrassa.jpg" alt="Piante Grasse">
+                         <img src="https://i.pinimg.com/736x/5b/43/fd/5b43fd6ca8c6ddd5478b5924d91cf736.jpg" alt="Piante Grasse">
                          <h3>Piante Grasse</h3>
                      </a>
                  </div>
