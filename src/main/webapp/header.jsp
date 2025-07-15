@@ -3,15 +3,21 @@
     String username = (String) session.getAttribute("username");
     Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
 %>
-
+<%
+    String activePage = (String) request.getAttribute("activePage");
+    if (activePage == null) {
+        activePage = "";
+    }
+%>
 <link rel="stylesheet" href="styles/dropdown.css">
+<link rel="stylesheet" href="styles/styleHeader.css">
 <header>
     <div class="header-top">
         <img src="images/logo.png" alt="MyGarden Logo" class="logo">
         <span class="site-title"><span class="yellow">My</span><span class="green">Garden</span></span>
 
         <div class="header-icons">
-            <a href="cart" class="icon-link" title="Carrello">
+            <a href="#" class="icon-link" title="Carrello" onclick="apriSidebarCarrello(event)">
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="9" cy="21" r="1"></circle>
                     <circle cx="20" cy="21" r="1"></circle>

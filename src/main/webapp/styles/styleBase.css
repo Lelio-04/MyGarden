@@ -1,507 +1,163 @@
-/* =========================
-   CSS BASE - styleBase.css
-   Usare in tutte le pagine
-   Contiene header, nav, footer
-========================= */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* Palette Colori - Ispirata a MadTasty */
+:root {
+    --color-primary: #5cb85c; /* Un verde vibrante, simile al loro accento verde */
+    --color-secondary: #479a47; /* Un verde leggermente più scuro per hover */
+    --color-text-dark: #333333; /* Grigio scuro per il testo */
+    --color-text-light: #666666; /* Grigio più chiaro */
+    --color-background-light: #FDFDFD; /* Quasi bianco, molto pulito */
+    --color-background-white: #FFFFFF; /* Bianco puro */
+    --color-border: #EEEEEE; /* Bordi molto leggeri */
+    --color-accent: #FFD700; /* Giallo brillante per "My" nel logo, come loro usano un giallo acceso */
+    --color-error: #D9534F; /* Rosso per errori/svuota carrello */
+    --color-hover-bg-light: #F5F5F5; /* Sfondo leggero per hover (es. nel menu dropdown) */
 }
 
+/* Base Body & Typography */
 body {
-    font-family: 'Arial', sans-serif;
-    color: #333;
-    line-height: 1.6;
-    background: linear-gradient(135deg, #cdecc9, #e9f5e5);
-}
-
-/* ========== HEADER ========= */
-header {
-    background-color: #ffffff;
-    color: #000000;
-    padding: 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-}
-
-.header-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px 30px;
-    font-family: 'Arial Black', sans-serif;
-    height: 110px;
-    position: relative;
-}
-
-.logo {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
-
-.site-title {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #000;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-}
-
-.header-icons {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-    justify-content: flex-end;
-}
-
-.icon-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    color: #000;
-    padding: 5px;
-}
-
-.icon {
-    width: 32px;
-    height: 32px;
-    stroke: #000;
-    transition: transform 0.2s ease, stroke 0.2s ease;
-}
-
-.icon-link:hover .icon {
-    transform: scale(1.1);
-    stroke: #4a7c59;
-}
-
-/* ========== NAVBAR ========= */
-.main-nav {
-    background-color: #8CBF3F;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 999;
-}
-
-.nav-links {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    padding: 0;
-}
-
-.nav-links li {
+    font-family: 'Montserrat', sans-serif; /* Font pulito e moderno, simile a MadTasty */
     margin: 0;
-}
-
-.nav-links a {
-    display: block;
-    color: black;
-    text-decoration: none;
-    padding: 15px 25px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-family: 'Arial Black', sans-serif;
-    transition: all 0.3s ease;
-}
-
-.nav-links a:hover {
-    background: rgba(255,255,255,0.2);
-    transform: translateY(-2px);
-}
-
-/* ========== FOOTER ========= */
-footer {
-    background: #2d5016;
-    color: white;
-    text-align: center;
-    padding: 20px;
-    margin-top: auto;
-}
-
-/* ========== RESPONSIVE HEADER/FOOTER ========= */
-@media (max-width: 768px) {
-    .header-top {
-        padding: 10px 15px;
-        height: 80px;
-    }
-
-    .site-title {
-        font-size: 1.8rem;
-    }
-
-    .logo {
-        width: 50px;
-        height: 50px;
-    }
-
-    .nav-links {
-        flex-wrap: wrap;
-    }
-
-    .nav-links a {
-        padding: 12px 15px;
-        font-size: 0.9rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .header-top {
-        height: 70px;
-    }
-
-    .site-title {
-        font-size: 1.4rem;
-    }
-
-    .nav-links a {
-        padding: 10px 12px;
-        font-size: 0.8rem;
-    }
-}
-
-.icon {
-    width: 32px;
-    height: 32px;
-    stroke: #000;
-    transition: transform 0.2s ease, stroke 0.2s ease;
-}
-
-.icon-link:hover .icon {
-    transform: scale(1.1);
-    stroke: #4a7c59;
-}
-
-.logo {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
-
-.site-title {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #000;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-}
-
-.main-nav {
-    background-color: #8CBF3F;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-top: none;
-    z-index: 999;
-    /* La nav è direttamente sotto .header-top senza margin */
-}
-
-.nav-links {
-    list-style: none;
-    display: flex;
-    justify-content: center;
     padding: 0;
+    line-height: 1.7; /* Aumentato per migliore leggibilità */
+    color: var(--color-text-dark);
+    background-color: var(--color-background-white); /* Sfondo principale bianco */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-.nav-links li {
-    margin: 0;
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif; /* Usiamo lo stesso font per coerenza, ma con pesi diversi */
+    color: var(--color-text-dark); /* I titoli sono scuri, non verdi */
+    margin-bottom: 0.8em;
+    font-weight: 700; /* Più audace per i titoli */
 }
 
-.nav-links a {
-    display: block;
-    color: black;
-    text-decoration: none;
-    padding: 15px 25px;
-    transition: all 0.3s ease;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-family: 'Arial Black', sans-serif;
-}
-
-.nav-links a:hover {
-    background: rgba(255,255,255,0.2);
-    transform: translateY(-2px);
-}
-
-main {
-    min-height: calc(100vh - 200px);
-    /* Spazio per header-top (110px) + nav (circa 60px) = circa 170px */
-    margin-top: 170px;
-    padding-top: 20px;
-}
-
-.hero {
-    
-    background-image: url("https://wp-s.ru/wallpapers/10/10/547782981407972/giardino-giapponese-ponte-rosso-fiume-con-pietre-paesaggio.jpg");
-    background-size: cover;
+h2 {
+    font-size: 2.8em; /* Titoli più grandi e d'impatto */
     text-align: center;
-    padding: 100px 10px;
-    color: white;
+    line-height: 1.2;
 }
 
-.hero h2 {
-    font-size: 3rem;
-    margin-bottom: 20px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+p {
+    margin-bottom: 1em;
+    font-size: 1.05em; /* Leggermente più grande per il corpo del testo */
 }
 
-.hero p {
-    font-size: 1.3rem;
-    margin-bottom: 30px;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
 
+a:hover {
+    color: var(--color-secondary);
+}
+
+/* Container generico per centrare il contenuto */
+.container {
+    max-width: 1100px; /* Leggermente più stretto per un look più controllato */
+    margin: 0 auto;
+    padding: 0 25px; /* Padding generoso */
+}
+
+/* Stile per i bottoni generici */
 .btn {
     display: inline-block;
-    background: linear-gradient(45deg, #ff6b35, #f7931e);
-    color: white;
-    padding: 15px 30px;
-    text-decoration: none;
-    border-radius: 50px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    background-color: var(--color-primary);
+    color: var(--color-background-white);
+    padding: 14px 30px; /* Padding aumentato */
     border: none;
-    outline: none;
-}
-
-.btn-contact {
-   	display: block;
-    width: auto;
-    padding: 15px 30px;
-    font-size: 1rem;
-    margin: 20px auto 0;
-    background: linear-gradient(45deg, #ff6b35, #f7931e);
-    color: white;
+    border-radius: 30px; /* Molto arrotondato, simile a MadTasty */
     text-decoration: none;
-    border-radius: 50px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    border: none;
-    outline: none;
+    font-weight: 600; /* Semibold */
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    font-size: 1.05em;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Leggera ombra */
 }
 
 .btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-    background: linear-gradient(45deg, #e55a2b, #e0841a);
+    background-color: var(--color-secondary);
+    transform: translateY(-3px); /* Effetto leggermente più pronunciato */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-footer {
-    background: #2d5016;
+/* Stili per la sidebar del carrello */
+#sidebar-carrello {
+    background: var(--color-background-white) !important;
+    border-left: 1px solid var(--color-border) !important;
+    box-shadow: -6px 0 20px rgba(0,0,0,0.1) !important; /* Ombra più pronunciata */
+    padding: 30px !important; /* Padding aumentato */
+    box-sizing: border-box;
+}
+
+#sidebar-carrello h3 {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--color-text-dark);
+    margin-top: 0;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--color-border);
+    font-weight: 700;
+    font-size: 1.6em;
+}
+
+#sidebar-carrello button {
+    border-radius: 5px; /* Meno arrotondato qui per contrasto */
+    padding: 10px 20px;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#sidebar-carrello button[onclick="chiudiSidebar()"] {
+    background: none;
+    color: var(--color-text-dark);
+    font-size: 30px; /* Icona più grande */
+    float: right;
+    border: none;
+    padding: 0;
+    line-height: 1; /* Per allineare il simbolo 'x' */
+}
+
+#sidebar-carrello button[onclick="chiudiSidebar()"]:hover {
+    color: var(--color-error);
+    transform: none;
+}
+
+#sidebar-carrello button[onclick="svuotaCarrello()"] {
+    background: var(--color-error);
     color: white;
-    text-align: center;
-    padding: 20px;
-    margin-top: auto;
+    border: none;
+    border-radius: 5px;
 }
 
-.contact-section {
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    padding: 80px 0;
-    margin-top: 60px;
-}
-
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.contact-section h2 {
-    text-align: center;
-    font-size: 2.5rem;
-    color: #2d5016;
-    margin-bottom: 15px;
-    font-weight: bold;
-}
-
-.contact-section p {
-    text-align: center;
-    font-size: 1.2rem;
-    color: #666;
-    margin-bottom: 40px;
-}
-
-.contact-form {
-    background: white;
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    border: 1px solid #e0e0e0;
-}
-
-.form-group {
-    margin-bottom: 25px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    color: #2d5016;
-    font-weight: bold;
-    font-size: 1.1rem;
-}
-
-.form-group input,
-.form-group textarea {
-    width: 100%;
-    padding: 15px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-family: inherit;
-    transition: all 0.3s ease;
-    background: #fafafa;
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: #4a7c59;
-    background: white;
-    box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.1);
-}
-
-.form-group textarea {
-    resize: vertical;
-    min-height: 120px;
-}
-
-.btn-contact {
-    width: 100%;
-    margin-top: 20px;
-    padding: 18px;
-    font-size: 1.1rem;
-}
-
-.btn-contact:hover {
+#sidebar-carrello button[onclick="svuotaCarrello()"]:hover {
+    background: #c9302c; /* Scurisce leggermente */
     transform: translateY(-2px);
 }
 
-@media (max-width: 768px) {
-    .header-top {
-        padding: 10px 15px;
-        height: 80px; /* Altezza ridotta per mobile */
-    }
-
-    .site-title {
-        font-size: 1.8rem;
-    }
-
-    .logo {
-        width: 50px;
-        height: 50px;
-    }
-
-    .nav-links {
-        flex-wrap: wrap;
-    }
-
-    .nav-links a {
-        padding: 12px 15px;
-        font-size: 0.9rem;
-    }
-
-    main {
-        margin-top: 140px; /* Adattato per header più piccolo */
-    }
-
-    .hero h2 {
-        font-size: 2.2rem;
-    }
-
-    .hero p {
-        font-size: 1.1rem;
-    }
-
-    .contact-section {
-        padding: 60px 0;
-    }
-
-    .contact-section h2 {
-        font-size: 2rem;
-    }
-
-    .contact-form {
-        padding: 30px 20px;
-    }
+#sidebar-carrello hr {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 25px 0;
 }
 
-@media (max-width: 480px) {
-    .header-top {
-        height: 70px; /* Altezza ancora più ridotta */
-    }
-
-    .site-title {
-        font-size: 1.4rem;
-    }
-
-    .nav-links {
-        justify-content: center;
-    }
-
-    .nav-links a {
-        padding: 10px 12px;
-        font-size: 0.8rem;
-    }
-
-    main {
-        margin-top: 130px; /* Adattato per header molto piccolo */
-    }
-
-    .contact-section {
-        padding: 40px 0;
-    }
-
-    .contact-section h2 {
-        font-size: 1.8rem;
-    }
-
-    .contact-form {
-        padding: 25px 15px;
-    }
+#carrello-items {
+    margin-bottom: 20px;
+    min-height: 50px;
 }
 
-.site-title {
-  font-size: 3rem;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+#carrello-totale {
+    font-size: 1.4em;
+    color: var(--color-primary);
+    font-weight: 700;
 }
 
-.site-title .yellow {
-  color: rgb(227, 170, 37); /* giallo oro */
-}
-
-.site-title .green {
-  color: rgb(37, 85, 45); /* verde lime */
-}
-
-
-
-.nav-links a{
-	color: white;
-}
-
-#signed{
-	color: rgb(37, 85, 45);
+/* Stili base per il footer */
+footer {
+    background-color: var(--color-text-dark); /* Manteniamo scuro, come MadTasty ha sezioni scure */
+    color: var(--color-background-white);
+    text-align: center;
+    padding: 30px; /* Padding aumentato */
+    margin-top: auto;
+    font-size: 0.95em;
 }

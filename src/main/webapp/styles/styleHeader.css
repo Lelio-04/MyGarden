@@ -1,0 +1,297 @@
+/* Header generale */
+header {
+    background-color: var(--color-background-white);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Ombra più morbida e diffusa */
+    padding: 20px 25px; /* Padding aumentato */
+    border-bottom: none; /* Rimuoviamo il bordo inferiore, la shadow è sufficiente */
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1100px; /* Allineato al container generale del body */
+    margin: 0 auto;
+    padding-bottom: 20px; /* Più spazio sotto la top bar */
+    border-bottom: 1px solid var(--color-border); /* Separatore più leggero */
+}
+
+.logo {
+    height: 55px; /* Logo leggermente più grande */
+    margin-right: 20px; /* Più spazio a destra del logo */
+}
+
+.site-title {
+    font-family: 'Montserrat', sans-serif; /* Cambiato a Montserrat */
+    font-size: 2.5em; /* Dimensioni più grandi per il titolo */
+    font-weight: 800; /* Extra-bold per impatto */
+    flex-grow: 1;
+    white-space: nowrap;
+}
+
+/* Colori per il titolo del sito (dovrebbero essere in styleBase.css, ma li ripeto qui per chiarezza se non li hai ancora lì) */
+.site-title .yellow {
+    color: var(--color-accent); /* Giallo brillante per "My" */
+}
+
+.site-title .green {
+    color: var(--color-primary); /* Verde vibrante per "Garden" */
+}
+
+.header-icons {
+    display: flex;
+    gap: 25px; /* Spazio aumentato tra le icone */
+}
+
+.icon-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-light); /* Colore icona più chiaro di default */
+    transition: color 0.3s ease;
+}
+
+.icon-link:hover {
+    color: var(--color-primary); /* Verde vibrante all'hover */
+}
+
+.icon-link .icon {
+    width: 30px; /* Icone più grandi per maggiore visibilità */
+    height: 30px;
+    stroke: currentColor;
+}
+
+/* Main Navigation */
+.main-nav {
+    margin-top: 20px; /* Più spazio sopra la navigazione */
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px; /* Spazio maggiore tra gli elementi del menu */
+}
+
+.nav-links li a {
+    display: block;
+    padding: 12px 0; /* Padding verticale aumentato */
+    color: var(--color-text-dark);
+    font-weight: 600; /* Semibold */
+    font-size: 1.1em; /* Testo navigazione leggermente più grande */
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.nav-links li a:hover {
+    color: var(--color-primary);
+}
+
+/* Sottolineatura animata all'hover e per active */
+.nav-links li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 3px; /* Sottolineatura più spessa */
+    bottom: -5px; /* Spostata leggermente più in basso */
+    left: 0;
+    background-color: var(--color-primary);
+    transition: width 0.3s ease-in-out;
+}
+
+.nav-links li a:hover::after,
+.nav-links li a.active::after {
+    width: 100%;
+}
+
+/* Stili per il Dropdown Menu */
+.dropdown {
+    position: relative;
+    /* Rimuovi padding-bottom e margin-bottom da qui, li spostiamo */
+}
+
+.dropdown-toggle::after {
+    content: ' \25BE'; /* Freccetta verso il basso */
+    font-size: 0.8em;
+    margin-left: 8px; /* Più spazio per la freccetta */
+    transition: transform 0.3s ease; /* Transizione per la freccetta */
+}
+
+.dropdown:hover .dropdown-toggle::after {
+    transform: rotate(180deg); /* Ruota la freccetta all'apertura */
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: var(--color-background-white);
+    min-width: 220px; /* Larghezza minima aumentata */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1); /* Ombra più pronunciata */
+    z-index: 1000;
+    list-style: none;
+    padding: 10px 0;
+    border-radius: 8px; /* Angoli più arrotondati */
+    border: 1px solid var(--color-border);
+
+    /* --- INIZIO NUOVE REGOLE PER EVITARE CHIUSURA PREMATURA --- */
+    margin-top: 0; /* Assicurati che non ci sia margine superiore predefinito */
+    padding-top: 15px; /* Aggiungi padding in alto al menu stesso */
+    top: calc(100% - 10px); /* Sposta il menu verso l'alto per sovrapporsi leggermente al link */
+    /* --- FINE NUOVE REGOLE --- */
+
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    opacity: 0; /* Partenza con opacità 0 */
+    visibility: hidden; /* Nascosto da screen reader */
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+    opacity: 1; /* Appare con fade-in */
+    visibility: visible;
+    transform: translateX(-50%) translateY(0); /* Nessun movimento extra */
+}
+
+.dropdown-menu li a {
+    color: var(--color-text-dark);
+    padding: 12px 25px; /* Padding aumentato */
+    text-decoration: none;
+    display: block;
+    font-weight: 500; /* Peso normale per i sub-link */
+    font-size: 1.05em;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-menu li a:hover {
+    background-color: var(--color-hover-bg-light); /* Sfondo molto leggero all'hover */
+    color: var(--color-primary); /* Testo verde all'hover */
+}
+
+
+/* Media Queries per la responsività */
+@media (max-width: 992px) {
+    header {
+        padding: 15px 20px;
+    }
+    .header-top {
+        padding-bottom: 15px;
+    }
+    .site-title {
+        font-size: 2.2em;
+    }
+    .nav-links {
+        gap: 25px;
+    }
+    .nav-links li a {
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-top {
+        flex-direction: column;
+        text-align: center;
+        padding-bottom: 10px;
+    }
+
+    .logo {
+        height: 45px;
+        margin-bottom: 10px;
+        margin-right: 0;
+    }
+
+    .site-title {
+        font-size: 2em;
+        margin-bottom: 15px;
+    }
+
+    .header-icons {
+        margin-top: 10px;
+        gap: 20px;
+    }
+
+    .icon-link .icon {
+        width: 26px;
+        height: 26px;
+    }
+
+    .main-nav {
+        margin-top: 10px;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .nav-links li {
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-links li a {
+        padding: 15px 0; /* Padding verticale aumentato per i link su mobile */
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .nav-links li:last-child a {
+        border-bottom: none;
+    }
+
+    .nav-links li a::after {
+        display: none; /* Rimuovi l'effetto sottolineatura su mobile */
+    }
+
+    /* Dropdown su mobile: completamente statico */
+    .dropdown-menu {
+        position: static;
+        width: 100%;
+        box-shadow: none;
+        border: none;
+        border-top: 1px solid var(--color-border);
+        border-radius: 0;
+        transform: translateX(0);
+        margin-top: 0;
+        opacity: 1; /* Sempre visibile (se toggled via JS) */
+        visibility: visible;
+        /* Rimuovi padding-top e top per mobile */
+        padding-top: 10px; /* Reset al padding originale */
+        top: auto;
+    }
+    /* Disabilita l'apertura hover su mobile */
+    .dropdown:hover .dropdown-menu {
+        display: none; /* Questo nasconderà il dropdown per hover */
+    }
+    /* La freccetta si disattiva se il dropdown è gestito via JS su mobile */
+    .dropdown-toggle::after {
+        transform: none !important; /* Reset della rotazione */
+    }
+    /* Potresti voler aggiungere una classe 'open' gestita via JS per mostrare/nascondere il dropdown su click mobile */
+}
+
+@media (max-width: 480px) {
+    .site-title {
+        font-size: 1.8em;
+    }
+    .logo {
+        height: 40px;
+    }
+    .header-icons {
+        gap: 15px;
+    }
+    .icon-link .icon {
+        width: 24px;
+        height: 24px;
+    }
+    .nav-links li a {
+        font-size: 0.95em;
+    }
+}

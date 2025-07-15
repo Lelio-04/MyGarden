@@ -1,134 +1,446 @@
-/* styleHomePage.css - Stili specifici per la homepage */
-
-main {
-    min-height: calc(100vh - 200px);
-    margin-top: 150px;
-    padding-top: 0px;
-}
-
+/* Hero Section */
 .hero {
-    /*background: linear-gradient(rgba(45,80,22,0.7), rgba(74,124,89,0.7)),
-                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%234a7c59" width="1200" height="600"/><path fill="%235a8c69" d="M0 300L50 325C100 350 200 400 300 425C400 450 500 450 600 425C700 400 800 350 900 325C1000 300 1100 300 1150 300L1200 300V600H1150C1100 600 1000 600 900 600C800 600 700 600 600 600C500 600 400 600 300 600C200 600 100 600 50 600H0V300Z"/></svg>') no-repeat center center;
-    */
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://www.planetasrl.net/wp-content/uploads/2025/01/Progettazione-giardini_1-scaled.jpg");
-    
-    background-size: cover;
+    background: url('../images/hero-background.jpg') no-repeat center center/cover;
+    color: var(--color-background-white);
     text-align: center;
-    padding: 140px 20px;
-    color: white;
-    height:750px;
+    padding: 150px 25px; /* Padding massiccio per molto spazio */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 600px; /* Altezza minima considerevole */
 }
 
-.hero .evid{
-	text-align: center;
-	background-color: transparent;
-	border-radius: 20px;
-	width: 40%;
-  	margin: 0 auto;
-  	height: 230px;
+.hero::before { /* Overlay leggermente più scuro */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.45);
+    z-index: 1;
 }
 
-.hero h2 {
-    font-size: 3rem;
-    margin-bottom: 20px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+.evid {
+    position: relative;
+    z-index: 2;
+    max-width: 800px; /* Larghezza maggiore per il testo */
 }
 
-.hero p {
-    font-size: 1.3rem;
-    margin-bottom: 20px;
-    max-width: 600px;
+.evid h2 {
+    font-size: 4em; /* Titolo enorme per impatto */
+    margin-bottom: 25px;
+    color: var(--color-background-white);
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.6); /* Ombra più definita */
+    font-weight: 800; /* Extra bold */
+}
+
+.evid p {
+    font-size: 1.5em; /* Testo più grande sotto il titolo */
+    margin-bottom: 40px;
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 500; /* Leggermente più spesso */
+}
+
+.hero .btn {
+    font-size: 1.2em; /* Bottone più grande */
+    padding: 18px 40px;
+    background-color: var(--color-primary);
+    border: 2px solid var(--color-background-white); /* Bordo per contrasto */
+    border-radius: 35px; /* Ancora più arrotondato */
+}
+
+.hero .btn:hover {
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
+    transform: translateY(-4px); /* Effetto hover più evidente */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Contact Section */
+.contact-section {
+    background-color: var(--color-background-white); /* Sfondo bianco puro */
+    padding: 80px 25px; /* Molto spazio */
+    text-align: center;
+}
+
+.contact-section h2 {
+    color: var(--color-text-dark); /* Titolo scuro, non verde */
+    margin-bottom: 15px;
+    font-size: 3em;
+}
+
+.contact-section p {
+    color: var(--color-text-light);
+    margin-bottom: 40px;
+    font-size: 1.2em;
+    max-width: 700px; /* Limita larghezza del paragrafo */
     margin-left: auto;
     margin-right: auto;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
 
-.btn {
-    display: inline-block;
-    background: linear-gradient(45deg, #ff6b35, #f7931e);
-    color: white;
-    padding: 15px 30px;
-    text-decoration: none;
-    border-radius: 50px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+.contact-form {
+    max-width: 650px; /* Leggermente più largo */
+    margin: 0 auto;
+    padding: 50px; /* Padding generoso */
+    border: 1px solid var(--color-border);
+    border-radius: 10px; /* Angoli leggermente arrotondati */
+    background-color: var(--color-background-white); /* Sfondo del form bianco */
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08); /* Ombra più morbida */
+    text-align: left;
 }
 
-.btn-contact {
-   	display: block;
-    width: auto;
-    padding: 15px 30px;
-    font-size: 1rem;
-    margin: 20px auto 0;
-    background: linear-gradient(45deg, #ff6b35, #f7931e);
-    color: white;
-    text-decoration: none;
-    border-radius: 50px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    border: none;
+.contact-form .form-group {
+    margin-bottom: 25px; /* Più spazio tra i campi */
+}
+
+.contact-form label {
+    display: block;
+    margin-bottom: 10px; /* Più spazio sotto la label */
+    font-weight: 600; /* Semibold */
+    color: var(--color-text-dark);
+    font-size: 1.05em;
+}
+
+.contact-form input[type="email"],
+.contact-form textarea {
+    width: 100%;
+    padding: 15px; /* Padding aumentato */
+    border: 1px solid var(--color-border);
+    border-radius: 8px; /* Angoli più arrotondati */
+    font-size: 1.05em;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: var(--color-background-light); /* Sfondo leggero per i campi input */
+}
+
+.contact-form input[type="email"]:focus,
+.contact-form textarea:focus {
+    border-color: var(--color-primary);
     outline: none;
+    box-shadow: 0 0 0 4px rgba(92, 184, 92, 0.25); /* Ombra focus con colore primario */
 }
 
+.contact-form textarea {
+    resize: vertical;
+    min-height: 150px; /* Min-height maggiore per la textarea */
+}
 
-.btn:hover {
+.contact-form .btn-contact {
+    display: block;
+    width: 100%;
+    background-color: var(--color-primary);
+    color: var(--color-background-white);
+    padding: 18px; /* Padding aumentato */
+    border: none;
+    border-radius: 30px; /* Molto arrotondato */
+    font-size: 1.15em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form .btn-contact:hover {
+    background-color: var(--color-secondary);
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-    background: linear-gradient(45deg, #e55a2b, #e0841a);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* Responsive styles */
-@media (max-width: 768px) {
-    .hero h2 {
-        font-size: 2.2rem;
+/* Media Queries per la responsività */
+@media (max-width: 992px) {
+    h2 {
+        font-size: 2.5em;
     }
+    .hero {
+        padding: 120px 25px;
+        min-height: 500px;
+    }
+    .evid h2 {
+        font-size: 3.2em;
+    }
+    .evid p {
+        font-size: 1.3em;
+    }
+    .contact-section {
+        padding: 60px 25px;
+    }
+    .contact-form {
+        padding: 35px;
+    }
+}
 
-    .hero p {
-        font-size: 1.1rem;
+@media (max-width: 768px) {
+    h2 {
+        font-size: 2em;
+    }
+    .hero {
+        padding: 100px 20px;
+        min-height: 450px;
+    }
+    .evid h2 {
+        font-size: 2.8em;
+    }
+    .evid p {
+        font-size: 1.1em;
+    }
+    .hero .btn, .contact-form .btn-contact {
+        padding: 15px 30px;
+        font-size: 1.1em;
+    }
+    .contact-section {
+        padding: 40px 20px;
+    }
+    .contact-form {
+        padding: 25px;
+    }
+    /* Regolazioni per la sidebar su schermi piccoli */
+    #sidebar-carrello {
+        width: 100% !important;
+        left: 0 !important;
+        right: auto !important;
     }
 }
 
 @media (max-width: 480px) {
-    .hero h2 {
-        font-size: 1.8rem;
+    h2 {
+        font-size: 1.8em;
     }
-
-    .hero p {
-        font-size: 1rem;
+    .hero {
+        padding: 80px 15px;
+        min-height: 400px;
     }
+    .evid h2 {
+        font-size: 2.2em;
+    }
+    .evid p {
+        font-size: 1em;
+    }
+    .hero .btn, .contact-form .btn-contact {
+        padding: 12px 25px;
+        font-size: 1em;
+        border-radius: 25px;
+    }
+    .contact-form {
+        padding: 15px;
+    }
+}
+/* ... (Codice esistente per Hero Section e Contact Section) ... */
 
-    .btn {
-        padding: 12px 24px;
-        font-size: 0.9rem;
+/* NUOVA SEZIONE: Featured Categories / Esplora il Nostro Mondo Verde */
+.featured-categories-section {
+    background-color: var(--color-background-white); /* Sfondo bianco */
+    padding: 80px 25px; /* Ampio padding */
+    text-align: center;
+}
+
+.featured-categories-section h2 {
+    color: var(--color-text-dark);
+    margin-bottom: 15px;
+    font-size: 3em;
+}
+
+.featured-categories-section p {
+    color: var(--color-text-light);
+    margin-bottom: 50px; /* Spazio sotto la descrizione */
+    font-size: 1.2em;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Griglia responsiva */
+    gap: 30px; /* Spazio tra le card */
+    max-width: 1000px; /* Limita larghezza della griglia */
+    margin: 0 auto;
+}
+
+.category-card {
+    background-color: var(--color-background-white);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    overflow: hidden; /* Assicura che l'immagine non "sconfini" */
+    text-decoration: none;
+    color: var(--color-text-dark);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 20px; /* Spazio sotto il testo */
+}
+
+.category-card:hover {
+    transform: translateY(-8px); /* Effetto hover di sollevamento */
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1); /* Ombra più pronunciata all'hover */
+}
+
+.category-card img {
+    width: 100%;
+    height: 200px; /* Altezza fissa per le immagini */
+    object-fit: cover; /* Copre l'area mantenendo le proporzioni */
+    margin-bottom: 15px;
+    transition: transform 0.4s ease;
+}
+
+.category-card:hover img {
+    transform: scale(1.05); /* Zoom leggero sull'immagine all'hover */
+}
+
+.category-card h3 {
+    font-size: 1.4em;
+    margin-bottom: 0;
+    color: var(--color-text-dark);
+    font-weight: 700;
+    text-align: center;
+    padding: 0 15px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.btn-secondary-outline {
+    background-color: transparent;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+    box-shadow: none;
+    padding: 12px 28px;
+}
+
+.btn-secondary-outline:hover {
+    background-color: var(--color-primary);
+    color: var(--color-background-white);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+
+/* NUOVA SEZIONE: Why Choose Us / Perché Scegliere MyGarden */
+.why-choose-us-section {
+    background-color: var(--color-background-light); /* Sfondo leggermente grigio per differenziare */
+    padding: 80px 25px;
+    text-align: center;
+}
+
+.why-choose-us-section h2 {
+    color: var(--color-text-dark);
+    margin-bottom: 15px;
+    font-size: 3em;
+}
+
+.why-choose-us-section p {
+    color: var(--color-text-light);
+    margin-bottom: 50px;
+    font-size: 1.2em;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 40px; /* Spazio tra gli elementi delle feature */
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.feature-item {
+    background-color: var(--color-background-white);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px); /* Leggero sollevamento all'hover */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.feature-item img {
+    height: 70px; /* Dimensione delle icone delle feature */
+    width: 70px;
+    object-fit: contain;
+    margin-bottom: 20px;
+}
+
+.feature-item h3 {
+    font-size: 1.5em;
+    color: var(--color-primary); /* Titolo verde per le feature */
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.feature-item p {
+    font-size: 1em;
+    color: var(--color-text-light);
+    margin-bottom: 0;
+}
+
+/* Media Queries per le nuove sezioni */
+@media (max-width: 992px) {
+    .featured-categories-section, .why-choose-us-section {
+        padding: 60px 20px;
+    }
+    .category-grid, .features-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 25px;
+    }
+    .category-card img {
+        height: 180px;
+    }
+    .feature-item img {
+        height: 60px;
+        width: 60px;
     }
 }
 
-
-.site-title {
-  font-size: 3rem;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+@media (max-width: 768px) {
+    .featured-categories-section, .why-choose-us-section {
+        padding: 50px 15px;
+    }
+    .featured-categories-section h2, .why-choose-us-section h2 {
+        font-size: 2.5em;
+    }
+    .featured-categories-section p, .why-choose-us-section p {
+        font-size: 1.1em;
+    }
+    .category-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
+    }
+    .category-card img {
+        height: 150px;
+    }
+    .feature-item h3 {
+        font-size: 1.3em;
+    }
 }
 
-.site-title .yellow {
-  color: rgb(227, 170, 37); /* giallo oro */
-}
-
-.site-title .green {
-  color: rgb(37, 85, 45); /* verde lime */
-}
-
-
-
-.nav-links a{
-	color: white;
-}
-
-#signed{
-	color: rgb(37, 85, 45);
+@media (max-width: 480px) {
+    .featured-categories-section h2, .why-choose-us-section h2 {
+        font-size: 2em;
+    }
+    .featured-categories-section p, .why-choose-us-section p {
+        font-size: 1em;
+    }
+    .category-grid {
+        grid-template-columns: 1fr; /* Una colonna su schermi molto piccoli */
+        gap: 20px;
+    }
+    .category-card img {
+        height: 200px; /* Ritorna a un'altezza maggiore per la singola colonna */
+    }
+    .features-grid {
+        grid-template-columns: 1fr; /* Una colonna su schermi molto piccoli */
+        gap: 30px;
+    }
+    .feature-item {
+        padding: 25px;
+    }
 }
