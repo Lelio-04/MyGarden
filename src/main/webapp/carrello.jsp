@@ -255,22 +255,26 @@ tr.appendChild(tdQty);
 	}
 
 	function rimuoviDalCarrello(productCode) {
-	      fetch('remove-from-cart', {
-	        method: 'POST',
-	        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-	        body: 'productCode=' + encodeURIComponent(productCode)
-	      })
-	      .then(res => {
-	        if (!res.ok) throw new Error('Errore nella rimozione dal carrello');
-	        return res.json();
-	      })
-	      .then(carrello => aggiornaCarrello(carrello))
-	      .catch(err => {
-	        console.error(err);
-	        alert('Errore durante la rimozione dal carrello');
-	      });
-	    }
-
+		  fetch('remove-from-cart', {
+		    method: 'POST',
+		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+		    body: 'productCode=' + encodeURIComponent(productCode)
+		  })
+		  .then(res => {
+		    if (!res.ok) throw new Error('Errore nella rimozione dal carrello');
+		    // Ignora la risposta, fai sempre fetch del carrello aggiornato
+		    return fetch('GetCartServlet');
+		  })
+		  .then(res => {
+		    if (!res.ok) throw new Error('Errore nel recupero del carrello');
+		    return res.json();
+		  })
+		  .then(carrello => aggiornaCarrello(carrello))
+		  .catch(err => {
+		    console.error(err);
+		    alert('Errore durante la rimozione dal carrello');
+		  });
+		}
 
 	function svuotaCarrello() {
 	  fetch('clear-cart', {
