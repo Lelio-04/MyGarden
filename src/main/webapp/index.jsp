@@ -19,11 +19,13 @@
  <head>
      <meta charset="UTF-8">
      <title>MyGarden - Home</title>
-     <link rel="stylesheet" href="styles/styleBase.css">
-     <link rel="stylesheet" href="styles/styleHeader.css">
      <link rel="stylesheet" href="styles/styleHomePage.css">
+     <link rel="stylesheet" href="styles/styleSidebar.css">
      <link rel="icon" href="images/favicon.png" type="image/png">
-     
+      <script>
+      var isLoggedIn = <%= (username != null) ? "true" : "false" %>;
+    </script>
+    <script src="scripts/sidebar.js" defer></script>
  </head>
  <body>
 
@@ -32,8 +34,8 @@
     
     <section class="video-hero">
 	    <video autoplay muted loop playsinline >
-	        <source src="video/home-banner.mp4" type="video/mp4">
-	        Il tuo browser non supporta il tag video.
+	        <source src="video/home-banner.mp4" type="video/mp4">à
+
 	    </video>
 	    <div class="video-overlay">
 	        <h1>Benvenuto su MyGarden</h1>
@@ -66,6 +68,14 @@
                      <a href="product?categoria=Piante Grasse" class="category-card">
                          <img src="https://i.pinimg.com/736x/5b/43/fd/5b43fd6ca8c6ddd5478b5924d91cf736.jpg" alt="Piante Grasse">
                          <h3>Piante Grasse</h3>
+                     </a>
+                     <a href="product?categoria=Piante Fiorite" class="category-card">
+                         <img src="https://i.pinimg.com/736x/b8/e3/db/b8e3db14863858eaa31e23f1fe9862ce.jpg" alt="Piante Grasse">
+                         <h3>Fiori</h3>
+                     </a>
+                     <a href="product?categoria=Attrezzi" class="category-card">
+                         <img src="https://i.pinimg.com/736x/a9/39/a7/a939a773ec750ecef4d0352998e728af.jpg" alt="Piante Grasse">
+                         <h3>Attrezzi</h3>
                      </a>
                  </div>
                  <div class="text-center" style="margin-top: 40px;">
@@ -119,23 +129,7 @@
          </section>
          <% } %>
      </main>
-     <div id="sidebar-carrello" style="display:none; position: fixed; right: 0; top: 0; width: 350px; height: 100vh; background: white; border-left: 1px solid #ccc; padding: 20px; overflow-y: auto; z-index: 10000; box-shadow: -2px 0 10px rgba(0,0,0,0.2);">
-         <button onclick="chiudiSidebar()" style="float:right; font-size: 20px; border:none; background:none; cursor:pointer;">&times;</button>
-         <h3>🛒 Il tuo carrello</h3>
-         <div id="carrello-items"></div>
-         <hr>
-         <strong>Totale: €<span id="carrello-totale">0.00</span></strong>
-         <br><br>
-         <button onclick="svuotaCarrello()" style="background:#e53935; color:white; border:none; padding:10px; cursor:pointer; border-radius:5px;">Svuota Carrello</button>
 
-         <div id="checkout-section" style="margin-top: 20px; text-align: center;"></div>
-     </div>
-
- <script>
-   const isLoggedIn = <%= (username != null) ? "true" : "false" %>;
- </script>
- <script src="scripts/sidebar.js"></script>
     <jsp:include page="footer.jsp" />
-
  </body>
  </html>

@@ -14,7 +14,7 @@
 <head>
     <meta charset="UTF-8">
     <title><%= product.getName() %> - Dettaglio</title>
-    <link rel="stylesheet" href="styles/styleBase.css">
+    <link rel="stylesheet" href="styles/styleSidebar.css">
     <link rel="stylesheet" href="styles/styleDettaglio.css">
     <style>
         .not-available {
@@ -47,7 +47,12 @@
 		.sidebar-carrello.attiva {
 		  right: 0; /* entra in vista */
 		}
-</style>
+    </style>
+    <script>
+	  const isLoggedIn = <%= (username != null) ? "true" : "false" %>;
+	</script>
+	<script src="scripts/sidebar.js"></script>
+    <%-- Ensure your custom modal HTML structure is present somewhere, e.g., in header.jsp or directly here --%>
     
 </head>
 <body>
@@ -68,12 +73,17 @@
 		    <div class="quantity-section">
 		        <div class="quantity-row">
 		            <label for="quantity">Quantità:</label>
-		            <input type="number" id="quantity" name="quantity" value="1" min="1" max="<%= product.getQuantity() %>" required>
+		            <input type="number" id="qty-<%= product.getCode() %>" name="quantity" value="1" min="1" max="<%= product.getQuantity() %>" required>
 		        </div>
 		    </div>
-		    <button 
-		        onclick="aggiungiAlCarrelloDettaglio(<%= product.getCode() %>, <%= product.getQuantity() %>)" 
-		        class="add-to-cart-btn">
+		    <button
+                class="add-to-cart-btn"
+                data-product-id="<%= product.getCode() %>"
+                data-product-name="<%= product.getName().replace("\"", "&quot;").replace("'", "&#39;") %>"
+                data-product-price="<%= String.format(java.util.Locale.US, "%.2f", product.getPrice()) %>"
+                data-product-image="<%= product.getImage().replace("\"", "&quot;").replace("'", "&#39;") %>"
+                data-max-qty="<%= product.getQuantity() %>"
+            >
 		        Aggiungi al carrello
 		    </button>
 		<% } else { %>
@@ -85,25 +95,7 @@
 </main>
 
 <jsp:include page="footer.jsp" />
-<!-- Sidebar Carrello -->
-<div id="sidebar-carrello" class="sidebar-carrello">
-    <button onclick="chiudiSidebar()" style="float:right; font-size: 20px; border:none; background:none; cursor:pointer;">&times;</button>
-    <h3>🛒 Il tuo carrello</h3>
-    <div id="carrello-items"></div>
-    <hr>
-    <strong>Totale: €<span id="carrello-totale">0.00</span></strong>
-    <br><br>
-    <button onclick="svuotaCarrello()" style="background:#e53935; color:white; border:none; padding:10px; cursor:pointer; border-radius:5px;">Svuota Carrello</button>
-    
-    <!-- Sezione acquisto o login -->
-    <div id="checkout-section" style="margin-top: 20px; text-align: center;"></div>
-</div>
 
-<script>
-  // Passa lo stato di login da JSP a JS
-  const isLoggedIn = <%= (username != null) ? "true" : "false" %>;
-</script>
-<script src="scripts/sidebarDetails.js"></script>
 
 </body>
 </html>

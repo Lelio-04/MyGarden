@@ -1,3 +1,314 @@
+/* -- Ugmonk-like Palette & Base Styles -- */
+
+:root {
+    /* Colori Ugmonk (toni neutri e caldi) */
+    --color-primary: #8a3324; /* Un rosso/marrone caldo per accenti (es. bottoni primari) */
+    --color-secondary: #a64d3b; /* Una tonalità leggermente più scura per hover */
+    --color-text-dark: #222222; /* Quasi nero per testo principale e titoli */
+    --color-text-medium: #666666; /* Grigio medio per testo secondario */
+    --color-text-light: #999999; /* Grigio chiaro per dettagli minori */
+    --color-background-light: #F8F8F8; /* Sfondo grigio molto chiaro, quasi bianco */
+    --color-background-white: #FFFFFF; /* Bianco puro per elementi prominenti */
+    --color-border: #E0E0E0; /* Bordi molto sottili e chiari */
+    --color-accent: #FFD700; /* Giallo (se vuoi mantenerlo per il logo "My") */
+    --color-error: #D9534F; /* Rosso per messaggi di errore */
+    --color-hover-bg-light: #F0F0F0; /* Sfondo leggero per hover (es. nel menu dropdown) */
+}
+
+/* Global box-sizing for consistency across all elements */
+html {
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+body {
+    font-family: 'Inter', sans-serif; /* Ugmonk usa un font simile a Inter/Graphik */
+    margin: 0;
+    padding: 0;
+    line-height: 1.6; /* Aumentato per migliore leggibilità */
+    color: var(--color-text-dark);
+    background-color: var(--color-background-white); /* Sfondo principale bianco */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-size: 16px; /* Dimensione base del font */
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', sans-serif; /* Usa lo stesso font di body per coerenza, pesi diversi */
+    color: var(--color-text-dark);
+    margin-top: 0;
+    margin-bottom: 0.8em;
+    font-weight: 700; /* Audace per i titoli */
+    line-height: 1.2;
+}
+
+h2 {
+    font-size: 3em; /* Titoli di sezione grandi */
+    text-align: center;
+    margin-bottom: 0.7em;
+    font-weight: 800; /* Extra bold per impatto */
+}
+
+h3 {
+    font-size: 1.8em;
+    font-weight: 700;
+}
+
+p {
+    margin-bottom: 1em;
+    font-size: 1.05em; /* Leggermente più grande per il corpo del testo */
+    color: var(--color-text-medium);
+}
+
+/* Links */
+a {
+    color: var(--color-text-dark); /* Link scuri di default */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--color-primary); /* Colore accento all'hover */
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    background-color: var(--color-primary);
+    color: var(--color-background-white);
+    padding: 16px 32px; /* Padding generoso */
+    border: none;
+    border-radius: 35px; /* Molto arrotondato */
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    font-size: 1.05em;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Leggera ombra */
+    text-align: center;
+    white-space: nowrap;
+}
+
+.btn:hover {
+    background-color: var(--color-secondary);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.btn-secondary-outline {
+    background-color: transparent;
+    color: var(--color-text-dark);
+    border: 2px solid var(--color-border);
+    box-shadow: none;
+    padding: 14px 30px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary-outline:hover {
+    background-color: var(--color-hover-bg-light);
+    color: var(--color-text-dark);
+    border-color: var(--color-text-medium);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    transform: translateY(-2px);
+}
+
+/* Utility Classes */
+.container {
+    max-width: 1200px; /* Larghezza massima più ampia per il contenuto principale */
+    margin: 0 auto;
+    padding: 0 30px; /* Padding generoso sui lati */
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* -- Ugmonk-like Header Styles -- */
+/* Styles for the main <header> element (full width background) */
+header {
+  background-color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.03); /* Ombra molto leggera e diffusa */
+  border-bottom: 1px solid #e8e8e8; /* Bordo sottile e pulito */
+  position: sticky; /* Rende l'header "appiccicoso" in cima alla pagina */
+  top: 0;
+  z-index: 1000; /* Assicura che l'header sia sopra altri contenuti */
+  padding-top: 20px; /* Padding verticale per l'header a tutta larghezza */
+  padding-bottom: 20px; /* Padding verticale per l'header a tutta larghezza */
+}
+
+/* Styles for the content wrapper inside the header */
+/* Questo div contiene il logo, la navigazione e le icone. */
+/* Si estende per tutta la larghezza dello schermo con padding laterale. */
+.header-content-wrapper {
+  display: flex;
+  align-items: center; /* Allinea gli elementi verticalmente al centro */
+  padding-left: 40px; /* Padding orizzontale per il contenuto su schermi grandi */
+  padding-right: 40px; /* Padding orizzontale per il contenuto su schermi grandi */
+  transition: all 0.3s ease; /* Applica transizioni fluide al wrapper del contenuto e ai suoi figli */
+}
+
+/* Logo (Brand Name) */
+.brand {
+  font-size: 40px;
+  text-decoration: none;
+  color: var(--color-text-dark); /* Usa la variabile per il colore del testo scuro */
+  white-space: nowrap; /* Impedisce che il testo del logo vada a capo */
+  font-family: 'Goudy Old Style', serif;
+  letter-spacing: 0.7px;
+  transition: color 0.3s ease;
+  margin-right: 40px; /* Spazio a destra del logo */
+}
+
+.brand:hover {
+  color: var(--color-text-medium); /* Colore leggermente più chiaro all'hover */
+}
+
+/* Main Navigation */
+.main-nav {
+  display: flex;
+  justify-content: center; /* Centra i link della navigazione all'interno del suo spazio */
+  flex-grow: 1; /* Permette alla navigazione di occupare tutto lo spazio disponibile tra logo e icone */
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 40px; /* Spazio tra i link di navigazione */
+  padding: 0;
+  margin: 0;
+}
+
+.nav-links li {
+  position: relative;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: var(--color-text-dark);
+  font-weight: 400;
+  font-size: 20px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  padding: 8px 0;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.nav-links li a:hover {
+  color: var(--color-text-medium);
+}
+
+/* Animated underline for navigation links */
+.nav-links li a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 1px;
+  background-color: var(--color-text-dark);
+  transition: width 0.3s ease;
+}
+
+.nav-links li a:hover::after {
+  width: 100%; /* Sottolineatura si espande all'hover */
+}
+
+/* Dropdown Menu Styles */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-toggle::after {
+  content: ' ▾'; /* Freccetta verso il basso per indicare il dropdown */
+  margin-left: 6px;
+  font-size: 12px;
+  color: var(--color-text-medium);
+}
+
+.dropdown-menu {
+  position: absolute;
+  /* Posizionamento per creare un "ponte" di hover tra il toggle e il menu */
+  top: calc(100% - 10px); /* Sposta il menu leggermente in alto per sovrapporsi al link */
+  left: 50%;
+  transform: translateX(-50%) translateY(10px); /* Aggiunge una leggera traslazione iniziale per l'animazione */
+  background-color: var(--color-background-white);
+  list-style: none;
+  margin-top: 0; /* Rimuove qualsiasi gap dal margine */
+  /* Miglioramenti per il dropdown */
+  padding: 20px 25px; /* Padding verticale aumentato per più spazio, e orizzontale */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); /* Ombra più morbida e diffusa */
+  border-radius: 8px; /* Angoli più arrotondati */
+  border: 1px solid var(--color-border); /* Bordo sottile per una definizione pulita */
+  min-width: 600px; /* Larghezza minima aumentata per 3 colonne */
+  z-index: 1001;
+  opacity: 0; /* Inizialmente trasparente */
+  visibility: hidden; /* Inizialmente non visibile agli eventi del mouse */
+  pointer-events: none; /* Impedisce interazioni quando il menu è nascosto */
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+
+  /* Layout a tre colonne */
+  display: grid; /* Usa grid per il layout a colonne */
+  grid-template-columns: repeat(3, 1fr); /* Tre colonne di larghezza uguale */
+  gap: 15px 20px; /* Spazio tra le righe e tra le colonne */
+}
+
+.dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0); /* Anima alla posizione finale */
+  pointer-events: auto; /* Permette interazioni quando il menu è visibile */
+}
+
+.dropdown-menu li a {
+  display: block;
+  /* Miglioramenti per i link del dropdown */
+  padding: 10px 15px; /* Padding adeguato per ogni voce nella griglia */
+  color: var(--color-text-dark);
+  font-size: 15px; /* Dimensione del font leggermente aumentata */
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  text-align: center; /* Centra il testo all'interno di ogni elemento */
+}
+
+.dropdown-menu li a:hover {
+  background-color: var(--color-hover-bg-light); /* Sfondo leggermente più scuro all'hover */
+  color: var(--color-text-dark); /* Mantiene il colore del testo scuro all'hover */
+}
+
+/* Header Icons (Carrello, Profilo, Registrati) */
+.header-icons {
+  display: flex;
+  gap: 20px; /* Spazio tra le icone */
+  align-items: center;
+  margin-left: auto; /* Questo spinge le icone all'estrema destra del header-content-wrapper */
+}
+
+.icon-link {
+  color: var(--color-text-dark);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.icon-link:hover {
+  color: var(--color-text-medium);
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+  stroke: currentColor; /* Usa il colore del testo per il bordo SVG */
+  fill: none;
+  stroke-width: 1.5;
+}
+
 /* -- Ugmonk-like Homepage Styles -- */
 
 /* Hero Section */
@@ -291,15 +602,90 @@
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
 }
 
+/* Video Hero Section */
+.video-hero {
+    position: relative;
+    width: 100%;
+    height: 90vh;
+    overflow: hidden;
+}
+
+.video-hero video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+    z-index: 2;
+}
+
+.video-overlay h1 {
+    font-size: 5em; /* Titolo dominante */
+    margin-bottom: 25px;
+    color: var(--color-background-white);
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.video-overlay p {
+    font-size: 1.8em; /* Testo intro grande */
+    margin-bottom: 60px; /* Spazio generoso */
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+    line-height: 1.5;
+}
 
 /* Media Queries per la responsività */
+
+/* Desktop to Large Tablet (max-width: 1200px) - From Homepage CSS */
 @media (max-width: 1200px) {
     .container {
         padding: 0 20px;
     }
 }
 
+/* Desktop to Mid-Tablet Transition (max-width: 992px) - Combined */
 @media (max-width: 992px) {
+    /* Header specific adjustments */
+    .header-content-wrapper {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .brand {
+        font-size: 32px;
+        margin-right: 25px;
+    }
+    .main-nav {
+        gap: 25px; /* Adjust gap for main navigation */
+    }
+    .nav-links li a {
+        font-size: 18px;
+    }
+    .header-icons {
+        gap: 15px;
+    }
+    .icon {
+        width: 28px;
+        height: 28px;
+    }
+    .dropdown-menu {
+        min-width: 450px;
+        grid-template-columns: repeat(2, 1fr); /* Two columns for dropdown */
+        gap: 10px 15px;
+        padding: 15px 20px;
+    }
+
+    /* Homepage section adjustments */
     .hero {
         padding: 180px 20px;
         min-height: 650px;
@@ -310,7 +696,6 @@
     .evid p {
         font-size: 1.6em;
     }
-
     .featured-categories-section, .why-choose-us-section, .contact-section {
         padding: 100px 20px;
     }
@@ -339,7 +724,84 @@
     }
 }
 
+/* Intermediate Tablet Size (max-width: 880px) - From Header CSS */
+@media (max-width: 880px) {
+  .header-content-wrapper {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .brand {
+    font-size: 28px;
+    margin-right: 20px;
+  }
+  .nav-links {
+    gap: 20px;
+  }
+  .nav-links li a {
+    font-size: 16px;
+  }
+  .header-icons {
+    gap: 10px;
+  }
+  .icon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* Tablet and Smaller Devices (max-width: 768px) - Combined */
 @media (max-width: 768px) {
+    /* Header specific adjustments */
+    header {
+        padding: 16px 0;
+    }
+    .header-content-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 0 20px;
+    }
+    .brand {
+        font-size: 24px;
+        margin-right: 0;
+    }
+    .main-nav {
+        width: 100%;
+        justify-content: center;
+        flex-grow: 0;
+    }
+    .nav-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        text-align: center;
+    }
+    .header-icons {
+        margin-left: 0;
+        align-self: flex-end;
+        margin-top: 10px;
+    }
+    .dropdown-menu {
+        position: static;
+        transform: none;
+        box-shadow: none;
+        background-color: var(--color-hover-bg-light); /* Use variable */
+        margin-top: 0;
+        opacity: 1;
+        visibility: visible;
+        padding-top: 10px;
+        top: auto;
+        grid-template-columns: repeat(1, 1fr); /* One column for dropdown on mobile */
+        min-width: auto;
+        width: 100%;
+        gap: 10px;
+        padding: 10px 15px;
+    }
+    .dropdown-menu li a {
+        text-align: left;
+    }
+
+    /* Homepage section adjustments */
     .hero {
         padding: 150px 15px;
         min-height: 550px;
@@ -354,7 +816,6 @@
         padding: 18px 40px;
         font-size: 1.15em;
     }
-
     .featured-categories-section, .why-choose-us-section, .contact-section {
         padding: 80px 15px;
     }
@@ -365,7 +826,7 @@
         font-size: 1.1em;
     }
     .category-grid, .features-grid {
-        grid-template-columns: 1fr; /* Una colonna su mobile */
+        grid-template-columns: 1fr; /* One column on mobile */
         gap: 30px;
     }
     .category-card img {
@@ -393,7 +854,31 @@
     }
 }
 
+/* Smaller Mobile Devices (max-width: 480px) - Combined */
 @media (max-width: 480px) {
+    /* Header specific adjustments */
+    .brand {
+        font-size: 20px;
+    }
+    .header-content-wrapper {
+        padding: 0 15px;
+    }
+    .nav-links {
+        gap: 15px;
+    }
+    .nav-links li a {
+        font-size: 16px;
+        padding: 6px 0;
+    }
+    .header-icons {
+        gap: 15px;
+    }
+    .icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    /* Homepage section adjustments */
     .hero {
         padding: 120px 10px;
         min-height: 450px;
@@ -408,7 +893,6 @@
         padding: 15px 30px;
         font-size: 1em;
     }
-
     .featured-categories-section, .why-choose-us-section, .contact-section {
         padding: 60px 10px;
     }
@@ -417,45 +901,8 @@
     }
 }
 
-
-.video-hero {
-    position: relative;
-    width: 100%;
-    height: 90vh;
-    overflow: hidden;
-}
-
-.video-hero video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-/* video */
-.video-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    text-align: center;
-    text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
-    z-index: 2;
-}
-
-.video-overlay h1 {
-    font-size: 5em; /* Titolo dominante */
-    margin-bottom: 25px;
-    color: var(--color-background-white);
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-    font-weight: 800;
-    line-height: 1.1;
-}
-
-.video-overlay p {
-    font-size: 1.8em; /* Testo intro grande */
-    margin-bottom: 60px; /* Spazio generoso */
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: 500;
-    line-height: 1.5;
+/* Transitions for smooth animations on hover and state changes */
+/* Applica transizioni a tutti gli elementi all'interno dell'header per un'esperienza fluida */
+header * {
+  transition: all 0.3s ease;
 }

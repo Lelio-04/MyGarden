@@ -33,9 +33,13 @@
 <head>
     <meta charset="UTF-8">
     <title>I miei ordini</title>
-    <link rel="stylesheet" href="styles/styleBase.css">
+    <link rel="stylesheet" href="styles/styleSidebar.css">
     <link rel="stylesheet" href="styles/styleOrders.css">
     <link rel="icon" href="images/favicon.png" type="image/png">
+    <script>
+      var isLoggedIn = <%= (username != null) ? "true" : "false" %>;
+    </script>
+    <script src="scripts/sidebar.js" defer></script>
 </head>
 <body>
 
@@ -82,23 +86,6 @@
         }
     }
 %>
-<div id="sidebar-carrello" style="display:none; position: fixed; right: 0; top: 0; width: 350px; height: 100vh; background: white; border-left: 1px solid #ccc; padding: 20px; overflow-y: auto; z-index: 10000; box-shadow: -2px 0 10px rgba(0,0,0,0.2);">
-    <button onclick="chiudiSidebar()" style="float:right; font-size: 20px; border:none; background:none; cursor:pointer;">&times;</button>
-    <h3>🛒 Il tuo carrello</h3>
-    <div id="carrello-items"></div>
-    <hr>
-    <strong>Totale: €<span id="carrello-totale">0.00</span></strong>
-    <br><br>
-    <button onclick="svuotaCarrello()" style="background:#e53935; color:white; border:none; padding:10px; cursor:pointer; border-radius:5px;">Svuota Carrello</button>
-    
-    <!-- Sezione acquisto o login -->
-    <div id="checkout-section" style="margin-top: 20px; text-align: center;"></div>
-</div>
-
-<script>
-  const isLoggedIn = <%= (username != null) ? "true" : "false" %>;
-</script>
-<script src="scripts/sidebar.js"></script>
 	<jsp:include page="footer.jsp" />
 </body>
 </html>

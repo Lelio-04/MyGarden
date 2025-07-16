@@ -1,0 +1,635 @@
+/* sidebar.css */
+
+/* Definizioni delle variabili, se non già presenti globalmente */
+:root {
+    /* Nuova palette di colori ispirata a Ugmonk */
+    --color-primary: #4A4A4A; /* Grigio antracite profondo ed elegante */
+    --color-secondary: #888888; /* Grigio medio per accenti sottili */
+    --color-text-dark: #222222; /* Grigio molto scuro per il testo principale */
+    --color-text-medium: #666666; /* Grigio standard per testo secondario */
+    --color-text-light: #BBBBBB; /* Grigio chiaro per elementi discreti */
+    --color-background-white: #FCFCFC; /* Bianco sporco morbido per sfondi */
+    --color-border: #EAEAEA; /* Bordo molto chiaro e sottile */
+    --color-error: #D9534F; /* Mantenuto per messaggi di errore */
+    --color-success: #28a745; /* Mantenuto per bottoni di successo/checkout */
+    --color-hover-bg-light: #F8F8F8; /* Sfondo leggero per gli hover */
+
+    /* Nuove variabili per ombre e transizioni più armoniose */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.15);
+
+    /* Transizioni per interazioni fluide */
+    --transition-ease: all 0.3s ease-in-out;
+}
+
+/* Stili per il main <header> element (sfondo a tutta larghezza) */
+header {
+  background-color: var(--color-background-white);
+  box-shadow: var(--shadow-sm); /* Ombra sottile per un leggero sollevamento */
+  border-bottom: 1px solid var(--color-border); /* Bordo sottile e pulito */
+  position: sticky; /* Rende l'header "appiccicoso" in cima alla pagina */
+  top: 0;
+  z-index: 1000; /* Assicura che l'header sia sopra altri contenuti */
+  padding-top: 25px; /* Padding verticale per l'header a tutta larghezza */
+  padding-bottom: 25px; /* Padding verticale per l'header a tutta larghezza */
+  transition: var(--transition-ease);
+}
+
+/* Stili per il content wrapper all'interno dell'header */
+.header-content-wrapper {
+  display: flex;
+  align-items: center; /* Allinea gli elementi verticalmente al centro */
+  margin: 0 auto;
+  padding-left: 60px; /* Padding orizzontale più generoso per il contenuto su schermi grandi */
+  padding-right: 60px;
+  transition: var(--transition-ease);
+}
+
+/* Logo (Brand Name) */
+.brand {
+  font-size: 42px; /* Dimensione del font leggermente più grande per impatto */
+  text-decoration: none;
+  color: var(--color-text-dark); /* Colore del testo scuro */
+  white-space: nowrap;
+  font-family: 'Goudy Old Style', serif;
+  letter-spacing: 1px; /* Spaziatura tra le lettere più sottile */
+  font-weight: 700; /* Più audace per l'identità del brand */
+  transition: var(--transition-ease);
+  margin-right: 50px; /* Spazio a destra del logo aumentato */
+}
+
+.brand:hover {
+  color: var(--color-secondary); /* Colore più morbido all'hover */
+}
+
+/* Main Navigation */
+.main-nav {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 40px; /* Spazio tra i link di navigazione */
+  padding: 0;
+  margin: 0;
+}
+
+.nav-links li {
+  position: relative;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: var(--color-text-medium); /* Colore del testo medio per i link */
+  font-weight: 500; /* Peso medio per la leggibilità */
+  font-size: 19px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  padding: 10px 0; /* Più padding verticale */
+  transition: var(--transition-ease);
+  position: relative;
+}
+
+.nav-links li a:hover {
+  color: var(--color-primary); /* Colore primario all'hover */
+}
+
+/* Animated underline for navigation links */
+.nav-links li a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px; /* Spostato leggermente più in basso */
+  width: 0;
+  height: 2px; /* Sottolineatura più spessa */
+  background-color: var(--color-primary); /* Usa il colore primario per la sottolineatura */
+  transition: width 0.3s ease;
+}
+
+.nav-links li a:hover::after {
+  width: 100%;
+}
+
+/* Dropdown Menu Styles */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-toggle::after {
+  content: ' ▾';
+  margin-left: 6px;
+  font-size: 12px;
+  color: var(--color-text-light); /* Colore più leggero per la freccetta */
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% - 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background-color: var(--color-background-white);
+  list-style: none;
+  margin-top: 0;
+  padding: 25px 30px; /* Padding aumentato */
+  box-shadow: var(--shadow-lg); /* Ombra più prominente */
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  min-width: 650px; /* Larghezza minima leggermente aumentata */
+  z-index: 1001;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: var(--transition-ease);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px 25px; /* Spazio tra le colonne aumentato */
+}
+
+.dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+.dropdown-menu li a {
+  display: block;
+  padding: 12px 18px; /* Padding aumentato per ogni voce */
+  color: var(--color-text-dark);
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: none;
+  transition: var(--transition-ease);
+  text-align: left; /* Allineamento a sinistra per le voci del dropdown */
+  border-radius: 6px; /* Angoli leggermente arrotondati */
+}
+
+.dropdown-menu li a:hover {
+  background-color: var(--color-hover-bg-light); /* Sfondo leggero all'hover */
+  color: var(--color-primary); /* Cambia colore del testo all'hover */
+}
+
+/* Header Icons (Carrello, Profilo, Registrati) */
+.header-icons {
+  display: flex;
+  gap: 25px; /* Spazio tra le icone aumentato */
+  align-items: center;
+  margin-left: auto;
+}
+
+.icon-link {
+  color: var(--color-text-medium); /* Colore medio per le icone */
+  text-decoration: none;
+  transition: var(--transition-ease);
+}
+
+.icon-link:hover {
+  color: var(--color-primary); /* Colore primario all'hover */
+}
+
+.icon {
+  width: 32px; /* Dimensioni icone leggermente più grandi */
+  height: 32px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8; /* Spessore del tratto leggermente maggiore */
+}
+
+/* Responsive Design - Media Queries */
+
+/* Desktop to Mid-Tablet Transition (max-width: 992px) */
+@media (max-width: 992px) {
+  .header-content-wrapper {
+    padding-left: 30px; /* Riduci il padding orizzontale */
+    padding-right: 30px;
+  }
+
+  .brand {
+    font-size: 36px; /* Riduci la dimensione del font del logo */
+    margin-right: 30px;
+  }
+
+  .nav-links {
+    gap: 30px; /* Riduci il gap tra i link di navigazione */
+  }
+
+  .nav-links li a {
+    font-size: 17px; /* Riduci la dimensione del font dei link di navigazione */
+  }
+
+  .header-icons {
+    gap: 20px; /* Riduci il gap tra le icone */
+  }
+
+  .icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .dropdown-menu {
+    min-width: 500px; /* Riduci la larghezza minima */
+    grid-template-columns: repeat(2, 1fr); /* Due colonne */
+    gap: 15px 20px;
+    padding: 20px 25px;
+  }
+}
+
+/* Intermediate Tablet Size (max-width: 880px) */
+@media (max-width: 880px) {
+  .header-content-wrapper {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .brand {
+    font-size: 30px;
+    margin-right: 20px;
+  }
+
+  .nav-links {
+    gap: 25px;
+  }
+
+  .nav-links li a {
+    font-size: 16px;
+  }
+
+  .header-icons {
+    gap: 15px;
+  }
+
+  .icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .dropdown-menu {
+    min-width: 380px; /* Ulteriore riduzione per schermi più stretti */
+    gap: 10px 15px;
+    padding: 15px 20px;
+  }
+}
+
+
+/* Tablet and Smaller Devices (max-width: 768px) */
+@media (max-width: 768px) {
+  header {
+    padding: 18px 0;
+  }
+
+  .header-content-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px; /* Spazio tra gli elementi impilati */
+    padding: 0 25px; /* Aumenta leggermente il padding orizzontale per tablet */
+  }
+
+  .brand {
+    font-size: 28px;
+    margin-right: 0;
+  }
+
+  .main-nav {
+    width: 100%;
+    justify-content: center;
+    flex-grow: 0;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    align-items: center;
+    gap: 25px; /* Spazio tra i link impilati */
+    text-align: center;
+  }
+
+  .header-icons {
+    margin-left: 0;
+    align-self: flex-end;
+    margin-top: 15px; /* Spazio sopra le icone */
+  }
+
+  .dropdown-menu {
+    position: static;
+    transform: none;
+    box-shadow: none;
+    background-color: var(--color-hover-bg-light); /* Sfondo leggermente diverso per il dropdown mobile */
+    margin-top: 0;
+    opacity: 1;
+    visibility: visible;
+    padding-top: 15px;
+    top: auto;
+    grid-template-columns: repeat(1, 1fr); /* Una colonna su mobile */
+    min-width: auto;
+    width: 100%;
+    gap: 12px;
+    padding: 12px 20px;
+  }
+
+  .dropdown-menu li a {
+    text-align: left;
+    font-size: 15px; /* Riduci leggermente il font per mobile */
+    padding: 8px 12px;
+  }
+}
+
+/* Smaller Mobile Devices (max-width: 480px) */
+@media (max-width: 480px) {
+  .brand {
+    font-size: 24px;
+  }
+  .header-content-wrapper {
+    padding: 0 20px;
+  }
+  .nav-links {
+    gap: 20px;
+  }
+  .nav-links li a {
+    font-size: 15px;
+    padding: 8px 0;
+  }
+  .header-icons {
+    gap: 12px;
+  }
+  .icon {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+/* Stili generali della Sidebar */
+#sidebar-carrello {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 350px;
+    height: 100vh;
+    background: var(--color-background-white);
+    border-left: 1px solid var(--color-border);
+    padding: 30px;
+    overflow-y: auto;
+    z-index: 10000;
+    box-shadow: -4px 0 15px rgba(0,0,0,0.1);
+    color: var(--color-text-dark);
+    font-family: 'Inter', sans-serif;
+    display: none; /* Inizialmente nascosta, controllata da JS */
+    transition: transform 0.4s ease-out; /* Animazione di scorrimento */
+    transform: translateX(100%); /* Nascondi fuori dallo schermo */
+}
+
+/* Stato visibile della Sidebar */
+#sidebar-carrello.is-visible {
+    transform: translateX(0); /* Rendi visibile */
+}
+
+
+/* Bottone di chiusura */
+#sidebar-carrello > button { /* Selettore più specifico per il bottone di chiusura */
+    float: right;
+    font-size: 28px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--color-text-light);
+    padding: 0;
+    line-height: 1;
+    transition: color 0.3s ease;
+    margin-top: -10px; /* Regola la posizione per allineamento */
+    margin-right: -10px; /* Regola la posizione per allineamento */
+}
+
+#sidebar-carrello > button:hover {
+    color: var(--color-text-dark);
+}
+
+/* Titolo del Carrello */
+#sidebar-carrello h3 {
+    font-size: 1.8em;
+    color: var(--color-text-dark);
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+/* Contenitore degli elementi del carrello */
+#carrello-items {
+    margin-bottom: 20px;
+}
+
+/* Stili per ogni singolo elemento del carrello */
+.carrello-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--color-border);
+    gap: 15px; /* Spazio tra gli elementi */
+}
+
+.carrello-item:last-child {
+    border-bottom: none; /* Rimuovi il bordo dall'ultimo elemento */
+}
+
+.carrello-item-image {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    flex-shrink: 0; /* Impedisce all'immagine di restringersi */
+}
+
+.carrello-item-name {
+    flex-grow: 1; /* Permette al nome di occupare lo spazio disponibile */
+    font-weight: 600;
+    color: var(--color-text-dark);
+    font-size: 1em;
+}
+
+.carrello-item-price {
+    font-weight: 700;
+    color: var(--color-primary);
+    font-size: 1.1em;
+    white-space: nowrap; /* Evita che il prezzo vada a capo */
+}
+
+/* Bottone di rimozione singolo articolo */
+.remove-item-btn {
+    background: none;
+    border: none;
+    color: var(--color-text-light);
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.3s ease;
+    line-height: 1; /* Assicura che la 'x' sia centrata */
+    flex-shrink: 0; /* Impedisce al bottone di restringersi */
+}
+
+.remove-item-btn:hover {
+    color: var(--color-error);
+}
+
+/* Separatore HR */
+#sidebar-carrello hr {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 25px 0;
+}
+
+/* Totale Carrello */
+#sidebar-carrello strong {
+    font-size: 1.2em;
+    color: var(--color-primary);
+    display: block;
+    margin-bottom: 25px;
+    text-align: right; /* Allinea il totale a destra */
+}
+
+/* Bottone Svuota Carrello */
+#sidebar-carrello #svuota-carrello-btn {
+    background: var(--color-error);
+    color: var(--color-background-white);
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    width: 100%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 15px; /* Spazio sotto il bottone */
+}
+
+#sidebar-carrello #svuota-carrello-btn:hover {
+    background-color: #c0392b; /* Scurisci leggermente al hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* Sezione Checkout (se avrà bottoni o link) */
+#sidebar-carrello #checkout-section {
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Stile per il bottone/link di checkout */
+.btn-checkout {
+    display: inline-block;
+    background-color: var(--color-primary); /* Colore principale */
+    color: var(--color-background-white);
+    padding: 12px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    width: 100%; /* Larghezza piena */
+}
+
+.btn-checkout:hover {
+    background-color: #333333; /* Scurisci al hover per il nuovo primary */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* Messaggio carrello vuoto */
+.carrello-vuoto-msg {
+    text-align: center;
+    color: var(--color-text-medium);
+    padding: 20px 0;
+    font-style: italic;
+}
+
+/* Media Queries per la responsività della sidebar */
+@media (max-width: 768px) {
+    #sidebar-carrello {
+        width: 100%; /* Larghezza piena su schermi piccoli */
+        padding: 20px; /* Riduci il padding su schermi più piccoli */
+    }
+}
+
+/* --- Stili per la Modale Personalizzata (AGGIORNATI) --- */
+.custom-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Scurito leggermente l'overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-medium), visibility var(--transition-medium);
+}
+.custom-modal-overlay.is-visible {
+    opacity: 1;
+    visibility: visible;
+}
+.custom-modal {
+    background-color: var(--color-background-white);
+    padding: 30px; /* Aumentato il padding */
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg); /* Utilizzo di una variabile per l'ombra più prominente */
+    width: 90%;
+    max-width: 450px; /* Aumentata leggermente la larghezza massima */
+    text-align: center;
+    transform: translateY(-30px) scale(0.95); /* Effetto di leggero scorrimento e ridimensionamento */
+    opacity: 0;
+    transition: transform var(--transition-medium) cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity var(--transition-medium); /* Animazione più fluida */
+}
+.custom-modal-overlay.is-visible .custom-modal {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+.custom-modal-title {
+    font-size: 1.6em; /* Leggermente più grande */
+    font-weight: 700;
+    color: var(--color-text-dark);
+    margin-bottom: 20px; /* Aumentato il margine */
+}
+.custom-modal-message {
+    font-size: 1.05em; /* Leggermente più grande */
+    color: var(--color-text-medium);
+    margin-bottom: 30px; /* Aumentato il margine */
+    line-height: 1.6; /* Migliorata la leggibilità */
+}
+.custom-modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Spazio tra i bottoni */
+}
+.custom-modal-button {
+    padding: 12px 25px; /* Aumentato il padding */
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: var(--shadow-sm); /* Aggiunta ombra ai bottoni */
+}
+.custom-modal-button.primary {
+    background-color: var(--color-primary);
+    color: var(--color-background-white);
+}
+.custom-modal-button.primary:hover {
+    background-color: #333333; /* Scurisci leggermente al hover per il nuovo primary */
+    transform: translateY(-2px); /* Effetto "lift" al hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Ombra più pronunciata al hover */
+}
+.custom-modal-button.secondary {
+    background-color: var(--color-border);
+    color: var(--color-text-dark);
+}
+.custom-modal-button.secondary:hover {
+    background-color: #D1D1D1; /* Scurisci leggermente al hover */
+    transform: translateY(-2px); /* Effetto "lift" al hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Ombra più pronunciata al hover */
+}
