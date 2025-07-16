@@ -2,7 +2,7 @@ footer {
     background-color: #c0c0c0; /* Sfondo leggermente più scuro per il footer */
     color: var(--color-text-medium);
     text-align: center;
-    padding: 30px 15px; /* Padding generoso */
+    padding: 29px 15px; /* Padding generoso */
     margin-top: auto;
     font-size: 0.9em;
     border-top: 1px solid var(--color-border); /* Bordo superiore sottile */
