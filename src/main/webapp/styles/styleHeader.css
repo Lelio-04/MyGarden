@@ -48,9 +48,9 @@ header {
 
 /* Main Navigation */
 .main-nav {
-  display: flex;
-  justify-content: center; /* Centra i link della navigazione all'interno del suo spazio */
-  flex-grow: 1; /* Permette alla navigazione di occupare tutto lo spazio disponibile tra logo e icone */
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .nav-links {

@@ -227,8 +227,8 @@ function aggiornaCarrelloUI(cartData) {
                     <span class="carrello-item-name">${productName}</span>
                     <div class="quantity-controls">
                         <span class="carrello-item-quantity">${item.quantity}</span>
-						<button class="quantity-btn increase-qty" data-product-code="${item.productCode}" data-max-qty="${maxQty}">+</button>
-						<button class="quantity-btn decrease-qty" data-product-code="${item.productCode}" data-max-qty="${maxQty}">-</button>
+                        <button class="quantity-btn increase-qty" data-product-code="${item.productCode}" data-max-qty="${maxQty}">+</button>
+                        <button class="quantity-btn decrease-qty" data-product-code="${item.productCode}" data-max-qty="${maxQty}">-</button>
                     </div>
                     <span class="carrello-item-price">€${(productPrice * item.quantity).toFixed(2)}</span>
                 </div>
@@ -238,31 +238,12 @@ function aggiornaCarrelloUI(cartData) {
             totale += productPrice * item.quantity;
         });
 
-        carrelloItemsDiv.querySelectorAll('.remove-item-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const productCode = parseInt(this.dataset.productCode);
-                console.log('Tentativo di rimozione. productCode dal bottone (convertito):', productCode);
-                rimuoviDalCarrello(productCode);
-            });
-        });
+        // ⭐ RIMUOVI QUESTI BLOCCI! Sono già gestiti dalla delega su document.body ⭐
+        // carrelloItemsDiv.querySelectorAll('.remove-item-btn').forEach(button => { ... });
+        // carrelloItemsDiv.querySelectorAll('.increase-qty').forEach(button => { ... });
+        // carrelloItemsDiv.querySelectorAll('.decrease-qty').forEach(button => { ... });
 
-        // ⭐ NUOVO: Aggiungi event listener ai bottoni + e - ⭐
-        carrelloItemsDiv.querySelectorAll('.increase-qty').forEach(button => {
-            button.addEventListener('click', function() {
-                const productCode = parseInt(this.dataset.productCode);
-                const maxQty = parseInt(this.dataset.maxQty);
-                aumentaQuantita(productCode, maxQty);
-            });
-        });
-
-        carrelloItemsDiv.querySelectorAll('.decrease-qty').forEach(button => {
-            button.addEventListener('click', function() {
-                const productCode = parseInt(this.dataset.productCode);
-                diminuisciQuantita(productCode);
-            });
-        });
-
-        // ⭐ MODIFICATO: Da link a bottone per intercettare il click ⭐
+        // ⭐ RIMUOVI ANCHE QUESTO LISTENER DA QUI! È già gestito dalla delega su document.body ⭐
         checkoutSection.innerHTML = `
             <button id="btn-procedi-checkout" class="btn-checkout">Procedi al Checkout</button>
         `;
@@ -270,11 +251,11 @@ function aggiornaCarrelloUI(cartData) {
             svuotaCarrelloBtn.style.display = 'block';
         }
 
-        // ⭐ NUOVO: Aggiungi event listener al bottone di checkout ⭐
-        const checkoutButton = document.getElementById('btn-procedi-checkout');
-        if (checkoutButton) {
-            checkoutButton.addEventListener('click', checkStockBeforeCheckout);
-        }
+        // ⭐ RIMUOVI ANCHE QUESTO LISTENER DA QUI! È già gestito dalla delega su document.body ⭐
+        // const checkoutButton = document.getElementById('btn-procedi-checkout');
+        // if (checkoutButton) {
+        //     checkoutButton.addEventListener('click', checkStockBeforeCheckout);
+        // }
     }
 
     carrelloTotaleSpan.textContent = totale.toFixed(2);
@@ -407,24 +388,23 @@ async function checkStockBeforeCheckout() {
 
 
 // --- Funzioni Aggiunta/Rimozione/Svuotamento ---
-async function aggiungiAlCarrello(productCode, productName, productPrice, productImage, maxQty, quantityToAdd = 1) { // Aggiunto quantityToAdd con default
+async function aggiungiAlCarrello(productCode, productName, productPrice, productImage, maxQty, quantityToAdd = 1) { // ⭐ quantityToAdd come parametro con default 1 ⭐
     if (isNaN(productCode) || productCode === null || typeof productCode === 'undefined') {
         console.error('ID prodotto non valido:', productCode);
         await showCustomAlert('Impossibile aggiungere il prodotto al carrello: ID non valido.', 'Errore');
         return;
     }
 
-    // Qui recuperiamo la quantità corrente nel carrello (server o locale)
-    // È essenziale avere `currentCartData` popolato correttamente (es. tramite apriSidebarCarrello() o un caricamento iniziale)
     let currentQuantityInCart = 0;
-    const currentCart = isLoggedIn ? await getLoggedInCartFromServer() : getGuestCart(); // Recupera il carrello attuale in base allo stato del login
+    // Recupera il carrello attuale in base allo stato del login (dal server o localStorage)
+    const currentCart = isLoggedIn ? await getLoggedInCartFromServer() : getGuestCart(); 
     const existingItemInCart = currentCart.find(item => item.productCode === productCode);
     if (existingItemInCart) {
         currentQuantityInCart = existingItemInCart.quantity;
     }
 
-    // Calcola la nuova quantità dopo l'aggiunta
-    const newTotalQuantity = currentQuantityInCart + quantityToAdd;
+    // Calcola la nuova quantità TOTALE dopo l'aggiunta
+    const newTotalQuantity = currentQuantityInCart + quantityToAdd; // ⭐ Usa quantityToAdd ⭐
 
     if (newTotalQuantity > maxQty) {
         await showCustomAlert(`Non è possibile aggiungere ${quantityToAdd} unità di questo prodotto. La disponibilità massima è ${maxQty}, e ne hai già ${currentQuantityInCart} nel carrello.`, 'Quantità Massima Raggiunta');
@@ -436,7 +416,7 @@ async function aggiungiAlCarrello(productCode, productName, productPrice, produc
         fetch('/MyGardenProject/AddToCartServlet', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `productCode=${productCode}&quantity=${quantityToAdd}` // ⭐ PASSAGGI QUI quantityToAdd ⭐
+            body: `productCode=${productCode}&quantity=${quantityToAdd}` // ⭐ Passa quantityToAdd al server ⭐
         })
         .then(response => {
             if (!response.ok) {
@@ -450,7 +430,7 @@ async function aggiungiAlCarrello(productCode, productName, productPrice, produc
         .then(data => {
             console.log('Prodotto aggiunto al carrello (server):', data);
             apriSidebarCarrello(); // Ricarica e aggiorna il carrello dal server
-            showCustomAlert(`${quantityToAdd} ${productName} aggiunti al carrello!`, 'Successo');
+            showCustomAlert(`${quantityToAdd} ${productName} aggiunti al carrello!`, 'Successo'); // Mostra la quantità aggiunta
         })
         .catch(error => {
             console.error('Errore durante l\'aggiunta al carrello (server):', error);
@@ -462,8 +442,7 @@ async function aggiungiAlCarrello(productCode, productName, productPrice, produc
         let productFound = false;
         for (let i = 0; i < guestCart.length; i++) {
             if (guestCart[i].productCode === productCode) {
-                // Incrementa la quantità esistente di quantityToAdd
-                guestCart[i].quantity += quantityToAdd; // ⭐ INCREMENTO DI quantityToAdd ⭐
+                guestCart[i].quantity += quantityToAdd; // ⭐ Incrementa di quantityToAdd ⭐
                 productFound = true;
                 break;
             }
@@ -472,23 +451,22 @@ async function aggiungiAlCarrello(productCode, productName, productPrice, produc
             // Aggiungi un nuovo articolo con la quantità desiderata
             guestCart.push({
                 productCode: productCode,
-                quantity: quantityToAdd, // ⭐ QUANTITÀ INIZIALE quantityToAdd ⭐
+                quantity: quantityToAdd, // ⭐ Quantità iniziale è quantityToAdd ⭐
                 product: {
                     id: productCode,
                     name: productName || 'Prodotto Sconosciuto',
                     price: parseFloat(productPrice) || 0,
                     image: productImage || '',
-                    quantity: parseInt(maxQty) || 0
+                    quantity: parseInt(maxQty) || 0 // Questo è lo stock disponibile
                 }
             });
         }
         saveGuestCart(guestCart);
         apriSidebarCarrello(); // Ricarica e aggiorna il carrello dalla cache locale
-        showCustomAlert(`${quantityToAdd} ${productName} aggiunti al carrello!`, 'Successo');
+        showCustomAlert(`${quantityToAdd} ${productName} aggiunti al carrello!`, 'Successo'); // Mostra la quantità aggiunta
         console.log('Prodotto aggiunto al carrello (guest):', guestCart);
     }
 }
-
 // ⭐ AGGIUNGI QUESTA FUNZIONE SE NON L'HAI GIÀ PER RECUPERARE IL CARRELLO DAL SERVER ⭐
 // (Questo è necessario per il controllo della quantità massima per utenti loggati)
 async function getLoggedInCartFromServer() {
@@ -506,7 +484,6 @@ async function getLoggedInCartFromServer() {
         return [];
     }
 }
-
 
 async function rimuoviDalCarrello(productCode) {
     console.log('rimuoviDalCarrello chiamato con productCode:', productCode); // Log iniziale
@@ -703,25 +680,25 @@ document.addEventListener('DOMContentLoaded', function() {
             const productImage = this.dataset.productImage;
             const maxQty = parseInt(this.dataset.maxQty); // Recupera la quantità massima disponibile
 
-            // ⭐ NOVITÀ: Recupera la quantità desiderata dall'input numerico
-            // L'ID dell'input è "qty-" seguito dal productCode
+            // --- Logica per determinare la quantità da aggiungere ---
             const quantityInput = document.getElementById(`qty-${productId}`);
-            let quantityToAdd = 1; // Quantità di default, se l'input non è trovato o è invalido
+            let quantityToAdd = 1; // ⭐ Impostiamo 1 come QUANTITÀ DI DEFAULT ⭐
 
             if (quantityInput) {
                 const inputValue = parseInt(quantityInput.value);
-                // Valida l'input per assicurarti che sia un numero, >= 1 e non superi la quantità massima disponibile
+                // Valida l'input: deve essere un numero, >= 1 e non superare la quantità massima disponibile
                 if (!isNaN(inputValue) && inputValue >= 1 && inputValue <= maxQty) {
                     quantityToAdd = inputValue;
                 } else {
                     console.warn(`Quantità non valida per il prodotto ${productId}: ${quantityInput.value}. Verrà aggiunta 1 unità.`);
                     showCustomAlert('La quantità inserita non è valida. Aggiunta 1 unità.', 'Attenzione');
                     quantityInput.value = 1; // Resetta l'input a 1 per coerenza
+                    quantityToAdd = 1; // Assicurati che la quantità da aggiungere sia 1 in caso di input non valido
                 }
             }
+            // --- Fine Logica per determinare la quantità da aggiungere ---
 
-            console.log('Adding to cart:', { productId, productName, productPrice, productImage, maxQty, quantityToAdd }); // Log per debug
-            // ⭐ Passa la quantità desiderata alla funzione aggiungiAlCarrello
+            console.log('Adding to cart:', { productId, productName, productPrice, productImage, maxQty, quantityToAdd });
             aggiungiAlCarrello(productId, productName, productPrice, productImage, maxQty, quantityToAdd);
         });
     });
@@ -737,7 +714,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // --- Delega degli eventi per i bottoni dinamici del carrello ---
-    // Questo blocco dovrebbe essere già presente e funzionante
     document.body.addEventListener('click', async function(event) {
         if (event.target.classList.contains('remove-item-btn')) {
             const productCode = parseInt(event.target.dataset.productCode);
@@ -756,41 +732,63 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // ⭐ Logica per l'unione carrello al login/caricamento pagina per utente loggato ⭐
+    console.log('DEBUG JS: isLoggedIn al DOMContentLoaded:', isLoggedIn);
+
     if (typeof isLoggedIn !== 'undefined' && isLoggedIn) {
         const guestCart = getGuestCart();
+        console.log('DEBUG JS MERGE: Carrello guest da inviare per il merge (prima di stringify):', guestCart); 
+
         if (guestCart.length > 0) {
-            const productCodes = guestCart.map(item => item.productCode);
-            const quantities = guestCart.map(item => item.quantity);
-
-            let formData = new URLSearchParams();
-            productCodes.forEach(code => formData.append('productCode', code));
-            quantities.forEach(qty => formData.append('quantity', qty));
-
             fetch('/MyGardenProject/MergeCartServlet', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: formData.toString()
+                headers: { 
+                    'Content-Type': 'application/json' 
+                },
+                body: JSON.stringify(guestCart) 
             })
             .then(response => {
+                // Se la risposta HTTP non è OK (es. 4xx, 5xx), lancia un errore
                 if (!response.ok) {
-                    return response.text().then(text => { throw new Error(`Errore durante l'unione del carrello guest: ${response.status} - ${text}`); });
+                    return response.text().then(text => { 
+                        throw new Error(`Errore durante l'unione del carrello guest: ${response.status} - ${text}`); 
+                    });
                 }
-                return response.json();
+                // Se la risposta HTTP è OK, processa il JSON.
+                // Assumiamo che se arriva qui, il server ha processato correttamente.
+                return response.json(); // La tua servlet potrebbe restituire direttamente il carrello unito.
             })
             .then(data => {
-                console.log('Unione carrello guest completata:', data);
-                if (data.status === 'success') {
-                    saveGuestCart([]);
-                    showCustomAlert('Il tuo carrello temporaneo è stato unito al tuo account!', 'Carrello Unito');
-                } else {
-                    showCustomAlert(`Errore nell'unione del carrello: ${data.message}`, 'Errore Unione Carrello');
-                }
+                // DEBUG: Controlla cosa ricevi dal server.
+                console.log('Unione carrello guest completata - Dati ricevuti:', data);
+
+                // ⭐⭐ LA MODIFICA CHIAVE È QUI ⭐⭐
+                // Visto che la tua MergeCartServlet restituisce direttamente l'array del carrello
+                // o un array vuoto in caso di successo, possiamo basarci su questo.
+                // NON VERIFICARE data.status, dato che non è presente.
+
+                // Assumi successo se la fetch è andata a buon fine (response.ok era true)
+                // e i dati ricevuti sono un array (come il carrello).
+                // Potresti aggiungere un controllo più specifico se necessario,
+                // ad esempio: `if (Array.isArray(data))`
+                
+                saveGuestCart([]); // Svuota il carrello guest locale solo se il merge ha avuto successo sul server
+                showCustomAlert('Il tuo carrello temporaneo è stato unito al tuo account!', 'Carrello Unito');
+                
+                // Ricarica la sidebar per mostrare il carrello aggiornato dal database
+                // (apriSidebarCarrello farà una nuova fetch a GetCartServlet)
+                apriSidebarCarrello(); 
             })
             .catch(error => {
+                // Gestisce gli errori di rete o errori nella promise chain (inclusi quelli lanciati da response.ok)
                 console.error('Errore nel fetch dell\'unione carrello:', error);
+                // Utilizza 'Errore Grave' per indicare un problema non previsto dal server
                 showCustomAlert('Si è verificato un errore durante l\'unione del carrello. Potrebbe essere necessario aggiungerli manualmente.', 'Errore Grave');
             });
+        } else {
+            // Se il carrello guest è vuoto, non c'è nulla da unire
+            console.log('DEBUG JS MERGE: Carrello guest vuoto, nessun merge necessario al login.');
+            // Chiama comunque apriSidebarCarrello per caricare il carrello dell'utente loggato dal DB
+            apriSidebarCarrello(); 
         }
     }
 });
