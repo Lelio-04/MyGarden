@@ -36,35 +36,7 @@
     <meta charset="UTF-8">
     <title>Checkout</title>
     <link rel="stylesheet" href="styles/styleSidebar.css">
-    <style>
-        .checkout-form {
-            max-width: 600px;
-            margin: 40px auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-            margin-top: 200px
-        }
-        .checkout-form h2 { margin-bottom: 20px; }
-        .checkout-form label { display: block; margin-top: 10px; font-weight: bold; }
-        .checkout-form input, .checkout-form select, .checkout-form textarea {
-            width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box;
-        }
-        .checkout-summary { margin-top: 30px; }
-        .checkout-summary table {
-            width: 100%; border-collapse: collapse;
-        }
-        .checkout-summary th, .checkout-summary td {
-            padding: 8px; border-bottom: 1px solid #ccc;
-        }
-        .checkout-form button {
-            margin-top: 20px; padding: 10px 20px;
-            background-color: #3c8d40; color: white;
-            border: none; border-radius: 4px; cursor: pointer;
-        }
-        .checkout-form button:hover { background-color: #2e7033; }
-    </style>
+    <link rel="stylesheet" href="styles/styleCheckout.css">
     <script>
 	  const isLoggedIn = <%= (username != null) ? "true" : "false" %>;
 	</script>
