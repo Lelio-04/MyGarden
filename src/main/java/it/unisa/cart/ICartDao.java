@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface ICartDao {
 
-    void addToCart(int userId, int productCode, int quantity) throws SQLException;
+    boolean addToCart(int userId, int productCode, int quantity) throws SQLException;
 
     List<CartBean> getCartItems(int userId) throws SQLException;
 
@@ -14,4 +14,6 @@ public interface ICartDao {
     void removeItem(int userId, int productCode) throws SQLException;
 
     void clearCart(int userId) throws SQLException;
+    
+    int getProductQuantityInCart(int userId, int productCode) throws SQLException;
 }

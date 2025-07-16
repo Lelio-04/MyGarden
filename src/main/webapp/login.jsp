@@ -41,7 +41,7 @@
         </div>
         <% } %>
 
-        <form action="Login" method="post">
+        <form action="https://localhost<%= request.getContextPath() %>/Login" method="post">
             <div class="form-group username-field">
                 <label for="username">Username:</label>
                 <input id="username" type="text" name="username" placeholder="Inserisci il tuo Username" required>

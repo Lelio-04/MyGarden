@@ -1,7 +1,6 @@
 let cart = [];
 let isMerging = false;
 
-
 const ADD_TO_CART_SERVLET_URL = '/MyGardenProject/AddToCartServlet';
 const REMOVE_FROM_CART_SERVLET_URL = '/MyGardenProject/remove-from-cart';
 const UPDATE_CART_QUANTITY_SERVLET_URL = '/MyGardenProject/update-cart-quantity';
@@ -19,6 +18,7 @@ function mapServerCartToClientCart(serverCartArray) {
         maxQty: item.product.quantity
     }));
 }
+
 async function loadUserCartWithMergeCheck() {
     const cartMerged = localStorage.getItem('cartMerged');
     if (cartMerged !== 'true') {
@@ -35,12 +35,13 @@ function openCart() {
     sidebar.classList.add("open");
 
     if (isUserLoggedIn()) {
-        fetchCartFromServer().then(updateCartDisplay);  // <-- solo fetch
+        fetchCartFromServer().then(updateCartDisplay);
     } else {
         loadGuestCart();
         updateCartDisplay();
     }
 }
+
 async function initUserSession() {
     if (localStorage.getItem('cartMerged') !== 'true') {
         await mergeGuestCartWithUserCart();
@@ -48,7 +49,6 @@ async function initUserSession() {
     await fetchCartFromServer();
     updateCartDisplay();
 }
-
 
 function deduplicateCart(cartArray) {
     const map = new Map();
@@ -163,7 +163,6 @@ async function addToCart(product) {
         openCart();
     }
 }
-
 
 async function removeFromCart(productCode) {
     if (isUserLoggedIn()) {
@@ -359,7 +358,6 @@ async function mergeGuestCartWithUserCart() {
     }
 }
 
-
 function logout() {
     localStorage.removeItem('cartMerged');
     localStorage.removeItem('lastMergeTimestamp');
@@ -368,32 +366,30 @@ function logout() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-	if (isUserLoggedIn()) {
-	    await initUserSession();
-	} else {
-        // Carico il carrello guest e aggiorno display
+    if (isUserLoggedIn()) {
+        await initUserSession();
+    } else {
         loadGuestCart();
         updateCartDisplay();
     }
 
     document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-		button.addEventListener('click', async () => {
-		    if (button.disabled) return;
-		    button.disabled = true;
+        button.addEventListener('click', async () => {
+            if (button.disabled) return;
+            button.disabled = true;
 
-		    const id = String(button.getAttribute('data-product-id'));
-		    const name = button.getAttribute('data-product-name');
-		    const price = parseFloat(button.getAttribute('data-product-price')) || 0;
-		    const image = button.getAttribute('data-product-image');
-		    const maxQty = parseInt(button.getAttribute('data-product-maxQty')) || 99;
-		    const qtyInput = document.getElementById(`qty-${id}`);
-		    const quantity = parseInt(qtyInput?.value) || 1;
+            const id = String(button.getAttribute('data-product-id'));
+            const name = button.getAttribute('data-product-name');
+            const price = parseFloat(button.getAttribute('data-product-price')) || 0;
+            const image = button.getAttribute('data-product-image');
+            const maxQty = parseInt(button.getAttribute('data-product-maxQty')) || 99;
+            const qtyInput = document.getElementById(`qty-${id}`);
+            const quantity = parseInt(qtyInput?.value) || 1;
 
-		    await addToCart({ id, name, price, image, quantity, maxQty });
+            await addToCart({ id, name, price, image, quantity, maxQty });
 
-		    button.disabled = false;
-		});
-
+            button.disabled = false;
+        });
     });
 
     const cartBtn = document.getElementById('cart-button');
@@ -408,7 +404,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 : `/MyGardenProject/Login?next=${encodeURIComponent(checkoutUrl)}`;
         });
     });
-	cart = deduplicateCart(cart);
-	updateCartDisplay();
-});
 
+    cart = deduplicateCart(cart);
+    updateCartDisplay();
+});

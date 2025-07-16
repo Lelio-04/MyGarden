@@ -15,18 +15,45 @@ public class CartDAODataSource implements ICartDao{
         this.dataSource = dataSource;
     }
 
-    public void addToCart(int userId, int productCode, int quantity) throws SQLException {
+    public boolean addToCart(int userId, int productCode, int quantityToAdd) throws SQLException {
+        int currentQuantity = getProductQuantityInCart(userId, productCode);
+        int availableStock = getAvailableQuantity(productCode);
+
+        if (currentQuantity + quantityToAdd > availableStock) {
+            System.out.println("DEBUG CART DAO: Quantità richiesta supera lo stock disponibile");
+            return false;
+        }
+
         String sql = "INSERT INTO cart_items (user_id, product_code, quantity) " +
-                     "VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE quantity = quantity + ?";
+                     "VALUES (?, ?, ?) " +
+                     "ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)";
 
         try (Connection conn = dataSource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, userId);
             ps.setInt(2, productCode);
-            ps.setInt(3, quantity);
-            ps.setInt(4, quantity);
-            ps.executeUpdate();
+            ps.setInt(3, quantityToAdd);
+
+            int rows = ps.executeUpdate();
+            System.out.println("DEBUG CART DAO: Quantità aggiornata per utente " + userId);
+            return true;
         }
+    }
+
+
+
+    public int getAvailableQuantity(int productCode) throws SQLException {
+        String sql = "SELECT quantity FROM products WHERE code = ?";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, productCode);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("quantity");
+                }
+            }
+        }
+        return 0; // prodotto non trovato = stock 0
     }
 
     public List<CartBean> getCartItems(int userId) throws SQLException {
@@ -94,5 +121,21 @@ public class CartDAODataSource implements ICartDao{
             ps.setInt(3, productCode);
             ps.executeUpdate();
         }
+    }
+
+    @Override
+    public int getProductQuantityInCart(int userId, int productCode) throws SQLException {
+        String sql = "SELECT quantity FROM cart_items WHERE user_id = ? AND product_code = ?";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ps.setInt(2, productCode);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("quantity");
+                }
+            }
+        }
+        return 0; // Se il prodotto non è nel carrello dell'utente, la quantità è 0
     }
 }

@@ -1,128 +1,111 @@
-/* styleRegister.css */
+/* Stile coerente con la pagina di login e catalogo */
+
 body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #cdecc9, #e9f5e5);
-    margin: 0;
-    padding: 0;
-    color: #333;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+  color: #2c2c2c;
 }
 
-
 .register-container {
-    background: white;
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    width: 100%;
-    margin-top: 200px;
-    margin-bottom: 30px;
+  max-width: 500px;
+  margin: 30px auto;
+  background-color: #fff;
+  padding: 50px 40px;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
 .register-header {
-    text-align: center;
-    margin-bottom: 30px;
+  margin-bottom: 40px;
+  text-align: center;
 }
 
 .register-header h2 {
-    color: #2d5016;
-    font-size: 2rem;
-    margin-bottom: 10px;
+  font-size: 42px;
+  font-weight: 700;
+  color: #1a472a;
+  margin-bottom: 15px;
 }
 
 .register-header p {
-    color: #555;
-    font-size: 1rem;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    font-weight: bold;
-    color: #4a7c59;
-    display: block;
-    margin-bottom: 5px;
-    font-size: 1rem;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 12px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-}
-
-.form-group input:focus {
-    border-color: #8CBF3F;
-    background-color: #fff;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(140, 191, 63, 0.2);
-}
-
-.btn {
-    /*background: linear-gradient(45deg, #4a7c59, #8CBF3F);*/
-    background: linear-gradient(45deg, #ff6b35, #f7931e);
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 25px;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    width: 60%;
-    transition: background 0.3s ease, transform 0.2s ease;
-    /*margin-bottom: 10px;*/
-    margin: 0 auto 10px;
-    display: block;
-}
-
-.btn:hover {
-    background: linear-gradient(45deg, #f7931e, #ff6b35);
-    transform: translateY(-2px);
+  font-size: 18px;
+  color: #555;
 }
 
 .form-errors {
-    background: #ffebee;
-    color: #e53935;
-    padding: 10px 15px;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    font-weight: bold;
-    font-size: 0.95rem;
-    text-align: center;
+  background-color: #ffe6e6;
+  color: #b00020;
+  border: 1px solid #ffcccc;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 28px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="tel"],
+input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+input:focus {
+  border-color: #1a472a;
+  outline: none;
+}
+
+.btn {
+  display: block;
+  margin: 30px auto 0;
+  padding: 10px 22px;
+  background-color: #1a472a;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 50%;
+  max-width: 250px;
+}
+
+.btn:hover {
+  background-color: #145a32;
 }
 
 .register-link {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 0.95rem;
+  margin-top: 35px;
+  text-align: center;
+  font-size: 14px;
 }
 
 .register-link a {
-    color: #4a7c59;
-    text-decoration: none;
-    font-weight: bold;
+  color: #1a472a;
+  text-decoration: none;
+  font-weight: 600;
 }
 
 .register-link a:hover {
-    color: #8CBF3F;
-    text-decoration: underline;
-}
-
-footer {
-    background-color: #2d5016;
-    color: white;
-    text-align: center;
-    padding: 20px;
-    position: relative;
-    width: 100%;
-    margin-top: auto;
+  text-decoration: underline;
 }

@@ -37,35 +37,34 @@
                     ProductBean bean = (ProductBean) obj;
         %>
         <div class="product-card">
-            <a href="DettaglioProdottoServlet?code=<%= bean.getCode() %>">
-                <div class="product-image-wrapper">
-                    <img src="<%= bean.getImage() %>" alt="<%= bean.getName() %>">
-                </div>
-            </a>
+  			<a href="DettaglioProdottoServlet?code=<%= bean.getCode() %>">
+    			<div class="product-image-wrapper">
+      				<img src="<%= bean.getImage() %>" alt="<%= bean.getName() %>">
+    			</div>
+  			</a>
+  			<div class="product-content">
+    			<h3><%= bean.getName() %></h3>
+    				<p class="price">€ <%= String.format(Locale.US, "%.2f", bean.getPrice()) %></p>
 
-            <div class="product-content">
-                <h3><%= bean.getName() %></h3>
-                <p class="price">€ <%= String.format(Locale.US, "%.2f", bean.getPrice()) %></p>
-
-                <% if (bean.getQuantity() > 0) { %>
-                <div class="quantity-row">
-                    <span class="available">Disponibilità: <%= bean.getQuantity() %></span>
-                    <input type="number" id="qty-<%= bean.getCode() %>" value="1" min="1" max="<%= bean.getQuantity() %>" required>
-                </div>
-                <button
-                        class="add-to-cart-btn"
-                        data-product-id="<%= bean.getCode() %>"
-                        data-product-name="<%= bean.getName() %>"
-                        data-product-price="<%= String.format(Locale.US, "%.2f", bean.getPrice()) %>"
-                        data-product-image="<%= bean.getImage() %>"
-                        data-max-qty="<%= bean.getQuantity() %>">
-                    Aggiungi al Carrello
-                </button>
-                <% } else { %>
-                <div class="not-available">Non disponibile</div>
-                <% } %>
-            </div>
-        </div>
+		    <% if (bean.getQuantity() > 0) { %>
+		      <div class="quantity-row">
+		        <span class="available">Disponibilità: <%= bean.getQuantity() %></span>
+		        <input type="number" id="qty-<%= bean.getCode() %>" value="1" min="1" max="<%= bean.getQuantity() %>" required>
+		      	</div>
+		      		<button
+			        	class="add-to-cart-btn"
+			        	data-product-id="<%= bean.getCode() %>"
+			        	data-product-name="<%= bean.getName() %>"
+			        	data-product-price="<%= String.format(Locale.US, "%.2f", bean.getPrice()) %>"
+			        	data-product-image="<%= bean.getImage() %>"
+			        	data-max-qty="<%= bean.getQuantity() %>">
+			        	Aggiungi al Carrello
+		      		</button>
+		    		<% } else { %>
+		      <div class="not-available">Non disponibile</div>
+		    <% } %>
+		  </div>
+</div>
         <%
                 }
             } else {
@@ -76,14 +75,6 @@
 </main>
 
 <jsp:include page="footer.jsp" />
-
-<div id="custom-modal-overlay" class="custom-modal-overlay">
-    <div class="custom-modal">
-        <h3 id="custom-modal-title" class="custom-modal-title"></h3>
-        <p id="custom-modal-message" class="custom-modal-message"></p>
-        <div id="custom-modal-buttons" class="custom-modal-buttons"></div>
-    </div>
-</div>
 
 </body>
 </html>

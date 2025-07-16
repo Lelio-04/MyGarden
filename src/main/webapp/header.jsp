@@ -49,21 +49,21 @@
                  <% if (username != null) { %>
                      <li><a href="Logout">Logout</a></li>
                  <% } else { %>
-                     <li><a href="login.jsp">Accedi</a></li>
+                     <li><a href="https://localhost/MyGardenProject/login.jsp">Accedi</a></li>
                  <% } %>
              </ul>
          </nav>
 
          <div class="header-icons">
-             <a href="#" class="icon-link" title="Carrello" onclick="apriSidebarCarrello(event)">
-                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                     <circle cx="9" cy="21" r="1"></circle>
-                     <circle cx="20" cy="21" r="1"></circle>
-                     <path d="m1 1 4 4 14 1-1 9H6"></path>
-                 </svg>
-             </a>
+             <a href="#" class="icon-link" title="Carrello" id="cart-button" onclick="openCart()">
+             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+	        <circle cx="9" cy="21" r="1"></circle>
+	        <circle cx="20" cy="21" r="1"></circle>
+	        <path d="m1 1 4 4 14 1-1 9H6"></path>
+	    </svg>
+	</a>
 
-             <a href="<%= (username != null) ? "profilo.jsp" : "login.jsp" %>" class="icon-link" title="<%= (username != null) ? "Profilo" : "Accedi" %>">
+             <a href="<%= (username != null) ? "profilo.jsp" : "https://localhost/MyGardenProject/login.jsp" %>" class="icon-link" title="<%= (username != null) ? "Profilo" : "Accedi" %>">
                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                      <circle cx="12" cy="7" r="4"></circle>
@@ -81,27 +81,16 @@
              <% } %>
          </div>
      </div>
+     <div id="cartSidebar" class="cart-sidebar">
+        <a href="javascript:void(0)" class="close-btn" onclick="closeCart()">&times;</a>
+        <h2>Il tuo Carrello</h2>
+        <div id="cart-items">
+            <p class="empty-cart-message">Il carrello è vuoto.</p>
+        </div>
+        <div class="cart-total">
+            <span>Totale:</span>
+            <span id="cart-total-price">€0.00</span>
+        </div>
+        <button class="checkout-btn">Procedi al Checkout</button>
+    </div>
  </header>
-
- <!-- Sidebar Carrello (Spostata qui per essere inclusa in tutte le pagine) -->
- <div id="sidebar-carrello" style="display:none; position: fixed; right: 0; top: 0; width: 350px; height: 100vh; background: white; border-left: 1px solid #ccc; padding: 20px; overflow-y: auto; z-index: 10000; box-shadow: -2px 0 10px rgba(0,0,0,0.2);">
-     <button onclick="chiudiSidebar()">&times;</button>
-     <h3>🛒 Il tuo carrello</h3>
-     <div id="carrello-items"></div>
-     <hr>
-     <strong>Totale: €<span id="carrello-totale">0.00</span></strong>
-     <br><br>
-     <button id="svuota-carrello-btn" onclick="svuotaCarrello()">Svuota Carrello</button>
-     <div id="checkout-section"></div>
- </div>
-
- <!-- Modale Personalizzata HTML (Spostata qui per essere inclusa in tutte le pagine) -->
- <div id="custom-modal-overlay" class="custom-modal-overlay">
-     <div class="custom-modal">
-         <h3 id="custom-modal-title" class="custom-modal-title"></h3>
-         <p id="custom-modal-message" class="custom-modal-message"></p>
-         <div id="custom-modal-buttons" class="custom-modal-buttons">
-             <!-- I bottoni verranno aggiunti dal JavaScript -->
-         </div>
-     </div>
- </div>

@@ -37,7 +37,6 @@ public class AddToCartServlet extends HttpServlet {
             int productCode = Integer.parseInt(request.getParameter("productCode"));
             int quantityToAdd = Integer.parseInt(request.getParameter("quantity"));
 
-            // Recupera prodotto per quantità massima disponibile
             ProductBean product = productDAO.doRetrieveByKey(productCode);
             if (product == null) {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -45,12 +44,9 @@ public class AddToCartServlet extends HttpServlet {
                 return;
             }
             int maxAvailable = product.getQuantity();
-
-            // Recupera quantità già presente nel carrello per questo prodotto
             int currentQuantityInCart = 0;
 
             if (userId != null) {
-                // Utente loggato, prendi quantità dal DB
                 List<CartBean> cartItems = cartDAO.getCartItems(userId);
                 for (CartBean item : cartItems) {
                     if (item.getProductCode() == productCode) {
@@ -66,11 +62,9 @@ public class AddToCartServlet extends HttpServlet {
                     return;
                 }
 
-                // Aggiungi solo se valido
                 cartDAO.addToCart(userId, productCode, quantityToAdd);
 
             } else {
-                // Utente guest: gestisci sessione
                 @SuppressWarnings("unchecked")
                 List<CartBean> guestCart = (List<CartBean>) session.getAttribute("guestCart");
                 if (guestCart == null) guestCart = new ArrayList<>();
@@ -89,7 +83,6 @@ public class AddToCartServlet extends HttpServlet {
                     return;
                 }
 
-                // Aggiungi o aggiorna nel carrello guest
                 boolean found = false;
                 for (CartBean item : guestCart) {
                     if (item.getProductCode() == productCode) {
@@ -116,7 +109,7 @@ public class AddToCartServlet extends HttpServlet {
             return;
         }
 
-        // Preparazione della risposta JSON
+        // Ritorna carrello aggiornato come oggetto JSON con "status" e "cart"
         List<CartBean> cartItems = new ArrayList<>();
         if (userId != null) {
             try {
@@ -140,9 +133,8 @@ public class AddToCartServlet extends HttpServlet {
             }
         }
 
-        // Costruzione manuale del JSON per il carrello aggiornato
         StringBuilder json = new StringBuilder();
-        json.append("[");
+        json.append("{\"status\":\"success\", \"cart\":[");
 
         for (int i = 0; i < cartItems.size(); i++) {
             CartBean item = cartItems.get(i);
@@ -155,22 +147,25 @@ public class AddToCartServlet extends HttpServlet {
             json.append("\"product\":{");
             json.append("\"name\":\"").append(escapeJson(p.getName())).append("\",");
             json.append("\"price\":").append(p.getPrice()).append(",");
-            json.append("\"image\":\"").append(escapeJson(p.getImage())).append("\"");
+            json.append("\"image\":\"").append(escapeJson(p.getImage())).append("\",");
+            json.append("\"quantity\":").append(p.getQuantity());
             json.append("}}");
 
             if (i < cartItems.size() - 1) json.append(",");
         }
 
-        json.append("]");
+        json.append("]}");
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(json.toString());
     }
 
-
     private String escapeJson(String s) {
         if (s == null) return "";
-        return s.replace("\"", "\\\"").replace("\n", "").replace("\r", "");
+        return s.replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("\n", "")
+                .replace("\r", "");
     }
 }

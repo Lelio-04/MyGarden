@@ -15,15 +15,15 @@
 }
 
 .product-card {
-  background-color: #fff;
+  background-color: white;
   border: 1px solid #e8e8e8;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   display: flex;
   flex-direction: column;
   transition: box-shadow 0.3s ease;
+  min-height: 392px;
   height: 100%;
-  min-height: 480px;
 }
 
 .product-card:hover {
@@ -34,7 +34,7 @@
 .product-image-wrapper {
   width: 100%;
   height: 220px;
-  background-color: #f5f5f5;
+  background-color: white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -48,18 +48,18 @@
   object-fit: contain;
 }
 
-/* Contenuto card */
+/* Contenuto interno della card */
 .product-content {
-  padding: 20px;
+  padding: 15px 20px;
   display: flex;
   flex-direction: column;
-  flex: 1;
-  justify-content: space-between;
+  gap: 5px; /* Spazio uniforme e ridotto tra elementi */
+  /* Rimosso flex-grow per adattarsi solo al contenuto */
 }
 
 .product-card h3 {
   font-size: 22px;
-  margin: 0 0 10px;
+  margin: 0;
   font-weight: 600;
   font-family: 'Goudy Old Style', serif;
   color: #2c2c2c;
@@ -72,7 +72,7 @@
   font-size: 18px;
   font-weight: 600;
   color: #4a4a4a;
-  margin-bottom: 10px;
+  margin: 0;
 }
 
 .quantity-row {
@@ -81,7 +81,6 @@
   align-items: center;
   font-size: 14px;
   color: #777;
-  margin-bottom: 0;
 }
 
 .available {
@@ -103,18 +102,18 @@
   outline: none;
 }
 
-/* Bottone aggiungi al carrello - con margine superiore controllato */
+/* Bottone aggiungi al carrello */
 .add-to-cart-btn {
-  margin-top: 5px;
   background-color: #1a472a;
   color: #fff;
   border: none;
-  border-radius: 6px;
+  border-radius: 20px;
   padding: 12px 20px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-top: auto; /* Spinge il bottone in basso eliminando spazio bianco */
 }
 
 .add-to-cart-btn:hover {

@@ -24,6 +24,6 @@ public class Logout extends HttpServlet {
             System.out.println("⚠️ Nessuna sessione attiva da invalidare");
         }
 
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("logout-success.jsp");
     }
 }

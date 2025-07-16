@@ -24,7 +24,19 @@
      <link rel="icon" href="images/favicon.png" type="image/png">
       <script>
       var isLoggedIn = <%= (username != null) ? "true" : "false" %>;
+      window.addEventListener('DOMContentLoaded', () => {
+    	    const cartMerged = localStorage.getItem('cartMerged');
+    	    const guestCart = localStorage.getItem('guestCart');
+
+    	    // ⚠️ Chiama merge SOLO se non è già stato fatto e guestCart esiste
+    	    if (!cartMerged && guestCart) {
+    	        console.log("🔄 Tentativo di eseguire il merge del carrello...");
+    	        mergeGuestCartWithUserCart();
+    	    }
+    	});
+
     </script>
+    
     <script src="scripts/sidebar.js" defer></script>
  </head>
  <body>

@@ -64,15 +64,15 @@ public class Login extends HttpServlet {
                         HttpSession session = request.getSession(true);
                         session.setAttribute("username", dbUsername); // per coerenza
                         session.setAttribute("userId", userId);
-                        session.setAttribute("isAdmin", isAdmin);     // ✅ Booleano usato dalle JSP
+                        session.setAttribute("isAdmin", isAdmin);      // ✅ Booleano usato dalle JSP
                         session.setAttribute("role", isAdmin ? "admin" : "cliente");
 
                         // ✅ Token CSRF per la sessione
                         String token = UUID.randomUUID().toString();
                         session.setAttribute("sessionToken", token);
 
-                        // ✅ Guest cart migration
-                        @SuppressWarnings("unchecked")
+                        // ✅ Guest cart migration - QUESTO BLOCCO DEVE RIMANERE COMMENTATO
+                        /*@SuppressWarnings("unchecked")
                         List<CartBean> guestCart = (List<CartBean>) session.getAttribute("guestCart");
 
                         if (guestCart != null && !guestCart.isEmpty()) {
@@ -80,7 +80,7 @@ public class Login extends HttpServlet {
                                 insertCartItem(conn, userId, item.getProductCode(), item.getQuantity());
                             }
                             session.removeAttribute("guestCart");
-                        }
+                        }*/
 
                         System.out.println("✅ LOGIN OK — Session ID: " + session.getId());
                         System.out.println("🟢 Username: " + dbUsername + " | Admin: " + isAdmin);
@@ -138,5 +138,10 @@ public class Login extends HttpServlet {
             System.err.println("Errore hash: " + e.getMessage());
             return "";
         }
+    }
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Tipicamente ridirigi alla pagina login.jsp
+        request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 }

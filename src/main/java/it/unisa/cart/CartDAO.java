@@ -15,20 +15,62 @@ public class CartDAO implements ICartDao {
         this.dataSource = dataSource;
     }
 
-    @Override
-    public void addToCart(int userId, int productCode, int quantity) throws SQLException {
-        String sql = "INSERT INTO cart_items (user_id, product_code, quantity) " +
-                     "VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE quantity = quantity + ?";
+    public boolean addToCart(int userId, int productCode, int quantityToAdd) throws SQLException {
+        try (Connection conn = dataSource.getConnection()) {
+            conn.setAutoCommit(false);
 
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, userId);
-            ps.setInt(2, productCode);
-            ps.setInt(3, quantity);
-            ps.setInt(4, quantity);
-            ps.executeUpdate();
+            String selectStock = "SELECT quantity FROM product WHERE code = ? FOR UPDATE";
+            String selectCartQty = "SELECT quantity FROM cart_items WHERE user_id = ? AND product_code = ?";
+
+            try (PreparedStatement psStock = conn.prepareStatement(selectStock);
+                 PreparedStatement psCart = conn.prepareStatement(selectCartQty)) {
+
+                psStock.setInt(1, productCode);
+                int availableStock;
+                try (ResultSet rsStock = psStock.executeQuery()) {
+                    if (!rsStock.next()) {
+                        conn.rollback();
+                        return false; // Prodotto non esiste
+                    }
+                    availableStock = rsStock.getInt("quantity");
+                }
+
+                psCart.setInt(1, userId);
+                psCart.setInt(2, productCode);
+                int currentQuantity = 0;
+                try (ResultSet rsCart = psCart.executeQuery()) {
+                    if (rsCart.next()) {
+                        currentQuantity = rsCart.getInt("quantity");
+                    }
+                }
+
+                if (currentQuantity + quantityToAdd > availableStock) {
+                    conn.rollback();
+                    return false;
+                }
+
+                String sql = "INSERT INTO cart_items (user_id, product_code, quantity) VALUES (?, ?, ?) " +
+                             "ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)";
+
+                try (PreparedStatement psInsert = conn.prepareStatement(sql)) {
+                    psInsert.setInt(1, userId);
+                    psInsert.setInt(2, productCode);
+                    psInsert.setInt(3, quantityToAdd);
+                    psInsert.executeUpdate();
+                }
+
+                conn.commit();
+                return true;
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            } finally {
+                conn.setAutoCommit(true);
+            }
         }
     }
+
+
 
     @Override
     public List<CartBean> getCartItems(int userId) throws SQLException {
@@ -117,6 +159,51 @@ public class CartDAO implements ICartDao {
                     return 0;
                 }
             }
+        }
+    }
+    @Override
+    public int getProductQuantityInCart(int userId, int productCode) throws SQLException {
+        String sql = "SELECT quantity FROM cart_items WHERE user_id = ? AND product_code = ?";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ps.setInt(2, productCode);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("quantity");
+                }
+            }
+        }
+        return 0; // Se il prodotto non è nel carrello dell'utente, la quantità è 0
+    }
+    public boolean insertToCart(int userId, int productCode, int quantity) throws SQLException {
+        String sql = "INSERT INTO cart_items (user_id, product_code, quantity) VALUES (?, ?, ?)";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ps.setInt(2, productCode);
+            ps.setInt(3, quantity);
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            if (e.getSQLState().startsWith("23")) { // codice di violazione chiave duplicata (dipende DB)
+                return false; // riga esiste già
+            } else {
+                throw e;
+            }
+        }
+    }
+    public void updateOrInsertCartItem(int userId, int productCode, int quantity) throws SQLException {
+        String sql = "INSERT INTO cart_items (user_id, product_code, quantity) " +
+                     "VALUES (?, ?, ?) " +
+                     "ON DUPLICATE KEY UPDATE quantity = VALUES(quantity)";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ps.setInt(2, productCode);
+            ps.setInt(3, quantity);
+            ps.executeUpdate();
         }
     }
 
