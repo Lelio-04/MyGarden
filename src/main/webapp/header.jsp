@@ -55,7 +55,11 @@
          </nav>
 
          <div class="header-icons">
-             <a href="#" class="icon-link" title="Carrello" id="cart-button" onclick="openCart()">
+         <% if ("carrello.jsp".equals(currentPage)) { %>
+                  <a href="#" class="icon-link" title="Carrello" id="cart-button">
+          <% } else{%>
+             	<a href="#" class="icon-link" title="Carrello" id="cart-button" onclick="openCart()">
+            <% }%>
              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 	        <circle cx="9" cy="21" r="1"></circle>
 	        <circle cx="20" cy="21" r="1"></circle>
@@ -81,16 +85,18 @@
              <% } %>
          </div>
      </div>
-     <div id="cartSidebar" class="cart-sidebar">
-        <a href="javascript:void(0)" class="close-btn" onclick="closeCart()">&times;</a>
-        <h2>Il tuo Carrello</h2>
-        <div id="cart-items">
-            <p class="empty-cart-message">Il carrello è vuoto.</p>
-        </div>
-        <div class="cart-total">
-            <span>Totale:</span>
-            <span id="cart-total-price">€0.00</span>
-        </div>
-        <button class="checkout-btn">Procedi al Checkout</button>
-    </div>
+      <% if (!"carrello.jsp".equals(currentPage)) { %>
+                  <div id="cartSidebar" class="cart-sidebar">
+				        <a href="javascript:void(0)" class="close-btn" onclick="closeCart()">&times;</a>
+				        <h2>Il tuo Carrello</h2>
+				        <div id="cart-items">
+				            <p class="empty-cart-message">Il carrello è vuoto.</p>
+				        </div>
+				        <div class="cart-total">
+				            <span>Totale:</span>
+				            <span id="cart-total-price">€0.00</span>
+				        </div>
+				        <button class="checkout-btn">Procedi al Checkout</button>
+				    </div>
+         <%}%>
  </header>
