@@ -1,76 +1,116 @@
+/* Reset base per eliminare spazi indesiderati */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
 
+/* Struttura body con flexbox per sticky footer */
 body {
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  background-color: #f5f5f5;
-  margin: 0;
-  padding: 0;
-  color: #2c2c2c;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f5f5f5;
+    color: #2c2c2c;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
+/* Il main deve espandersi per occupare lo spazio disponibile */
 main {
-  max-width: 480px; /* ridotto da 700+ a 480px */
-  margin: 40px auto;
-  padding: 30px 25px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    flex: 1; /* Questo è fondamentale per far funzionare margin-top: auto del footer */
+    max-width: 480px;
+    margin: 40px auto;
+    padding: 30px 25px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
 }
 
+/* Footer - mantieni il tuo CSS esistente */
+footer {
+    background-color: #c0c0c0; /* Sfondo leggermente più scuro per il footer */
+    color: var(--color-text-medium);
+    text-align: center;
+    padding: 29px 15px; /* Padding generoso */
+    margin-top: auto; /* Questo ora funzionerà correttamente */
+    font-size: 0.9em;
+    border-top: 1px solid var(--color-border); /* Bordo superiore sottile */
+    /* Aggiungi queste righe per eliminare completamente lo spazio sotto */
+    margin-bottom: 0;
+    padding-bottom: 29px; /* Mantieni il padding ma assicurati che sia esplicito */
+}
+
+/* Resto del CSS per il profilo */
 .profile-section h3 {
-  margin-top: 10px;
-  font-size: 28px;
-  font-weight: 700;
-  color: #1a472a;
-  margin-bottom: 25px;
-  text-align: center;
+    margin-top: 10px;
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a472a;
+    margin-bottom: 25px;
+    text-align: center;
 }
 
 .profile-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 .profile-list li {
-  font-size: 15px;
-  margin-bottom: 14px;
-  padding: 10px 14px;
-  background-color: #f9f9f9;
-  border-left: 4px solid #1a472a;
-  border-radius: 6px;
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  
+    font-size: 15px;
+    margin-bottom: 14px;
+    padding: 10px 14px;
+    background-color: #f9f9f9;
+    border-left: 4px solid #1a472a;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
 }
 
 .profile-list li strong {
-  flex-shrink: 0;
-  width: 110px;
-  font-weight: 600;
-  color: #333;
-  text-align: left;
+    flex-shrink: 0;
+    width: 110px;
+    font-weight: 600;
+    color: #333;
+    text-align: left;
+}
+
+.profile-list li span {
+    flex-grow: 1;
+    text-align: right;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 @media (max-width: 500px) {
-  main {
-    margin: 10px 10px;
-    padding: 20px 15px;
-  }
+    main {
+        margin: 10px;
+        padding: 20px 15px;
+    }
 
-  .profile-section h3 {
-    font-size: 24px;
-  }
+    .profile-section h3 {
+        font-size: 24px;
+    }
 
-  .profile-list li {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 8px 10px;
-  }
+    .profile-list li {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 8px 10px;
+    }
 
-  .profile-list li strong {
-    width: auto;
-    margin-bottom: 4px;
-  }
+    .profile-list li strong {
+        width: auto;
+        margin-bottom: 4px;
+    }
+    
+    .profile-list li span {
+        text-align: left;
+    }
 }
