@@ -1,5 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="it.unisa.db.ProductBean" %>
+<%@ page import="java.util.List" %>
+<%@ page import="it.unisa.db.ReviewBean" %>
+
 <%
     ProductBean product = (ProductBean) request.getAttribute("product");
     if (product == null) {
@@ -92,6 +95,34 @@
 
         </div>
     </div>
+    	
+    <%
+    List<ReviewBean> reviews = (List<ReviewBean>) request.getAttribute("reviews");
+%>
+
+<section class="reviews-section">
+    <h2>Recensioni dei clienti</h2>
+
+    <% if (reviews != null && !reviews.isEmpty()) {
+        for (ReviewBean review : reviews) {
+            int stars = review.getStars();
+    %>
+    <div class="review">
+        <div class="review-header">
+            <span class="review-stars">
+                <%= "★".repeat(stars) + "☆".repeat(5 - stars) %>
+            </span>
+            <span class="review-user"><%= review.getUser() %></span>
+        </div>
+        <p class="review-text"><%= review.getText() %></p>
+    </div>
+    <%   }
+       } else { %>
+        <p>Nessuna recensione disponibile per questo prodotto.</p>
+    <% } %>
+</section>
+    
+    
 </main>
 
 <jsp:include page="footer.jsp" />

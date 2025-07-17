@@ -149,3 +149,100 @@
         font-size: 1.5rem;
     }
 }
+
+.reviews-section {
+    margin-top: 50px; /* Aumentato il margine superiore per separarlo dal dettaglio prodotto */
+    padding: 30px;
+    background-color: #f9f9f9; /* Manteniamo un colore neutro che si abbina bene */
+    border-radius: 15px; /* Bordi arrotondati come la product-detail-card */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); /* Ombra più leggera, simile alla product-detail-card */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Manteniamo un font moderno e leggibile */
+    color: #333; /* Colore testo generale più scuro per contrasto */
+}
+
+.reviews-section h2 {
+    margin-bottom: 25px;
+    font-size: 2em;
+    color: #2d5016; /* Usa il colore verde scuro del titolo del prodotto */
+    border-bottom: 2px solid #a8dadc; /* Mantieniamo un bordo leggero e fresco */
+    padding-bottom: 12px;
+    text-align: center;
+    letter-spacing: 0.5px;
+    font-weight: bold; /* Coerente con i titoli del prodotto */
+}
+
+.review {
+    background-color: #ffffff; /* Sfondo bianco per le singole recensioni */
+    border: 1px solid #e0e6ed; /* Bordo sottile e discreto */
+    border-radius: 10px; /* Arrotondato come gli elementi del prodotto */
+    margin-bottom: 25px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Ombra più sottile per armonia */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Transizione più rapida */
+}
+
+.review:hover {
+    transform: translateY(-3px); /* Sollevamento leggero all'hover */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Ombra leggermente più intensa all'hover */
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.review-stars {
+    color: #FFD700; /* Oro brillante, si abbina bene ai colori naturali */
+    font-size: 1.3em; /* Stelle leggermente più piccole per un look più raffinato */
+    letter-spacing: 1px; /* Meno spaziatura per maggiore compattezza */
+}
+
+.review-user {
+    color: #4a6572; /* Un grigio-blu che si sposa con i toni verdi/marroni */
+    font-size: 1em; /* Dimensione leggermente più piccola */
+    font-weight: normal; /* Meno grassetto, più sobrio */
+    text-transform: none; /* Lasciamo il nome utente come inserito */
+}
+
+.review-text {
+    margin-left: 0;
+    font-style: italic; /* Reintrodotto il corsivo per distinguere il testo della recensione */
+    color: #666; /* Usa lo stesso grigio della descrizione prodotto */
+    line-height: 1.6;
+    text-align: justify;
+    font-size: 0.95em; /* Leggermente più piccolo per testo lungo */
+}
+
+/* Responsive Design per le recensioni */
+@media (max-width: 992px) {
+    .reviews-section {
+        padding: 20px;
+        margin-top: 40px;
+    }
+    .reviews-section h2 {
+        font-size: 1.8em;
+    }
+}
+
+@media (max-width: 600px) {
+    .reviews-section {
+        padding: 15px;
+        margin-top: 30px;
+    }
+    .reviews-section h2 {
+        font-size: 1.5em;
+    }
+    .review {
+        padding: 15px;
+    }
+    .review-stars {
+        font-size: 1.2em;
+    }
+    .review-user, .review-text {
+        font-size: 0.9em;
+    }
+}
