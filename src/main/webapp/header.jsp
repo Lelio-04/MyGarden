@@ -56,7 +56,7 @@
 
          <div class="header-icons">
          <% if ("carrello.jsp".equals(currentPage)) { %>
-                  <a href="#" class="icon-link" title="Carrello" id="cart-button">
+                  <a href="carrello.jsp" class="icon-link" title="Carrello" id="cart-button">
           <% } else{%>
              	<a href="#" class="icon-link" title="Carrello" id="cart-button" onclick="openCart()">
             <% }%>

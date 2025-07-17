@@ -138,4 +138,36 @@ public class CartDAODataSource implements ICartDao{
         }
         return 0; // Se il prodotto non è nel carrello dell'utente, la quantità è 0
     }
+
+    @Override
+    public ProductBean getProductDetails(int productCode) throws SQLException {
+        String sql = "SELECT code, name, description, price, quantity, image FROM product WHERE code = ?";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, productCode);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    ProductBean product = new ProductBean();
+                    product.setCode(rs.getInt("code"));
+                    product.setName(rs.getString("name"));
+                    product.setDescription(rs.getString("description"));
+                    product.setPrice(rs.getDouble("price"));
+                    product.setQuantity(rs.getInt("quantity"));
+                    product.setImage(rs.getString("image"));
+
+                    return product;
+                } else {
+                    return null; // Se il prodotto non esiste
+                }
+            }
+        }
+    }
+
+	@Override
+	public boolean addToCart(int userId, int productCode, int quantityToAdd, boolean isMerge) throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

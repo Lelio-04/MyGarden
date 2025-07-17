@@ -22,10 +22,10 @@ function mapServerCartToClientCart(serverCartArray) {
 async function loadUserCartWithMergeCheck() {
     const cartMerged = localStorage.getItem('cartMerged');
     if (cartMerged !== 'true') {
-        await mergeGuestCartWithUserCart();
+        await mergeGuestCartWithUserCart(); // Merge if needed
     }
-    await fetchCartFromServer();
-    updateCartDisplay();
+    await fetchCartFromServer(); // Always fetch the latest cart from the server
+    updateCartDisplay(); // Update cart display
 }
 
 function openCart() {
@@ -35,7 +35,7 @@ function openCart() {
     sidebar.classList.add("open");
 
     if (isUserLoggedIn()) {
-        fetchCartFromServer().then(updateCartDisplay);
+        fetchCartFromServer().then(updateCartDisplay);  // <-- solo fetch
     } else {
         loadGuestCart();
         updateCartDisplay();
@@ -43,24 +43,28 @@ function openCart() {
 }
 
 async function initUserSession() {
-    if (localStorage.getItem('cartMerged') !== 'true') {
+    try {
+        if (sessionStorage.getItem('cartMerged') === 'true') {
+            console.log("⛔ Merge già eseguito questa sessione.");
+            return;
+        }
         await mergeGuestCartWithUserCart();
+        await fetchCartFromServer();
+        updateCartDisplay();
+    } catch (error) {
+        console.error('❌ Errore durante l\'inizializzazione della sessione:', error);
     }
-    await fetchCartFromServer();
-    updateCartDisplay();
 }
 
-function deduplicateCart(cartArray) {
-    const map = new Map();
-    for (let item of cartArray) {
-        if (map.has(item.id)) {
-            const existing = map.get(item.id);
-            existing.quantity = Math.min(existing.quantity + item.quantity, item.maxQty);
-        } else {
-            map.set(item.id, { ...item });
+function deduplicateCart(cart) {
+    const seen = new Set();
+    return cart.filter(item => {
+        if (!seen.has(item.id)) {
+            seen.add(item.id);
+            return true;
         }
-    }
-    return Array.from(map.values());
+        return false;
+    });
 }
 
 function closeCart() {
@@ -87,26 +91,71 @@ async function postFormUrlEncoded(url, data) {
     });
 }
 
+function showModal(message) {
+    const modal = document.getElementById('cart-modal');
+    const modalMessage = document.getElementById('modal-message');
+    const closeButton = document.getElementById('modal-close');
+
+    modalMessage.textContent = message;  
+    modal.style.display = 'block'; 
+
+    closeButton.onclick = function() {
+        modal.style.display = 'none';  
+    }
+
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    }
+}
+
+
+let isRequestInProgress = false;  // Aggiungi questo flag per gestire le richieste multiple
+
+
+// Funzione per prevenire invii multipli di richieste AJAX
+function blockRequest() {
+    if (isRequestInProgress) {
+        console.log("⛔ Una richiesta è già in corso, blocco il nuovo invio.");
+        return true; // Blocca la nuova richiesta
+    }
+    isRequestInProgress = true;  // Imposta il flag che la richiesta è in corso
+    return false; // La richiesta può essere inviata
+}
+
+function unblockRequest() {
+    isRequestInProgress = false;  // Sblocca il flag dopo che la richiesta è stata completata
+}
+
 async function addToCart(product) {
-    if (!isUserLoggedIn()) {
+    if (blockRequest()) return;  // Blocca la richiesta se è già in corso
+
+    if (!isUserLoggedIn() && product.id != "undefined") {
         try {
             const response = await fetch(`/MyGardenProject/get-product-info?id=${product.id}`);
             if (!response.ok) throw new Error('Errore recupero disponibilità.');
+
             const data = await response.json();
+
             if (typeof data.maxQty !== 'number') {
-                alert('Errore nel caricamento delle informazioni prodotto.');
+                showModal('Errore nel caricamento delle informazioni prodotto.');
+                unblockRequest();  // Sblocca la richiesta
                 return;
             }
+
             product.maxQty = data.maxQty;
         } catch (error) {
             console.error('Errore fetch maxQty per guest:', error);
-            alert('Errore durante il controllo disponibilità prodotto.');
+            showModal('Errore durante il controllo disponibilità prodotto.');
+            unblockRequest();  // Sblocca la richiesta
             return;
         }
     }
 
     if (product.quantity > product.maxQty) {
-        alert(`La quantità richiesta supera la disponibilità per ${product.name} (${product.maxQty}).`);
+        showModal(`La quantità richiesta supera la disponibilità per ${product.name} (${product.maxQty}).`);
+        unblockRequest();  // Sblocca la richiesta
         return;
     }
 
@@ -120,11 +169,11 @@ async function addToCart(product) {
             const json = await response.json();
 
             if (!response.ok || json.status !== 'success') {
-                alert(`Errore: ${json.error || 'Impossibile aggiungere il prodotto.'}`);
+                showModal(`Errore: ${json.error || 'Impossibile aggiungere il prodotto.'}`);
+                unblockRequest();  // Sblocca la richiesta
                 return;
             }
 
-            // json.cart contiene l'array aggiornato degli elementi nel carrello
             cart = json.cart.map(item => ({
                 id: item.productCode,
                 quantity: item.quantity,
@@ -138,21 +187,24 @@ async function addToCart(product) {
             openCart();
         } catch (error) {
             console.error('Errore aggiunta prodotto:', error);
-            alert('Errore durante l\'aggiunta al carrello.');
+            showModal('Errore durante l\'aggiunta al carrello.');
+        } finally {
+            unblockRequest();  // Sblocca la richiesta una volta completata
         }
     } else {
         let item = cart.find(i => String(i.id) === String(product.id));
+
         if (item) {
             const totalQty = item.quantity + product.quantity;
             if (totalQty > product.maxQty) {
-                alert(`Puoi aggiungere solo ${product.maxQty - item.quantity} unità di ${product.name}.`);
+                showModal(`La somma delle quantità supera la disponibilità per ${product.name}.`);
                 item.quantity = product.maxQty;
             } else {
                 item.quantity = totalQty;
             }
         } else {
             if (product.quantity > product.maxQty) {
-                alert(`Disponibilità limitata. Imposto quantità a ${product.maxQty}.`);
+                showModal(`Disponibilità limitata. Imposto quantità a ${product.maxQty}.`);
                 product.quantity = product.maxQty;
             }
             cart.push({ ...product });
@@ -161,6 +213,93 @@ async function addToCart(product) {
         saveGuestCart();
         updateCartDisplay();
         openCart();
+        unblockRequest();  // Sblocca la richiesta
+    }
+}
+
+async function removeFromCart(productCode) {
+    if (blockRequest()) return;  // Blocca la richiesta se è già in corso
+
+    if (isUserLoggedIn()) {
+        try {
+            const response = await fetch(REMOVE_FROM_CART_SERVLET_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `productCode=${encodeURIComponent(productCode)}`
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Errore rimozione');
+            }
+
+            await fetchCartFromServer();
+            updateCartDisplay();
+            openCart();
+        } catch (error) {
+            console.error('Errore rimozione prodotto:', error);
+            alert('Errore rimozione: ' + error.message);
+        } finally {
+            unblockRequest();  // Sblocca la richiesta una volta completata
+        }
+    } else {
+        cart = cart.filter(item => item.id !== productCode);
+        saveGuestCart();
+        updateCartDisplay();
+        openCart();
+        unblockRequest();  // Sblocca la richiesta
+    }
+}
+
+async function updateQuantity(productId, change) {
+    if (blockRequest()) return;  // Blocca la richiesta se è già in corso
+
+    const item = cart.find(i => i.id == productId);
+    if (!item) {
+        unblockRequest();  // Sblocca la richiesta se non ci sono problemi
+        return;
+    }
+
+    let newQty = item.quantity + change;
+    if (newQty < 1) {
+        await removeFromCart(productId);
+        unblockRequest();  // Sblocca la richiesta
+        return;
+    }
+
+    if (newQty > item.maxQty) {
+        alert(`Quantità massima per ${item.name}: ${item.maxQty}`);
+        newQty = item.maxQty;
+    }
+
+    if (isUserLoggedIn()) {
+        try {
+            const response = await postFormUrlEncoded(UPDATE_CART_QUANTITY_SERVLET_URL, {
+                productCode: productId,
+                quantity: newQty
+            });
+
+            const json = await response.json();
+            if (!response.ok || json.status !== 'success') {
+                alert(`Errore: ${json.message || 'Impossibile aggiornare la quantità.'}`);
+                unblockRequest();  // Sblocca la richiesta
+                return;
+            }
+
+            await fetchCartFromServer();
+            updateCartDisplay();
+        } catch (error) {
+            console.error('Errore aggiornamento quantità:', error);
+            alert('Errore aggiornamento quantità.');
+        } finally {
+            unblockRequest();  // Sblocca la richiesta una volta completata
+        }
+    } else {
+        item.quantity = newQty;
+        saveGuestCart();
+        updateCartDisplay();
+        openCart();
+        unblockRequest();  // Sblocca la richiesta
     }
 }
 
@@ -247,7 +386,7 @@ function updateCartDisplay() {
         return;
     }
 
-    for (const item of cart) {
+    cart.forEach(item => {
         const div = document.createElement('div');
         div.className = 'cart-item';
         div.innerHTML = `
@@ -267,7 +406,7 @@ function updateCartDisplay() {
         `;
         container.appendChild(div);
         total += parseFloat(item.price) * item.quantity;
-    }
+    });
 
     totalElement.textContent = `€${total.toFixed(2)}`;
 }
@@ -285,83 +424,183 @@ function loadGuestCart() {
     }
 }
 
+const MERGE_TIMEOUT = 50000;
+const LAST_MERGE_KEY = 'lastMergeTimestamp';
+
 async function mergeGuestCartWithUserCart() {
-    if (isMerging) {
-        console.warn("⛔ Merge già in corso (client-side lock)");
+    const lastMergeTime = localStorage.getItem(LAST_MERGE_KEY);
+    const currentTime = new Date().getTime();
+
+    if (lastMergeTime && (currentTime - parseInt(lastMergeTime) < MERGE_TIMEOUT)) {
+        const timeDiff = currentTime - parseInt(lastMergeTime);
+        console.log(`⛔ Merge troppo recente (${timeDiff} ms fa)`);
         return;
     }
-    isMerging = true;
 
     try {
-        const now = Date.now();
-        const lastMerge = parseInt(localStorage.getItem('lastMergeTimestamp') || '0', 10);
-        if (now - lastMerge < 1000) {
-            console.warn("⛔ Merge eseguito troppo recentemente (cooldown)");
-            return;
-        }
-
-        if (localStorage.getItem('cartMerged') === 'true') {
-            console.info("⛔ Merge già eseguito (flag cartMerged presente)");
-            return;
-        }
-
         const guestCartStr = localStorage.getItem('guestCart');
         if (!guestCartStr) {
-            console.info("⛔ Nessun carrello guest presente");
+            console.log("⛔ Nessun carrello guest trovato.");
             return;
         }
 
         const parsedGuestCart = JSON.parse(guestCartStr);
-        if (!Array.isArray(parsedGuestCart) || parsedGuestCart.length === 0) {
-            console.info("⛔ Carrello guest vuoto");
+        console.log('Carrello guest:', parsedGuestCart);
+
+        const userCart = await fetchUserCartFromServer();
+        console.log('Carrello utente prima del merge:', userCart);
+
+        const mergedCart = mergeCarts(parsedGuestCart, userCart);
+        console.log('Carrello unito:', mergedCart);  // Log dei carrelli uniti prima dell'aggiornamento
+
+        // Log della cartella finale prima dell'update
+        console.log('Carrello unito da inviare al server:', mergedCart);
+
+        const updateResponse = await updateUserCart(mergedCart,true);
+
+        console.log('Risposta aggiornamento carrello utente:', updateResponse);
+
+        if (!updateResponse.success) {
+            console.error('❌ Errore durante l\'aggiornamento del carrello utente');
             return;
         }
 
-        const guestCartJson = JSON.stringify(parsedGuestCart.map(item => ({
-            productCode: item.id,
-            quantity: item.quantity,
-            product: {
-                id: item.id,
-                name: item.name,
-                price: item.price,
-                image: item.image,
-                quantity: item.maxQty
-            }
-        })));
+        sessionStorage.setItem('cartMerged', 'true');
+        localStorage.setItem(LAST_MERGE_KEY, currentTime.toString());
+        localStorage.removeItem('guestCart');
 
-        const response = await fetch('/MyGardenProject/MergeCartServlet', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: guestCartJson
-        });
-
-        const text = await response.text();
-        console.log('📦 MergeCartServlet response:', text);
-
-        if (!response.ok) {
-            console.error('❌ Errore HTTP durante il merge:', text);
-            return;
-        }
-
-        const mergedCart = JSON.parse(text);
-        cart = deduplicateCart(mapServerCartToClientCart(mergedCart));
+        console.log("✅ Carrelli uniti e aggiornati con successo.");
+        cart = mergedCart;
         updateCartDisplay();
 
-        localStorage.setItem('cartMerged', 'true');
-        localStorage.setItem('lastMergeTimestamp', now.toString());
-        localStorage.removeItem('guestCart');
-        console.log("✅ Merge completato con successo");
+        // Log the final cart after merge and update
+        console.log('Carrello dell\'utente aggiornato con successo:', mergedCart);
+
     } catch (error) {
-        console.error('❌ Errore durante il merge del carrello:', error);
-    } finally {
-        isMerging = false;
+        console.error('❌ Errore durante la fusione dei carrelli:', error);
     }
 }
 
+
+async function fetchUserCartFromServer() {
+    try {
+        const response = await fetch('/MyGardenProject/GetCartServlet');
+        if (!response.ok) throw new Error(`Errore HTTP: ${response.status}`);
+        return await response.json();
+    } catch (error) {
+        console.error('Errore recupero carrello utente:', error);
+        return [];
+    }
+}
+
+function mergeCarts(guestCart, userCart) {
+    // Unificare la struttura dei carrelli (normalizzare i dati)
+    const normalizedGuestCart = guestCart.map(item => ({
+        id: String(item.id),  // Assicurati che l'ID sia una stringa
+        name: item.name,
+        price: item.price,
+        image: item.image,
+        maxQty: item.maxQty,
+        quantity: item.quantity
+    }));
+
+    const normalizedUserCart = userCart.map(item => ({
+        id: String(item.productCode),  // Assicurati che l'ID sia una stringa
+        name: item.product.name,
+        price: item.product.price,
+        image: item.product.image,
+        maxQty: item.product.quantity, // Aggiungere maxQty se non esiste
+        quantity: item.quantity
+    }));
+
+    // Inizializzare il carrello finale con i prodotti dell'utente
+    const mergedCart = [...normalizedUserCart];
+
+    // Unire i prodotti del carrello guest
+    normalizedGuestCart.forEach(guestItem => {
+        const existingItem = mergedCart.find(item => item.id === guestItem.id);
+
+        if (existingItem) {
+            // Se il prodotto esiste già, somma le quantità, ma non superare la maxQty
+            const newQuantity = existingItem.quantity + guestItem.quantity;
+            existingItem.quantity = Math.min(newQuantity, existingItem.maxQty);  // Limita la quantità alla maxQty
+        } else {
+            // Se il prodotto non esiste, aggiungilo al carrello unito
+            mergedCart.push({ ...guestItem });
+        }
+    });
+
+    // Eliminare i duplicati nel carrello unito (se la quantità è maggiore della maxQty, bisogna correggerla)
+    const uniqueCart = [];
+    mergedCart.forEach(item => {
+        const existingItem = uniqueCart.find(cartItem => cartItem.id === item.id);
+        if (!existingItem) {
+            uniqueCart.push(item);
+        } else {
+            existingItem.quantity = Math.min(existingItem.quantity + item.quantity, item.maxQty);
+        }
+    });
+
+    // Log dei prodotti uniti
+    uniqueCart.forEach(item => {
+        console.log(`Prodotto unito: ${item.name} | Quantità: ${item.quantity} | Prezzo: ${item.price}`);
+    });
+
+    return uniqueCart;
+}
+
+async function updateUserCart(cart, isMerged) {
+    try {
+        // Log per verificare il formato dei dati prima di inviarli
+        console.log('Dati carrello da inviare:', cart);
+		
+        // Aggiungi il flag isMerged al carrello
+        const requestData = {
+            cart: cart,
+            isMerged: isMerged // Aggiungi il campo isMerged per identificare il tipo di carrello
+        };
+
+        // Inviare la richiesta al server
+        const response = await fetch('/MyGardenProject/update-cart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)  // Invia direttamente il carrello con il flag
+        });
+
+        // Verifica che la risposta sia andata a buon fine (status HTTP 200-299)
+        if (!response.ok) {
+            throw new Error(`Errore HTTP: ${response.status} ${response.statusText}`);
+        }
+
+        // Gestire la risposta JSON
+        const responseData = await response.json();
+
+        // Log della risposta ricevuta
+        console.log('Risposta dal server:', responseData);
+
+        if (responseData.success) {
+            console.log('Carrello aggiornato con successo!');
+        } else {
+            console.error('Errore durante l\'aggiornamento del carrello:', responseData.error);
+        }
+
+        return responseData;  // Restituisce il risultato della risposta
+
+    } catch (error) {
+        // Gestione dell'errore con messaggio più dettagliato
+        console.error('Errore durante l\'aggiornamento del carrello dell\'utente:', error.message || error);
+        return { success: false, error: error.message || 'Errore sconosciuto' };  // Restituisce un errore più dettagliato
+    }
+}
+
+
 function logout() {
-    localStorage.removeItem('cartMerged');
-    localStorage.removeItem('lastMergeTimestamp');
+    sessionStorage.removeItem('cartMerged');
     localStorage.removeItem('guestCart');
+    localStorage.removeItem('lastMergeTimestamp');
+	localStorage.removeItem('MERGE_TIMEOUT');
     window.location.href = '/MyGardenProject/Logout';
 }
 
@@ -375,8 +614,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     document.querySelectorAll('.add-to-cart-btn').forEach(button => {
         button.addEventListener('click', async () => {
-            if (button.disabled) return;
-            button.disabled = true;
+            if (button.disabled) return; 
+
+            button.disabled = true;  
 
             const id = String(button.getAttribute('data-product-id'));
             const name = button.getAttribute('data-product-name');
@@ -386,15 +626,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             const qtyInput = document.getElementById(`qty-${id}`);
             const quantity = parseInt(qtyInput?.value) || 1;
 
+            // Add product to the cart (handling both guest and logged-in users)
             await addToCart({ id, name, price, image, quantity, maxQty });
 
-            button.disabled = false;
+            button.disabled = false;  // Re-enable the button after the operation
         });
     });
 
+    // Handle opening the cart sidebar
     const cartBtn = document.getElementById('cart-button');
     cartBtn?.addEventListener('click', openCart);
 
+    // Handle the checkout button click
     document.querySelectorAll('.checkout-btn').forEach(btn => {
         btn.addEventListener('click', e => {
             e.preventDefault();
@@ -405,6 +648,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
 
+    // Deduplicate and update the cart display after page load
     cart = deduplicateCart(cart);
     updateCartDisplay();
 });

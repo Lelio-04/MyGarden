@@ -11,9 +11,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 
-@WebServlet("/get-product-info")
+@WebServlet("/get-product-info")  // Rimuovi /* e usa il percorso diretto
 public class GetProductInfoServlet extends HttpServlet {
-
     private static final long serialVersionUID = 1L;
     private transient ProductDaoDataSource productDAO;
 
@@ -28,7 +27,7 @@ public class GetProductInfoServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String idParam = request.getParameter("id");
-        System.out.println("GetProductInfoServlet doGet called with id=" + request.getParameter("id"));
+        System.out.println("GetProductInfoServlet doGet called with id=" + idParam); // Debugging
         if (idParam == null || idParam.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().write("{\"error\":\"ID prodotto mancante\"}");

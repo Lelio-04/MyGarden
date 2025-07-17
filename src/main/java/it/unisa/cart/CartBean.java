@@ -9,6 +9,16 @@ public class CartBean {
     private int quantity;
     private ProductBean product; // Collegamento al prodotto
 
+    public CartBean(int productCode, int quantity, ProductBean product) {
+        this.productCode = productCode;
+        this.quantity = quantity;
+        this.product = product;
+    }
+
+    public CartBean() {
+
+    }
+
     public int getId() {
         return id;
     }
@@ -51,7 +61,7 @@ public class CartBean {
 
     public double getSubtotal() {
         if (product != null) {
-            return product.getPrice() * quantity;
+            return product.getPrice()*quantity;
         }
         return 0;
     }

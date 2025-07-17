@@ -1,5 +1,17 @@
 /* Catalogo Prodotti - Stile coerente con header */
 
+/* Impostazioni generali per il layout */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Assicura che il body occupi tutta l'altezza della finestra */
+  margin: 0; /* Rimuove il margine di default */
+}
+
+.main-content {
+  flex-grow: 1; /* Fa sÃ¬ che il contenuto principale occupi lo spazio disponibile */
+}
+
 .catalog-container {
   max-width: 1200px;
   margin: 40px auto;

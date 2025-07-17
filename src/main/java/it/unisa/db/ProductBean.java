@@ -13,8 +13,8 @@ public class ProductBean implements Serializable {
     private int quantity;
     private String image;
     private boolean isDeleted; 
-    private String category;// ✅ Aggiunto per soft delete
-    
+    private String category;
+
     public ProductBean() {
         this.code = -1;
         this.name = "";
@@ -22,11 +22,23 @@ public class ProductBean implements Serializable {
         this.price = 0.0;
         this.quantity = 0;
         this.image = "";
-        this.isDeleted = false; // ✅ Inizializzato come non eliminato
+        this.isDeleted = false;
         this.category = "";
     }
-    
 
+    // Costruttore con parametri specifici
+    public ProductBean(int code, String name, double price, boolean isDeleted) {
+        this.code = code;
+        this.name = name;
+        this.price = price;
+        this.isDeleted = isDeleted;
+        this.description = "";
+        this.quantity = 0;
+        this.image = "";
+        this.category = "";
+    }
+
+    // Getter e Setter
     public String getCategory() {
         return category;
     }
@@ -34,7 +46,6 @@ public class ProductBean implements Serializable {
     public void setCategory(String category) {
         this.category = category;
     }
-
 
     public int getCode() {
         return code;
@@ -84,17 +95,16 @@ public class ProductBean implements Serializable {
         this.image = image;
     }
 
-    public boolean isDeleted() { // ✅ Getter
+    public boolean isDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(boolean isDeleted) { // ✅ Setter
+    public void setDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
     }
 
     @Override
     public String toString() {
         return name + " (" + code + "), " + price + "€ - Quantità: " + quantity + ". " + description + " " + image;
-        // puoi aggiungere: + " [Eliminato: " + isDeleted + "]"
     }
 }

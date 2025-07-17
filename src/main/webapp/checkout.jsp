@@ -94,10 +94,12 @@
                             total += subtotal;
                     %>
                     <tr>
+                    <td>
+      				<img src="<%= product.getImage() %>" alt="<%= product.getName() %>">
+      				</td>
                         <td><%= product.getName() %></td>
                         <td><%= quantity %></td>
                         <td>€ <%= String.format("%.2f", price) %></td>
-                        <td>€ <%= String.format("%.2f", subtotal) %></td>
                     </tr>
                     <%
                         }

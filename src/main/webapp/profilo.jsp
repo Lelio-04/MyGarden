@@ -59,7 +59,7 @@ try (Connection conn = ds.getConnection()) {
             <li><strong>Telefono:</strong> <span><%=telefono%></span></li>
             <li><strong>Data di nascita:</strong> <span><%=dataNascita%></span></li>
             <li><strong>Indirizzo:</strong> <span><%=indirizzo%></span></li>
-            <li><strong>Città:</strong> <span><%=citta%></span></li>
+            <li><strong>CittÃ :</strong> <span><%=citta%></span></li>
             <li><strong>Provincia:</strong> <span><%=provincia%></span></li>
             <li><strong>CAP:</strong> <span><%=cap%></span></li>
         </ul>

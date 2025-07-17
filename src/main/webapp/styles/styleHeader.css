@@ -101,6 +101,7 @@ header {
   position: relative;
 }
 
+/* Freccetta verso il basso per il dropdown */
 .dropdown-toggle::after {
   content: ' ▾'; /* Freccetta verso il basso per indicare il dropdown */
   margin-left: 6px;
@@ -108,17 +109,16 @@ header {
   color: #777;
 }
 
+/* Menu a discesa */
 .dropdown-menu {
   /* Rimosso display: none; per permettere transizioni fluide */
   position: absolute;
-  /* Posizionamento per creare un "ponte" di hover tra il toggle e il menu */
-  top: calc(100% - 10px); /* Sposta il menu leggermente in alto per sovrapporsi al link */
+  top: calc(100% + 5px); /* Sposta il menu leggermente in alto per sovrapporsi al link */
   left: 50%;
   transform: translateX(-50%) translateY(10px); /* Aggiunge una leggera traslazione iniziale per l'animazione */
   background-color: #ffffff;
   list-style: none;
   margin-top: 0; /* Rimuove qualsiasi gap dal margine */
-  /* Miglioramenti per il dropdown */
   padding: 20px 25px; /* Padding verticale aumentato per più spazio, e orizzontale */
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); /* Ombra più morbida e diffusa */
   border-radius: 8px; /* Angoli più arrotondati */
@@ -136,17 +136,17 @@ header {
   gap: 15px 20px; /* Spazio tra le righe e tra le colonne */
 }
 
+/* Mostra il menu quando il mouse è sopra il contenitore */
 .dropdown:hover .dropdown-menu {
-  /* Rimosso display: block; */
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(0); /* Anima alla posizione finale */
   pointer-events: auto; /* Permette interazioni quando il menu è visibile */
 }
 
+/* Link nel menu a discesa */
 .dropdown-menu li a {
   display: block;
-  /* Miglioramenti per i link del dropdown */
   padding: 10px 15px; /* Padding adeguato per ogni voce nella griglia */
   color: #2c2c2c;
   font-size: 15px; /* Dimensione del font leggermente aumentata */
@@ -155,10 +155,20 @@ header {
   text-align: center; /* Centra il testo all'interno di ogni elemento */
 }
 
+/* Effetto hover sui link del menu */
 .dropdown-menu li a:hover {
   background-color: #f0f0f0; /* Sfondo leggermente più scuro all'hover */
   color: #2c2c2c; /* Mantiene il colore del testo scuro all'hover */
 }
+
+/* Rendere visibile il dropdown anche quando il mouse è sopra il menu */
+.dropdown:hover .dropdown-menu, .dropdown-menu:hover {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0); /* Anima alla posizione finale */
+  pointer-events: auto; /* Permette interazioni quando il menu è visibile */
+}
+
 
 /* Header Icons (Carrello, Profilo, Registrati) */
 .header-icons {
@@ -263,16 +273,17 @@ header {
 
 /* Tablet and Smaller Devices (max-width: 768px) */
 /* Questa media query impila gli elementi verticalmente per schermi più piccoli. */
+/* Tablet and Smaller Devices (max-width: 768px) */
 @media (max-width: 768px) {
   header {
-    padding: 16px 0; /* Riduce il padding verticale dell'header a tutta larghezza */
+    padding: 16px 0; /* Riduce il padding verticale dell'header */
   }
 
   .header-content-wrapper {
     flex-direction: column; /* Gli elementi si impilano verticalmente */
-    align-items: flex-start; /* Allinea gli elementi a sinistra quando impilati */
+    align-items: flex-start; /* Allinea gli elementi a sinistra */
     gap: 16px; /* Spazio tra gli elementi impilati */
-    padding: 0 20px; /* Riduce il padding orizzontale per il contenuto su tablet */
+    padding: 0 20px; /* Riduce il padding orizzontale */
   }
 
   .brand {
@@ -283,45 +294,44 @@ header {
   .main-nav {
     width: 100%; /* La navigazione occupa tutta la larghezza disponibile */
     justify-content: center; /* Centra i link di navigazione */
-    flex-grow: 0; /* Rimuove flex-grow su mobile per evitare espansioni indesiderate */
   }
 
   .nav-links {
-    flex-direction: column; /* I link di navigazione si impilano verticalmente */
-    align-items: center; /* Centra i link di navigazione impilati */
-    gap: 20px; /* Spazio tra i link impilati */
-    text-align: center;
+    flex-direction: column; /* Impila i link verticalmente */
+    align-items: center; /* Centra i link verticalmente */
+    gap: 15px; /* Diminuisce il gap tra i link */
+    text-align: center; /* Allinea il testo al centro */
+  }
+
+  .nav-links li a {
+    font-size: 18px; /* Modifica la dimensione del font dei link */
+    padding: 6px 0; /* Diminuisce il padding per evitare problemi di spaziatura */
   }
 
   .header-icons {
-    margin-left: 0; /* Rimuove il margin-left: auto su mobile */
-    align-self: flex-end; /* Allinea le icone a destra quando gli elementi sono impilati */
-    margin-top: 10px; /* Spazio sopra le icone */
+    margin-left: 0; /* Rimuove il margine a sinistra per le icone */
+    align-self: flex-end; /* Allinea le icone a destra */
+    margin-top: 10px; /* Spazio tra le icone */
   }
 
-  /* Dropdown su mobile: statico, gestito via JS (se presente) */
+  /* Gestione del dropdown in versione mobile */
   .dropdown-menu {
     position: static; /* Il dropdown non è più posizionato assolutamente */
     transform: none; /* Rimuove la trasformazione */
     box-shadow: none; /* Rimuove l'ombra */
-    background-color: #f8f8f8; /* Sfondo leggermente diverso per il dropdown mobile */
-    margin-top: 0;
-    opacity: 1; /* Visibile se gestito da JS per mostrare/nascondere */
-    visibility: visible;
-    padding-top: 10px; /* Reset padding-top */
-    top: auto;
-    /* Su mobile, il dropdown può tornare a una colonna o due a seconda dello spazio */
-    grid-template-columns: repeat(1, 1fr); /* Una colonna su mobile */
-    min-width: auto; /* Rimuovi la larghezza minima fissa */
+    background-color: #f8f8f8;
     width: 100%; /* Occupa tutta la larghezza disponibile */
-    gap: 10px; /* Riduce il gap */
-    padding: 10px 15px; /* Riduce il padding */
+    grid-template-columns: repeat(1, 1fr); /* Una sola colonna per mobile */
+    padding: 10px 15px;
+    visibility: hidden; /* Inizialmente non visibile */
+    opacity: 1; /* Visibile quando attivato */
   }
 
   .dropdown-menu li a {
-    text-align: left; /* Allinea il testo a sinistra su mobile per leggibilità */
+    text-align: center; /* Allinea il testo a sinistra */
   }
 }
+
 
 /* Smaller Mobile Devices (max-width: 480px) */
 /* Ulteriori ottimizzazioni per schermi di smartphone molto piccoli. */

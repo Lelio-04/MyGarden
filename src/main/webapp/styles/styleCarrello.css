@@ -9,7 +9,8 @@ body {
 /* Contenitore del contenuto principale */
 main {
     flex-grow: 1; /* Permette al contenuto di occupare lo spazio disponibile */
-    padding: 20px;
+    padding: 0px;
+    padding-bottom: 0px; /* Assicuriamo che ci sia spazio per il footer */
 }
 
 /* Stili della sidebar del carrello (centrata sotto l'header) */
@@ -17,20 +18,19 @@ main {
     height: auto;
     width: 90%;
     max-width: 1000px;
-    position: fixed;
-    z-index: 800;
-    top: 80px; /* Spazio sotto l'header */
+    position: relative; /* Ora la sidebar si muove con la pagina */
+    z-index: 800; /* Assicuriamoci che la sidebar abbia uno z-index più basso rispetto al footer */
+    top: 0px; /* Spazio sotto l'header */
     left: 50%;
     transform: translateX(-50%);
     background-color: #f1f1f1;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    padding-top: 30px;
+    padding-top: 0px;
     display: flex;
     flex-direction: column;
     border-radius: 8px;
     transition: 0.5s;
-    overflow-y: auto;
-    margin-top:50px;
+    margin-top: 50px;
 }
 
 /* Quando la sidebar è aperta */
@@ -49,17 +49,22 @@ main {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    z-index: 1001;
+    z-index: 1001; /* Pulsante sopra la sidebar */
 }
 
-/* Bottone di chiusura della sidebar */
-.cart-sidebar .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 36px;
-    color: #818181;
-    cursor: pointer;
+/* Footer */
+footer {
+    position: relative;
+    padding: 20px;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    z-index: 9999; /* Aumentiamo il z-index del footer per essere sicuri che sia sopra */
+}
+
+/* Aggiungi margine al main per lasciare spazio al footer */
+main {
+    margin-bottom: 70px; /* spazio sufficiente per il footer */
 }
 
 /* Titolo della sidebar */
@@ -68,18 +73,22 @@ main {
     color: #333;
     margin-bottom: 20px;
     text-align: center;
+    font-size: 2em;
 }
 
 /* Contenitore degli articoli nel carrello */
 #cart-items {
-    padding: 0 32px;
-    flex-grow: 1; /* Permette agli articoli del carrello di occupare lo spazio disponibile */
-    overflow-y: auto; /* Aggiunge scroll se ci sono troppi articoli */
+    padding: 0 25px;
+    flex-grow: 1;
+    display: flex; /* Dispone gli articoli in una colonna */
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto; /* Aggiunge lo scroll verticale quando il carrello è lungo */
 }
 
 /* Articolo nel carrello */
 .cart-item {
-    display: flex;
+    display: flex; /* Dispone gli articoli in una riga */
     align-items: center;
     padding: 10px 0;
     border-bottom: 1px solid #ddd;
@@ -93,8 +102,8 @@ main {
 /* Stile per l'immagine del prodotto nel carrello */
 .cart-item-image {
     flex-shrink: 0;
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     overflow: hidden;
     border-radius: 4px;
 }
@@ -113,14 +122,14 @@ main {
 
 .cart-item-info h4 {
     margin: 0 0 5px 0;
-    font-size: 1em;
+    font-size: 1.5em;
     color: #333;
 }
 
 .cart-item-info p {
     margin: 0;
     color: #666;
-    font-size: 0.9em;
+    font-size: 1.2em;
 }
 
 /* Azioni del carrello (per esempio, il pulsante per rimuovere un prodotto) */
@@ -137,7 +146,7 @@ main {
     padding: 5px 10px;
     border-radius: 3px;
     cursor: pointer;
-    font-size: 0.8em;
+    font-size: 1em;
 }
 
 /* Sezione totale del carrello */
@@ -149,11 +158,12 @@ main {
     align-items: center;
     font-weight: bold;
     background-color: #f9f9f9;
+    font-size: 1.5em;
 }
 
 /* Pulsante di checkout */
 .checkout-btn {
-    background-color: #28a745;
+    background-color: #145a32;
     color: white;
     padding: 10px 15px;
     border: none;
@@ -162,6 +172,7 @@ main {
     width: calc(100% - 64px);
     margin: 20px 32px;
     box-sizing: border-box;
+    font-size: 1.2em;
 }
 
 .checkout-btn:hover {
@@ -209,14 +220,4 @@ main {
     .cart-item {
         gap: 10px;
     }
-}
-
-/* Footer */
-footer {
-    position: relative;
-    padding: 20px;
-    background-color: #333;
-    color: white;
-    text-align: center;
-    z-index: 1;
 }
