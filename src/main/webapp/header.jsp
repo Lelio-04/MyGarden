@@ -47,10 +47,10 @@
                  <% } %>
 
                  <% if (username != null) { %>
-                     <li><a href="Logout">Logout</a></li>
-                 <% } else { %>
-                     <li><a href="https://localhost/MyGardenProject/login.jsp">Accedi</a></li>
-                 <% } %>
+					    <li><a href="javascript:void(0);" onclick="logout()">Logout</a></li>
+					<% } else { %>
+					    <li><a href="https://localhost/MyGardenProject/login.jsp">Accedi</a></li>
+					<% } %>
              </ul>
          </nav>
 
@@ -98,5 +98,12 @@
 				        </div>
 				        <button class="checkout-btn">Procedi al Checkout</button>
 				    </div>
+				    <!-- Modale di Avviso -->
+					<div id="cart-modal" class="modal">
+					    <div class="modal-content">
+					        <span id="modal-close" class="close">&times;</span>
+					        <p id="modal-message"></p>
+					    </div>
+					</div>
          <%}%>
  </header>

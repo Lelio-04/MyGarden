@@ -17,13 +17,14 @@ public class Logout extends HttpServlet {
         HttpSession session = request.getSession(false); // Non crea una nuova sessione
 
         if (session != null) {
-            System.out.println("🔒 Logout utente: " + session.getAttribute("username"));
+            System.out.println(" Logout utente: " + session.getAttribute("username"));
             session.invalidate(); // Invalida la sessione
-            System.out.println("✅ Sessione invalidata");
+            System.out.println(" Sessione invalidata");
         } else {
-            System.out.println("⚠️ Nessuna sessione attiva da invalidare");
+            System.out.println(" Nessuna sessione attiva da invalidare");
         }
 
         response.sendRedirect("logout-success.jsp");
     }
+
 }
