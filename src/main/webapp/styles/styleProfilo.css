@@ -1,116 +1,134 @@
-/* Reset base per eliminare spazi indesiderati */
+/* Reset base */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
+  height: 100%;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f5f5f5;
+  color: #2c2c2c;
 }
 
-/* Struttura body con flexbox per sticky footer */
+/* Layout */
 body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-color: #f5f5f5;
-    color: #2c2c2c;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-/* Il main deve espandersi per occupare lo spazio disponibile */
+/* Contenitore principale */
 main {
-    flex: 1; /* Questo è fondamentale per far funzionare margin-top: auto del footer */
-    max-width: 480px;
-    margin: 40px auto;
-    padding: 30px 25px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+  flex: 1;
+  max-width: 480px;
+  margin: 60px auto;
+  padding: 40px 30px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
-/* Footer - mantieni il tuo CSS esistente */
+/* Footer */
 footer {
-    background-color: #c0c0c0; /* Sfondo leggermente più scuro per il footer */
-    color: var(--color-text-medium);
-    text-align: center;
-    padding: 29px 15px; /* Padding generoso */
-    margin-top: auto; /* Questo ora funzionerà correttamente */
-    font-size: 0.9em;
-    border-top: 1px solid var(--color-border); /* Bordo superiore sottile */
-    /* Aggiungi queste righe per eliminare completamente lo spazio sotto */
-    margin-bottom: 0;
-    padding-bottom: 29px; /* Mantieni il padding ma assicurati che sia esplicito */
+  background-color: #e0e0e0;
+  color: #333;
+  text-align: center;
+  padding: 24px 15px;
+  font-size: 0.9em;
+  border-top: 1px solid #ccc;
+  margin-top: auto;
 }
 
-/* Resto del CSS per il profilo */
+/* Titolo sezione profilo */
 .profile-section h3 {
-    margin-top: 10px;
-    font-size: 28px;
-    font-weight: 700;
-    color: #1a472a;
-    margin-bottom: 25px;
-    text-align: center;
+  font-size: 30px;
+  font-weight: 700;
+  color: #1a472a;
+  text-align: center;
+  margin-bottom: 30px;
 }
 
+/* Messaggi di stato (mantengo per completezza, anche se non usati nella JSP fornita) */
+.status-message {
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.status-message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #28a745;
+}
+
+.status-message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #dc3545;
+}
+
+/* Stili per la lista del profilo (ul.profile-list) */
 .profile-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none; /* Rimuove i pallini della lista */
+  padding: 0;
+  margin: 0;
 }
 
 .profile-list li {
-    font-size: 15px;
-    margin-bottom: 14px;
-    padding: 10px 14px;
-    background-color: #f9f9f9;
-    border-left: 4px solid #1a472a;
-    border-radius: 6px;
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
+  font-size: 15px;
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  background-color: #f9f9f9;
+  border-left: 4px solid #1a472a; /* Bordo verde sulla sinistra come in una tua versione precedente */
+  border-radius: 6px;
+  display: flex; /* Usa flexbox per allineare forte e span */
+  justify-content: space-between;
+  align-items: baseline;
 }
 
 .profile-list li strong {
-    flex-shrink: 0;
-    width: 110px;
-    font-weight: 600;
-    color: #333;
-    text-align: left;
+  flex-shrink: 0; /* Impedisce al strong di restringersi */
+  width: 110px; /* Larghezza fissa per le etichette */
+  font-weight: 600;
+  color: #333;
+  text-align: left;
 }
 
 .profile-list li span {
-    flex-grow: 1;
-    text-align: right;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+  flex-grow: 1; /* Permette allo span di occupare lo spazio rimanente */
+  text-align: right;
+  word-wrap: break-word; /* Permette la rottura delle parole lunghe */
+  overflow-wrap: break-word;
 }
 
+/* Responsive design */
 @media (max-width: 500px) {
-    main {
-        margin: 10px;
-        padding: 20px 15px;
-    }
+  main {
+    margin: 20px;
+    padding: 25px 20px;
+  }
 
-    .profile-section h3 {
-        font-size: 24px;
-    }
+  .profile-section h3 {
+    font-size: 24px;
+  }
 
-    .profile-list li {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 8px 10px;
-    }
+  /* Adattamento della lista per schermi piccoli */
+  .profile-list li {
+    flex-direction: column; /* Impila gli elementi in colonna */
+    align-items: flex-start; /* Allinea a sinistra */
+    padding: 8px 10px;
+  }
 
-    .profile-list li strong {
-        width: auto;
-        margin-bottom: 4px;
-    }
-    
-    .profile-list li span {
-        text-align: left;
-    }
+  .profile-list li strong {
+    width: auto; /* Larghezza automatica */
+    margin-bottom: 4px; /* Spazio sotto l'etichetta */
+  }
+  
+  .profile-list li span {
+    text-align: left; /* Allinea a sinistra */
+  }
 }

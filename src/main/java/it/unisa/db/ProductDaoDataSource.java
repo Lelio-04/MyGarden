@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
+
 import javax.sql.DataSource;
 
 public class ProductDaoDataSource implements IProductDao {
@@ -205,5 +208,106 @@ public class ProductDaoDataSource implements IProductDao {
 
         return products;
     }
+    public Collection<ProductBean> doSearch(String q, String categoria, String ordine, String prezzoMin, String prezzoMax) throws SQLException {
+        List<ProductBean> prodotti = new ArrayList<>();
+        Connection connection = null;
+
+        try {
+            // Ottieni la connessione dal DataSource
+            connection = ds.getConnection();
+            
+            // Creiamo una query base per la ricerca
+            String query = "SELECT * FROM product WHERE name LIKE ?";
+
+            // Aggiungi il filtro per la categoria se presente
+            if (categoria != null && !categoria.isEmpty()) {
+                query += " AND category_id = ?";
+            }
+
+            // Aggiungi il filtro per il prezzo minimo
+            if (prezzoMin != null && !prezzoMin.isEmpty()) {
+                query += " AND price >= ?";
+            }
+
+            // Aggiungi il filtro per il prezzo massimo
+            if (prezzoMax != null && !prezzoMax.isEmpty()) {
+                query += " AND price <= ?";
+            }
+
+            // Aggiungi l'ordinamento
+            if (ordine != null && !ordine.isEmpty()) {
+                query += " ORDER BY " + ordine;
+            }
+
+            // Prepara la query
+            PreparedStatement stmt = connection.prepareStatement(query);
+
+            int paramIndex = 1;
+
+            // Imposta il parametro per il nome prodotto
+            stmt.setString(paramIndex++, "%" + q + "%");
+
+            // Imposta il parametro per la categoria, se presente
+            if (categoria != null && !categoria.isEmpty()) {
+                stmt.setString(paramIndex++, categoria);
+            }
+
+            // Imposta il parametro per il prezzo minimo, se presente
+            if (prezzoMin != null && !prezzoMin.isEmpty()) {
+                stmt.setDouble(paramIndex++, Double.parseDouble(prezzoMin));
+            }
+
+            // Imposta il parametro per il prezzo massimo, se presente
+            if (prezzoMax != null && !prezzoMax.isEmpty()) {
+                stmt.setDouble(paramIndex++, Double.parseDouble(prezzoMax));
+            }
+
+            // Esegui la query
+            ResultSet rs = stmt.executeQuery();
+
+            // Crea una lista di prodotti
+            while (rs.next()) {
+                ProductBean prodotto = new ProductBean();
+                prodotto.setCode(rs.getInt("code"));
+                prodotto.setName(rs.getString("name"));
+                prodotto.setDescription(rs.getString("description"));
+                prodotto.setPrice(rs.getDouble("price"));
+                prodotto.setQuantity(rs.getInt("quantity"));
+                prodotto.setImage(rs.getString("image"));
+                prodotti.add(prodotto);
+            }
+
+        } finally {
+            if (connection != null) {
+                connection.close(); // Assicurati di chiudere la connessione
+            }
+        }
+
+        return prodotti;
+    }
+    public synchronized Collection<String> getCategories() throws SQLException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        Collection<String> categories = new LinkedList<>();
+
+        String selectSQL = "SELECT name FROM categories";
+
+        try {
+            connection = ds.getConnection();
+            preparedStatement = connection.prepareStatement(selectSQL);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                categories.add(rs.getString("name"));
+            }
+
+        } finally {
+            if (preparedStatement != null) preparedStatement.close();
+            if (connection != null) connection.close();
+        }
+
+        return categories;
+    }
+
 
 }
