@@ -652,3 +652,138 @@ document.addEventListener('DOMContentLoaded', async () => {
     cart = deduplicateCart(cart);
     updateCartDisplay();
 });
+// Funzione per caricare le categorie
+document.addEventListener('DOMContentLoaded', async () => {
+    if (isUserLoggedIn()) {
+        await initUserSession();
+    } else {
+        loadGuestCart();
+        updateCartDisplay();
+    }
+
+    // Aggiungi gli eventi di ricerca e di aggiunta al carrello
+	const searchForm = document.getElementById('searchForm');
+	    if (searchForm) {
+	        searchForm.addEventListener('submit', ricercaProdotti);
+	    }
+
+	    // Verifica se l'elemento #prodotti esiste prima di aggiungere il listener per il carrello
+	    const prodottiDiv = document.getElementById('prodotti');
+	    if (prodottiDiv) {
+	        prodottiDiv.addEventListener('click', async (event) => {
+	            if (event.target && event.target.matches('.add-to-cart-btn')) {
+	                const button = event.target;
+	                if (button.disabled) return;  // Non fare nulla se il pulsante è disabilitato
+
+	                button.disabled = true;  // Disabilita il pulsante per evitare doppie richieste
+
+	                const id = String(button.getAttribute('data-product-id'));
+	                const name = button.getAttribute('data-product-name');
+	                const price = parseFloat(button.getAttribute('data-product-price')) || 0;
+	                const image = button.getAttribute('data-product-image');
+	                const maxQty = parseInt(button.getAttribute('data-product-maxQty')) || 99;
+	                const qtyInput = document.getElementById(`qty-${id}`);
+	                const quantity = parseInt(qtyInput?.value) || 1;
+
+	                // Aggiungi il prodotto al carrello
+	                await addToCart({ id, name, price, image, quantity, maxQty });
+
+	                button.disabled = false;  // Rendi il pulsante abilitato dopo l'operazione
+	            }
+	        });
+	    }
+});
+function caricaCategorie() {
+    const categoriaSelect = document.getElementById('categoria');
+    if (!categoriaSelect) {
+        //console.error("Elemento #categoria non trovato!");
+        return;  // Interrompe la funzione se l'elemento non esiste
+    }
+
+    fetch('/MyGardenProject/getCategories')
+        .then(res => res.json())
+        .then(categorie => {
+            categoriaSelect.innerHTML = ''; // Pulisce le opzioni esistenti
+
+            categorie.forEach(categoria => {
+                const option = document.createElement('option');
+                option.value = categoria.id; // Usa l'ID della categoria come valore
+                option.textContent = categoria.name; // Nome della categoria come testo
+                categoriaSelect.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Errore durante il caricamento delle categorie:', error);
+        });
+}
+
+// Richiama la funzione per caricare le categorie quando la pagina è pronta
+document.addEventListener('DOMContentLoaded', () => {
+    caricaCategorie();
+});
+
+
+// Funzione per gestire la ricerca dei prodotti
+function ricercaProdotti(event) {
+    event.preventDefault();
+
+    const q = document.getElementById('q').value;  // Termini di ricerca
+    const categoria = document.getElementById('categoria').value;  // Categoria selezionata
+
+    const divProdotti = document.getElementById('prodotti');
+    const catalogGrid = divProdotti.querySelector('.catalog-grid');  // Griglia dei prodotti
+
+    // Aggiungi la classe di caricamento mentre i prodotti vengono caricati
+    divProdotti.classList.add('loading');
+    catalogGrid.innerHTML = '';  // Pulisce i prodotti precedenti
+
+    fetch(`/MyGardenProject/CercaProdottiServlet?q=${q}&categoria=${categoria}`)
+        .then(res => res.json())
+        .then(prodotti => {
+            divProdotti.classList.remove('loading');  // Rimuovi la classe di caricamento
+
+            if (prodotti.length === 0) {
+                catalogGrid.innerHTML = "<p>Nessun prodotto trovato.</p>";  // Messaggio se non ci sono prodotti
+            } else {
+                prodotti.forEach(prodotto => {
+                    // Crea il div per ogni prodotto
+                    const div = document.createElement('div');
+                    div.classList.add('product-card');  // Applica la classe 'product-card'
+
+                    // Inserisci i dettagli del prodotto nella card
+                    div.innerHTML = `
+                        <a href="DettaglioProdottoServlet?code=${prodotto.code}">
+                            <div class="product-image-wrapper">
+                                <img src="${prodotto.image}" alt="${prodotto.name}">
+                            </div>
+                        </a>
+                        <div class="product-content">
+                            <h3>${prodotto.name}</h3>
+                            <p class="price">€ ${prodotto.price.toFixed(2)}</p>
+                            ${prodotto.quantity > 0 ? `
+                                <div class="quantity-row">
+                                    <span class="available">Disponibilità: ${prodotto.quantity}</span>
+                                    <input type="number" id="qty-${prodotto.code}" value="1" min="1" max="${prodotto.quantity}" required>
+                                </div>
+                                <button class="add-to-cart-btn"
+                                    data-product-id="${prodotto.code}"
+                                    data-product-name="${prodotto.name}"
+                                    data-product-price="${prodotto.price.toFixed(2)}"
+                                    data-product-image="${prodotto.image}"
+                                    data-product-maxQty="${prodotto.quantity}">
+                                    Aggiungi al Carrello
+                                </button>
+                            ` : `<div class="not-available">Non disponibile</div>`}
+                        </div>
+                    `;
+
+                    // Aggiungi il div del prodotto alla griglia
+                    catalogGrid.appendChild(div);
+                });
+            }
+        })
+        .catch(error => {
+            divProdotti.classList.remove('loading');
+            console.error('Errore durante il caricamento dei prodotti:', error);
+        });
+}

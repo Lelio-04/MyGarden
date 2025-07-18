@@ -23,7 +23,7 @@
         var isLoggedIn = <%= (username != null) ? "true" : "false" %>;
     </script>
     <script src="scripts/sidebar.js" defer></script>
-    <script src="scripts/searchbar.js" defer></script>
+   
 </head>
 <body>
 <%
