@@ -26,8 +26,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin - Gestione Prodotti</title>
-    <link rel="stylesheet" href="styles/styleBase.css">
-    <link rel="stylesheet" href="styles/styleAdmin.css">
+    <link rel="stylesheet" href="styles/styleAdminCatalogo.css">
 </head>
 <body>
 
@@ -35,6 +34,7 @@
     <h1>Area Amministratore - Gestione Prodotti</h1>
     <nav>
         <a href="./index.jsp">Torna al sito</a>
+         <a href="<%= request.getContextPath() %>/adminOrders.jsp">Gestione Ordini</a>
     </nav>
 </header>
 
@@ -65,13 +65,13 @@
             <td><%= p.getPrice() %></td>
             <td><%= p.getQuantity() %></td>
             <td><img src="<%= p.getImage() %>" alt="<%= p.getName() %>" width="50"/></td>
-            <td>
-                <a href="product?action=read&id=<%= p.getCode() %>">Modifica</a> |
-                <a href="product?action=delete&id=<%= p.getCode() %>&token=<%= token %>"
-                   onclick="return confirm('Sei sicuro di voler eliminare questo prodotto?');">
-                   Elimina
-                </a>
-            </td>
+			<td class="action-buttons">
+			    <a class="modify" href="product?action=read&id=<%= p.getCode() %>#form">Modifica</a>
+			    <a class="delete" href="product?action=delete&id=<%= p.getCode() %>&token=<%= token %>"
+			       onclick="return confirm('Sei sicuro di voler eliminare questo prodotto?');">
+			       Elimina
+			    </a>
+			</td>
         </tr>
         <%
                 }
@@ -81,7 +81,7 @@
         <% } %>
     </table>
 
-    <h2><%= (selectedProduct != null) ? "Modifica Prodotto" : "Nuovo Prodotto" %></h2>
+    <h2 id="form"><%= (selectedProduct != null) ? "Modifica Prodotto" : "Nuovo Prodotto" %></h2>
     <form method="post" action="product">
         <input type="hidden" name="action" value="<%= (selectedProduct != null) ? "update" : "insert" %>"/>
         <% if (selectedProduct != null) { %>

@@ -91,7 +91,7 @@
                      </a>
                  </div>
                  <div class="text-center" style="margin-top: 40px;">
-                     <a href="product" class="btn btn-secondary-outline">Vedi tutte le categorie</a>
+                     <a href="product" class="btn btn-secondary-outline">Vai al catalogo</a>
                  </div>
              </div>
          </section>

@@ -33,13 +33,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Gestione Prodotti - Admin</title>
-    <link rel="stylesheet" href="styles/styleBase.css">
 </head>
 <body>
 
 <header>
     <div class="header-top">
-        <img src="images/logo.png" alt="Logo MyGarden" class="logo">
         <span class="site-title">MyGarden Admin</span>
     </div>
     <nav class="main-nav">

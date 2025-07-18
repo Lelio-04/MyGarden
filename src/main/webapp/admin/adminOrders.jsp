@@ -12,7 +12,6 @@
         return;
     }
 
-    // ✅ Recupera token dalla sessione o cookie
     String token = (String) session.getAttribute("sessionToken");
     if (token == null && request.getCookies() != null) {
         for (Cookie c : request.getCookies()) {
@@ -31,53 +30,38 @@
 %>
 
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <title>Gestione Ordini - Admin</title>
-    <link rel="stylesheet" href="styles/styleBase.css">
-    <link rel="stylesheet" href="styles/styleOrders.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/styles/styleAdminOrders.css">
     <link rel="icon" href="images/favicon.png" type="image/png">
 </head>
 <body>
 
-<header>
-    <div class="header-top">
-        <img src="images/logo.png" alt="MyGarden Logo" class="logo">
-        <span class="site-title"><span class="yellow">My</span><span class="green">Garden Admin</span></span>
-        <div class="header-icons">
-            <a href="admin/adminOrders.jsp" class="icon-link" title="Ordini">
-                📦
-            </a>
-            <a href="Logout" class="icon-link" title="Logout">
-                🔓
-            </a>
-        </div>
+<header class="admin-header">
+    <div class="header-container">
+        <h1 class="admin-title">Area Amministratore - Gestione Ordini</h1>
+        <nav class="admin-nav">
+            <a href="../index.jsp" class="nav-link">Torna al sito</a>
+            <a href="./adminCatalogo.jsp" class="nav-link">Gestione Catalogo</a>
+        </nav>
     </div>
-
-    <nav class="main-nav">
-        <ul class="nav-links">
-            <li><a href="index.jsp">Home</a></li>
-            <li><a href="<%=request.getContextPath()%>/product">Gestione Catalogo</a></li>
-            <li><a href="admin/adminOrders.jsp">Gestione Ordini</a></li>
-            <li><a href="Logout">Logout</a></li>
-        </ul>
-    </nav>
 </header>
 
-<main>
-    <h1>Ordini ricevuti</h1>
+<main class="main-content">
+    <h2 class="section-title">Ordini ricevuti</h2>
 
     <%
         if (allOrders == null || allOrders.isEmpty()) {
     %>
-        <p class="no-orders">Nessun ordine trovato.</p>
+        <p class="no-orders">⚠️ Nessun ordine trovato.</p>
     <%
         } else {
     %>
-        <table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+        <table class="orders-table">
             <thead>
-                <tr style="background-color: #4a7c59; color: white;">
+                <tr>
                     <th>ID Ordine</th>
                     <th>ID Utente</th>
                     <th>Data</th>
@@ -95,11 +79,11 @@
                     <td><%= order.getCreatedAt() != null ? sdf.format(order.getCreatedAt()) : "-" %></td>
                     <td><%= String.format("%.2f", order.getTotal()) %></td>
                     <td>
-                        <form action="adminOrderDetails.jsp" method="get">
-   							 <input type="hidden" name="orderId" value="<%= order.getId() %>">
-    						 <input type="hidden" name="token" value="<%= token %>">
-   						     <button type="submit">Dettagli</button>
-						</form>
+                        <form action="adminOrderDetails.jsp" method="get" class="action-form">
+                            <input type="hidden" name="orderId" value="<%= order.getId() %>">
+                            <input type="hidden" name="token" value="<%= token %>">
+                            <button type="submit" class="action-button">Dettagli</button>
+                        </form>
                     </td>
                 </tr>
             <%
@@ -112,7 +96,7 @@
     %>
 </main>
 
-<footer>
+<footer class="admin-footer">
     <p>&copy; 2025 MyGarden - Amministrazione</p>
 </footer>
 

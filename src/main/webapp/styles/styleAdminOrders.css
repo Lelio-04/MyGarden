@@ -1,0 +1,221 @@
+/* === Base Reset === */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; /* Adopted font from first CSS */
+    background-color: #fdfcf6; /* beige chiaro from first CSS */
+    color: #2d2d2d; /* from first CSS */
+    line-height: 1.6;
+}
+
+/* === Layout === */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* === Header (Admin specific - styled to match general header colors) === */
+.admin-header {
+    background-color: #6a994e; /* verde naturale from first CSS header */
+    padding: 20px 0; /* Consistent with general header */
+    color: white;
+    text-align: center;
+}
+
+.header-container {
+    max-width: 1200px; /* Kept existing max-width for admin */
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.admin-title {
+    font-size: 2rem; /* Matches general header h1 */
+    margin-bottom: 10px;
+}
+
+.admin-nav .nav-link {
+    color: #e6d9b5; /* beige caldo from first CSS header nav a */
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+    margin: 0 15px; /* Added margin for navigation links */
+}
+
+.admin-nav .nav-link:hover {
+    color: #fffde7; /* from first CSS header nav a:hover */
+    text-decoration: underline;
+}
+
+/* === Main Content (Admin specific - styled to match general main colors) === */
+.main-content {
+    flex: 1; /* Ensures it expands */
+    /* MODIFICA AGGIUNTIVA QUI: Rimuoviamo il limite massimo o lo rendiamo molto grande */
+    max-width: 1400px; /* Aumentato ulteriormente. Prova anche con 'none' per nessun limite */
+    /* oppure usa 'max-width: 95vw;' per occupare il 95% della larghezza della viewport */
+    margin: 40px auto;
+    background-color: white; /* from first CSS main */
+    padding: 30px; /* from first CSS main */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* from first CSS main */
+    border-radius: 12px; /* from first CSS main */
+}
+
+.section-title {
+    font-size: 1.6rem; /* Kept existing size, or could match h2 */
+    color: #386641; /* verde scuro from first CSS h2 */
+    border-bottom: 2px solid #c3b091; /* from first CSS h2 */
+    padding-bottom: 5px; /* from first CSS h2 */
+    margin-bottom: 20px; /* Adjust margin for section title */
+    margin-top: 40px; /* Adjust margin for section title */
+    font-weight: 600; /* from first CSS h2 */
+}
+
+.no-orders {
+    color: #842029; /* from first CSS .error-message */
+    background: #f8d7da; /* from first CSS .error-message */
+    border: 1px solid #f5c2c7; /* from first CSS .error-message */
+    padding: 10px; /* from first CSS .error-message */
+    border-radius: 6px; /* from first CSS form input */
+    margin-bottom: 20px;
+    text-align: center;
+    border-left: 6px solid #b71c1c; /* Kept existing border-left */
+    font-weight: bold;
+}
+
+/* === Table === */
+.orders-table {
+    width: 100%; /* ASSICURA CHE LA TABELLA OCCUPI IL 100% DELLO SPAZIO DEL SUO CONTENITORE */
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 0.95rem; /* Kept existing size */
+    /* AGGIUNTA PER GARANTIRE LA LARGHEZZA, PUOI PROVARE A TOGLIERLA SE IL PROBLEMA ERA SOLO MAIN */
+    table-layout: fixed; /* Questo aiuta le colonne ad adattarsi alla larghezza */
+}
+
+.orders-table th,
+.orders-table td {
+    padding: 12px; /* from first CSS table */
+    border: 1px solid #d9d2c2; /* from first CSS table */
+    text-align: left;
+}
+
+.orders-table th {
+    background-color: #c9dbb2; /* verde/beige tenue from first CSS table th */
+    color: #2e4629; /* from first CSS table th */
+    font-weight: bold;
+}
+
+.orders-table td {
+    background-color: #fafafa; /* Kept original light background for table cells */
+}
+
+/* === Action Buttons (Table and General) === */
+.action-form {
+    margin-top: 20px; /* General form margin from first CSS */
+    display: flex;
+    justify-content: center;
+}
+
+.action-button {
+    background: linear-gradient(to right, #6a994e, #386641); /* verde gradiente from first CSS form button */
+    color: white;
+    border: none;
+    padding: 10px 18px; /* from first CSS form button */
+    font-size: 1rem; /* from first CSS form button */
+    border-radius: 20px; /* from first CSS form button */
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-right: 10px; /* from first CSS form button */
+}
+
+.action-button:hover {
+    background: linear-gradient(to right, #52734d, #2f5233); /* from first CSS form button:hover */
+}
+
+/* Specific action buttons (modify, delete) - kept as-is, from first CSS action-buttons */
+.action-buttons a {
+    display: inline-block;
+    padding: 8px 14px;
+    margin: 2px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.action-buttons a.modify {
+    background-color: #cce3ba;
+    color: #2e4629;
+    border: 1px solid #a5c18d;
+}
+
+.action-buttons a.modify:hover {
+    background-color: #b2d49b;
+}
+
+.action-buttons a.delete {
+    background-color: #f8d7da;
+    color: #842029;
+    border: 1px solid #f5c2c7;
+}
+
+.action-buttons a.delete:hover {
+    background-color: #f1b0b7;
+}
+
+
+/* === Footer (Admin specific - styled to match general footer, but with admin header color) === */
+.admin-footer {
+    background-color: #6a994e; /* verde naturale - using header color for admin cohesion */
+    color: white; /* from first CSS header */
+    text-align: center;
+    padding: 20px 0; /* Consistent with general footer */
+    margin-top: 50px; /* Kept existing margin-top */
+    font-size: 0.9rem; /* Kept existing font-size */
+    border-top: 1px solid #52734d; /* Slightly darker shade of green for border */
+}
+
+/* Media query per dispositivi più piccoli: assicurati che il main si adatti */
+@media (max-width: 1400px) { /* Adatta questo valore al tuo nuovo max-width del main */
+    .main-content {
+        max-width: 95%; /* Lascia un piccolo margine sui lati */
+        margin: 40px auto;
+    }
+}
+
+@media (max-width: 768px) { /* Tipico punto di interruzione per tablet */
+    .main-content {
+        padding: 20px;
+    }
+    .section-title {
+        font-size: 1.4rem;
+    }
+    .orders-table th,
+    .orders-table td {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) { /* Tipico punto di interruzione per smartphone */
+    .main-content {
+        margin: 20px;
+        padding: 15px;
+    }
+    .orders-table {
+        font-size: 0.85rem;
+    }
+    /* Potresti voler rendere la tabella scrollabile orizzontalmente su schermi molto piccoli */
+    .main-content {
+        overflow-x: auto; /* Aggiungi questo per permettere lo scroll orizzontale se la tabella è troppo larga */
+    }
+    .orders-table {
+        width: max-content; /* Fa sì che la tabella occupi la larghezza del suo contenuto */
+        min-width: 100%; /* Ma non sia mai più piccola del 100% del contenitore */
+    }
+}
