@@ -461,7 +461,7 @@ async function mergeGuestCartWithUserCart() {
         console.log('Risposta aggiornamento carrello utente:', updateResponse);
 
         if (!updateResponse.success) {
-            console.error('❌ Errore durante l\'aggiornamento del carrello utente');
+            //console.error('❌ Errore durante l\'aggiornamento del carrello utente');
             return;
         }
 
@@ -583,14 +583,14 @@ async function updateUserCart(cart, isMerged) {
         if (responseData.success) {
             console.log('Carrello aggiornato con successo!');
         } else {
-            console.error('Errore durante l\'aggiornamento del carrello:', responseData.error);
+            //console.error('Errore durante l\'aggiornamento del carrello:', responseData.error);
         }
 
         return responseData;  // Restituisce il risultato della risposta
 
     } catch (error) {
         // Gestione dell'errore con messaggio più dettagliato
-        console.error('Errore durante l\'aggiornamento del carrello dell\'utente:', error.message || error);
+        //console.error('Errore durante l\'aggiornamento del carrello dell\'utente:', error.message || error);
         return { success: false, error: error.message || 'Errore sconosciuto' };  // Restituisce un errore più dettagliato
     }
 }

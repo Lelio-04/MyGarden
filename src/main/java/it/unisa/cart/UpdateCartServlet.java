@@ -84,7 +84,7 @@ public class UpdateCartServlet extends HttpServlet {
             // Risposta di errore JSON
             String errorMsg = e.getMessage() != null ? e.getMessage().replace("\"", "\\\"") : "Errore sconosciuto";
             out.print("{\"success\":false,\"error\":\"" + errorMsg + "\"}");
-            System.out.println("Errore durante l'aggiornamento del carrello: " + errorMsg);
+            //System.out.println("Errore durante l'aggiornamento del carrello: " + errorMsg);
         } finally {
             out.flush(); // Assicurati di fare il flush per inviare la risposta
         }
