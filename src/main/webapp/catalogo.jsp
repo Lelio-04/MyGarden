@@ -100,9 +100,21 @@ function showGlobalMessage(message) {
 	  messageDiv.style.display = "block";
 
 	  // Nascondi dopo 2 secondi
-	  setTimeout(() => {
+	  const timeoutId = setTimeout(() => {
 	    messageDiv.style.display = "none";
 	  }, 2000);
+
+	  // Nascondi al click e rimuovi listener per evitare duplicazioni
+	  function hideOnClick() {
+	    clearTimeout(timeoutId);
+	    messageDiv.style.display = "none";
+	    document.removeEventListener("click", hideOnClick);
+	  }
+
+	  // Usa setTimeout minimo per permettere la visualizzazione prima di agganciare il listener
+	  setTimeout(() => {
+	    document.addEventListener("click", hideOnClick);
+	  }, 100);
 	}
 
 	document.addEventListener("DOMContentLoaded", function () {
@@ -111,9 +123,6 @@ function showGlobalMessage(message) {
 	  addToCartButtons.forEach(button => {
 	    button.addEventListener("click", function () {
 	      const productName = this.getAttribute("data-product-name");
-
-	      // Qui metti la logica per aggiungere il prodotto al carrello (AJAX/localStorage...)
-	      // Ora puoi chiamare showGlobalMessage senza problemi
 	      showGlobalMessage(`Prodotto aggiunto al carrello!`);
 	    });
 	  });
