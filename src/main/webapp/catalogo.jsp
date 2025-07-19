@@ -86,7 +86,40 @@
         </div>
     </div>
 </div>
+<script>
+function showGlobalMessage(message) {
+	  let messageDiv = document.getElementById("global-error-message");
+	  if (!messageDiv) {
+	    messageDiv = document.createElement("div");
+	    messageDiv.id = "global-error-message";
+	    messageDiv.className = "global-error-message";
+	    document.body.prepend(messageDiv);
+	  }
 
+	  messageDiv.textContent = message;
+	  messageDiv.style.display = "block";
+
+	  // Nascondi dopo 2 secondi
+	  setTimeout(() => {
+	    messageDiv.style.display = "none";
+	  }, 2000);
+	}
+
+	document.addEventListener("DOMContentLoaded", function () {
+	  const addToCartButtons = document.querySelectorAll(".add-to-cart-btn");
+
+	  addToCartButtons.forEach(button => {
+	    button.addEventListener("click", function () {
+	      const productName = this.getAttribute("data-product-name");
+
+	      // Qui metti la logica per aggiungere il prodotto al carrello (AJAX/localStorage...)
+	      // Ora puoi chiamare showGlobalMessage senza problemi
+	      showGlobalMessage(`Prodotto aggiunto al carrello!`);
+	    });
+	  });
+	});
+
+</script>
 <jsp:include page="footer.jsp" />
 </body>
 </html>
