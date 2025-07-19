@@ -129,6 +129,7 @@ public class Login extends HttpServlet {
                             // Rimuovi carrello guest dalla sessione
                             session.removeAttribute("guestCart");
                             System.out.println("guestCart rimosso dalla sessione.");
+                            session.setAttribute("cartMergeMessage", "Il tuo carrello è stato unificato con quello precedente.");
                         } else {
                             System.out.println("guestCart è null o vuoto, niente merge da fare.");
                         }

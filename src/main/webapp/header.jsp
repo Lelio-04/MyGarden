@@ -11,9 +11,11 @@
      if (currentPage.startsWith("/")) {
          currentPage = currentPage.substring(1);
      }
+     String cartMergeMessage = (String) session.getAttribute("cartMergeMessage");
+     if (cartMergeMessage != null) {
+         session.removeAttribute("cartMergeMessage");
+     }
  %>
-
- <link rel="stylesheet" href="styles/styleHeader.css">
  <%-- Includi gli stili per la modale qui. Se hai già questi stili in styleSidebar.css, puoi rimuovere questo blocco <style>. --%>
  <header>
      <div class="header-content-wrapper">
@@ -89,7 +91,10 @@
                   <div id="cartSidebar" class="cart-sidebar">
 				        <a href="javascript:void(0)" class="close-btn" onclick="closeCart()">&times;</a>
 				        <h2>Il tuo Carrello</h2>
-				        <div id="cart-error-message" class="cart-error-message" style="display:none; color: red; margin-bottom: 10px;"></div>
+				        <div id="cart-error-message" class="cart-error-message" style="<%= (cartMergeMessage != null) ? "display:block;" : "display:none;" %>">
+						    <%= (cartMergeMessage != null) ? cartMergeMessage : "" %>
+						</div>
+
 				        <div id="cart-items">
 				            <p class="empty-cart-message">Il carrello è vuoto.</p>
 				        </div>
@@ -101,3 +106,38 @@
 				    </div>
          <%}%>
  </header>
+    <link rel="stylesheet" href="styles/styleHeader.css">
+<% if (cartMergeMessage != null) { %>
+  <div id="global-error-message" class="global-error-message">
+    <%= cartMergeMessage %>
+  </div>
+<% } %>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+	  const globalError = document.getElementById("global-error-message");
+	  if (globalError && globalError.textContent.trim() !== "") {
+	    globalError.style.display = "block";
+
+	    const hideError = () => {
+	      globalError.style.display = "none";
+	      document.removeEventListener("click", hideError);
+	    };
+
+	    // Nascondi dopo 2 secondi
+	    setTimeout(hideError, 2000);
+
+	    // Nascondi anche dopo 10 secondi come fallback
+	    setTimeout(hideError, 10000);
+
+	    setTimeout(() => {
+	      document.addEventListener("click", hideError);
+	    }, 100);
+	  }
+	});
+
+</script>
+
+
+
+ 

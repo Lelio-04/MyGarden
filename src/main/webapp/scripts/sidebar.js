@@ -243,10 +243,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const currentQty = existingItem ? existingItem.quantity : 0;
 
                 if (currentQty + quantity > maxQty) {
-                    showError(`Disponibili solo ${maxQty} pezzi (hai già ${currentQty})`);
-                    button.disabled = false;
-                    openCart();
-                    return;
+					showError(`Disponibili solo ${maxQty} pezzi (hai già ${currentQty})`);
+					    button.disabled = false;
+					    openCart();
+					    return;
                 } else {
                     clearError();
                 }
@@ -282,6 +282,9 @@ function showError(message) {
         errorDiv.textContent = message;
         errorDiv.style.display = 'block';
     }
+	setTimeout(() => {
+	            clearError();
+	        }, 4000);
 }
 
 function clearError() {
@@ -290,6 +293,7 @@ function clearError() {
         errorDiv.textContent = '';
         errorDiv.style.display = 'none';
     }
+	updateCartDisplay();
 }
 
 // Funzione per caricare le categorie con XMLHttpRequest
