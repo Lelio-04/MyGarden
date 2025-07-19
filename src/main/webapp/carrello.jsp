@@ -14,7 +14,7 @@
     <script>
         var isLoggedIn = <%= (username != null) ? "true" : "false" %>;
     </script>
-    <script src="scripts/cart.js" defer></script>
+    <script src="scripts/sidebar.js" defer></script>
 </head>
 <body>
 <jsp:include page="header.jsp" />
@@ -22,6 +22,7 @@
     <!-- Sidebar come carrello -->
     <div id="cartSidebar" class="cart-sidebar">
         <h2>Carrello</h2>
+        <div id="cart-error-message" class="cart-error-message" style="display:none; color: red; margin-bottom: 10px;"></div>
         <div id="cart-items">
             <p class="empty-cart-message">Il carrello è vuoto.</p>
         </div>
@@ -32,13 +33,6 @@
         <button class="checkout-btn">Procedi al Checkout</button>
     </div>
 
-    <!-- Modale di Avviso -->
-    <div id="cart-modal" class="modal">
-        <div class="modal-content">
-            <span id="modal-close" class="close">&times;</span>
-            <p id="modal-message"></p>
-        </div>
-    </div>
 </main>
 <jsp:include page="footer.jsp" />
 

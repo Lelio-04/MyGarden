@@ -9,7 +9,6 @@ public interface ICartDao {
 
     boolean addToCart(int userId, int productCode, int quantity) throws SQLException;
 
-    public boolean addToCart(int userId, int productCode, int quantityToAdd, boolean isMerge) throws SQLException;
 
     List<CartBean> getCartItems(int userId) throws SQLException;
 
@@ -22,4 +21,6 @@ public interface ICartDao {
     int getProductQuantityInCart(int userId, int productCode) throws SQLException;
 
     ProductBean getProductDetails(int productCode) throws SQLException;
+    
+    boolean insertToCart(int userId, int productCode, int quantity) throws SQLException;
 }

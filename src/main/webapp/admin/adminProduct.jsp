@@ -34,7 +34,7 @@
     <h1>Area Amministratore - Gestione Prodotti</h1>
     <nav>
         <a href="./index.jsp">Torna al sito</a>
-         <a href="<%= request.getContextPath() %>/adminOrders.jsp">Gestione Ordini</a>
+         <a href="<%= request.getContextPath() %>/admin/adminOrders.jsp">Gestione Ordini</a>
     </nav>
 </header>
 

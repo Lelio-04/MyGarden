@@ -68,14 +68,14 @@ import java.util.List;
                 if (p == null) continue;
 
                 json.append("{");
-                json.append("\"productCode\":").append(item.getProductCode()).append(",");
+                json.append("\"id\":").append(item.getProductCode()).append(",");
                 json.append("\"quantity\":").append(item.getQuantity()).append(",");
-                json.append("\"product\":{");
                 json.append("\"name\":\"").append(escapeJson(p.getName())).append("\",");
                 json.append("\"price\":").append(p.getPrice()).append(",");
                 json.append("\"image\":\"").append(escapeJson(p.getImage())).append("\",");
-                json.append("\"quantity\":").append(p.getQuantity());
-                json.append("}}");
+                json.append("\"maxQty\":").append(p.getQuantity());
+                json.append("}");
+
 
                 if (i < cartItems.size() - 1) json.append(",");
             }

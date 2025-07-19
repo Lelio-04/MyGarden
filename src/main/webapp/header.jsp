@@ -89,6 +89,7 @@
                   <div id="cartSidebar" class="cart-sidebar">
 				        <a href="javascript:void(0)" class="close-btn" onclick="closeCart()">&times;</a>
 				        <h2>Il tuo Carrello</h2>
+				        <div id="cart-error-message" class="cart-error-message" style="display:none; color: red; margin-bottom: 10px;"></div>
 				        <div id="cart-items">
 				            <p class="empty-cart-message">Il carrello è vuoto.</p>
 				        </div>
@@ -98,12 +99,5 @@
 				        </div>
 				        <button class="checkout-btn">Procedi al Checkout</button>
 				    </div>
-				    <!-- Modale di Avviso -->
-					<div id="cart-modal" class="modal">
-					    <div class="modal-content">
-					        <span id="modal-close" class="close">&times;</span>
-					        <p id="modal-message"></p>
-					    </div>
-					</div>
          <%}%>
  </header>

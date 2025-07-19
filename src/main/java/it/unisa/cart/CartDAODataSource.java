@@ -164,10 +164,22 @@ public class CartDAODataSource implements ICartDao{
             }
         }
     }
+    public boolean insertToCart(int userId, int productCode, int quantity) throws SQLException {
+        String sql = "INSERT INTO cart_items (user_id, product_code, quantity) VALUES (?, ?, ?)";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ps.setInt(2, productCode);
+            ps.setInt(3, quantity);
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            if (e.getSQLState().startsWith("23")) { // codice di violazione chiave duplicata (dipende DB)
+                return false; // riga esiste già
+            } else {
+                throw e;
+            }
+        }
+    }
 
-	@Override
-	public boolean addToCart(int userId, int productCode, int quantityToAdd, boolean isMerge) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }

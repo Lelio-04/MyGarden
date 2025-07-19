@@ -44,7 +44,7 @@
         <ul class="nav-links">
             <li><a href="index.jsp">Home</a></li>
             <li><a href="adminProduct.jsp">Gestione Catalogo</a></li>
-            <li><a href="adminOrders.jsp">Ordini</a></li>
+            <li><a href="/admin/adminOrders.jsp">Ordini</a></li>
             <li><a href="Logout">Logout</a></li>
         </ul>
     </nav>

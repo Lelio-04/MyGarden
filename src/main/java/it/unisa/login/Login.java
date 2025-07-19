@@ -7,6 +7,7 @@ import java.util.*;
 import javax.sql.DataSource;
 
 import it.unisa.cart.CartBean;
+import it.unisa.cart.CartDAO;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -62,29 +63,80 @@ public class Login extends HttpServlet {
                         boolean isAdmin = "admin".equalsIgnoreCase(dbUsername);
 
                         HttpSession session = request.getSession(true);
-                        session.setAttribute("username", dbUsername); // per coerenza
+                        session.setAttribute("username", dbUsername);
                         session.setAttribute("userId", userId);
-                        session.setAttribute("isAdmin", isAdmin);      // ✅ Booleano usato dalle JSP
+                        session.setAttribute("isAdmin", isAdmin);
                         session.setAttribute("role", isAdmin ? "admin" : "cliente");
 
-                        // ✅ Token CSRF per la sessione
+                        // CSRF token
                         String token = UUID.randomUUID().toString();
-                        session.setAttribute("sessionToken", token);
+                        System.out.println("Session ID prima getSession: " + (request.getSession(false) != null ? request.getSession(false).getId() : "nessuna sessione"));
+                        session = request.getSession(true);
+                        System.out.println("Session ID dopo getSession: " + session.getId());
 
-                        // ✅ Guest cart migration - QUESTO BLOCCO DEVE RIMANERE COMMENTATO
-                        /*@SuppressWarnings("unchecked")
+                        @SuppressWarnings("unchecked")
                         List<CartBean> guestCart = (List<CartBean>) session.getAttribute("guestCart");
+                        System.out.println("guestCart in sessione? " + (guestCart != null ? "sì, " + guestCart.size() + " elementi" : "no"));
+
 
                         if (guestCart != null && !guestCart.isEmpty()) {
-                            for (CartBean item : guestCart) {
-                                insertCartItem(conn, userId, item.getProductCode(), item.getQuantity());
+                            System.out.println("guestCart contiene " + guestCart.size() + " elementi.");
+
+                            CartDAO cartDAO = new CartDAO(ds);
+
+                            // Recupera carrello utente dal DB
+                            List<CartBean> userCart = cartDAO.getCartItems(userId);
+
+                            if (userCart == null) userCart = new ArrayList<>();
+                            System.out.println("userCart contiene " + userCart.size() + " elementi.");
+
+                            // Mappa prodotto -> quantità per userCart
+                            Map<Integer, Integer> userMap = new HashMap<>();
+                            for (CartBean item : userCart) {
+                                userMap.put(item.getProductCode(), item.getQuantity());
                             }
+
+                            // Somma quantità guestCart a userCart
+                            for (CartBean guestItem : guestCart) {
+                                int prodCode = guestItem.getProductCode();
+                                int guestQty = guestItem.getQuantity();
+                                userMap.merge(prodCode, guestQty, Integer::sum);
+                            }
+
+                            System.out.println("Dopo merge userMap contiene:");
+                            for (Map.Entry<Integer, Integer> entry : userMap.entrySet()) {
+                                System.out.println("Prodotto " + entry.getKey() + " qty " + entry.getValue());
+                            }
+
+                            // Ricostruisci lista unificata
+                            List<CartBean> mergedCart = new ArrayList<>();
+                            for (Map.Entry<Integer, Integer> entry : userMap.entrySet()) {
+                                CartBean cb = new CartBean();
+                                cb.setUserId(userId);
+                                cb.setProductCode(entry.getKey());
+                                cb.setQuantity(entry.getValue());
+                                mergedCart.add(cb);
+                            }
+
+                            // Aggiorna carrello utente nel DB
+                            try {
+                                cartDAO.updateUserCart(userId, mergedCart);
+                                System.out.println("Carrello utente aggiornato con " + mergedCart.size() + " prodotti.");
+                            } catch (Exception e) {
+                                System.err.println("Errore aggiornando carrello utente: " + e.getMessage());
+                            }
+
+                            // Rimuovi carrello guest dalla sessione
                             session.removeAttribute("guestCart");
-                        }*/
+                            System.out.println("guestCart rimosso dalla sessione.");
+                        } else {
+                            System.out.println("guestCart è null o vuoto, niente merge da fare.");
+                        }
 
                         System.out.println("✅ LOGIN OK — Session ID: " + session.getId());
                         System.out.println("🟢 Username: " + dbUsername + " | Admin: " + isAdmin);
 
+                        // No cache headers
                         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
                         response.setHeader("Pragma", "no-cache");
                         response.setDateHeader("Expires", 0);
@@ -116,16 +168,6 @@ public class Login extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-    private void insertCartItem(Connection conn, int userId, int productCode, int quantity) throws SQLException {
-        String sql = "INSERT INTO cart_items (user_id, product_code, quantity) VALUES (?, ?, ?) " +
-                     "ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, userId);
-            ps.setInt(2, productCode);
-            ps.setInt(3, quantity);
-            ps.executeUpdate();
-        }
-    }
 
     private String toHash(String password) {
         try {
@@ -139,9 +181,9 @@ public class Login extends HttpServlet {
             return "";
         }
     }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Tipicamente ridirigi alla pagina login.jsp
         request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 }
