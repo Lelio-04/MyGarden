@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="it.unisa.db.ProductBean" %>
-<%@ page import="java.util.List" %>
+<%@ page import="java.util.*" %>
 <%@ page import="it.unisa.db.ReviewBean" %>
 
 <%
@@ -31,26 +31,7 @@
         }
     </style>
     
-    <style>
-		.sidebar-carrello {
-		  position: fixed;
-		  top: 0;
-		  right: -400px; /* inizialmente fuori dallo schermo */
-		  width: 350px;
-		  height: 100vh;
-		  background: white;
-		  border-left: 1px solid #ccc;
-		  padding: 20px;
-		  overflow-y: auto;
-		  z-index: 10000;
-		  box-shadow: -2px 0 10px rgba(0,0,0,0.2);
-		  transition: right 0.3s ease-in-out;
-		}
-		
-		.sidebar-carrello.attiva {
-		  right: 0; /* entra in vista */
-		}
-    </style>
+
     <script>
 	  const isLoggedIn = <%= (username != null) ? "true" : "false" %>;
 	</script>
@@ -79,16 +60,14 @@
 		            <input type="number" id="qty-<%= product.getCode() %>" name="quantity" value="1" min="1" max="<%= product.getQuantity() %>" required>
 		        </div>
 		    </div>
-		    <button
-                class="add-to-cart-btn"
-                data-product-id="<%= product.getCode() %>"
-                data-product-name="<%= product.getName().replace("\"", "&quot;").replace("'", "&#39;") %>"
-                data-product-price="<%= String.format(java.util.Locale.US, "%.2f", product.getPrice()) %>"
-                data-product-image="<%= product.getImage().replace("\"", "&quot;").replace("'", "&#39;") %>"
-                data-max-qty="<%= product.getQuantity() %>"
-            >
-		        Aggiungi al carrello
-		    </button>
+		   <button class="add-to-cart-btn"
+                        data-product-id="<%= product.getCode() %>"
+                        data-product-name="<%= product.getName() %>"
+                        data-product-price="<%= String.format(Locale.US, "%.2f", product.getPrice()) %>"
+                        data-product-image="<%= product.getImage() %>"
+                        data-max-qty="<%= product.getQuantity() %>">
+                        Aggiungi al Carrello
+                    </button>
 		<% } else { %>
 		    <div class="not-available">Non disponibile</div>
 		<% } %>
@@ -127,6 +106,48 @@
 
 <jsp:include page="footer.jsp" />
 
+<script>
+function showGlobalMessage(message) {
+	  let messageDiv = document.getElementById("global-error-message");
+	  if (!messageDiv) {
+	    messageDiv = document.createElement("div");
+	    messageDiv.id = "global-error-message";
+	    messageDiv.className = "global-error-message";
+	    document.body.prepend(messageDiv);
+	  }
 
+	  messageDiv.textContent = message;
+	  messageDiv.style.display = "block";
+
+	  // Nascondi dopo 2 secondi
+	  const timeoutId = setTimeout(() => {
+	    messageDiv.style.display = "none";
+	  }, 2000);
+
+	  // Nascondi al click e rimuovi listener per evitare duplicazioni
+	  function hideOnClick() {
+	    clearTimeout(timeoutId);
+	    messageDiv.style.display = "none";
+	    document.removeEventListener("click", hideOnClick);
+	  }
+
+	  // Usa setTimeout minimo per permettere la visualizzazione prima di agganciare il listener
+	  setTimeout(() => {
+	    document.addEventListener("click", hideOnClick);
+	  }, 100);
+	}
+
+	document.addEventListener("DOMContentLoaded", function () {
+	  const addToCartButtons = document.querySelectorAll(".add-to-cart-btn");
+
+	  addToCartButtons.forEach(button => {
+	    button.addEventListener("click", function () {
+	      const productName = this.getAttribute("data-product-name");
+	      showGlobalMessage(`Prodotto aggiunto al carrello!`);
+	    });
+	  });
+	});
+
+</script>
 </body>
 </html>

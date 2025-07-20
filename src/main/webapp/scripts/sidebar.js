@@ -209,75 +209,6 @@ function logout() {
     window.location.href = '/MyGardenProject/Logout';
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    if (isUserLoggedIn()) {
-        fetchCartFromServer(updateCartDisplay);
-    } else {
-        loadGuestCart();
-        updateCartDisplay();
-    }
-
-    const prodottiDiv = document.getElementById('prodotti');
-    if (prodottiDiv) {
-        prodottiDiv.addEventListener('click', event => {
-            if (event.target && event.target.matches('.add-to-cart-btn')) {
-                const button = event.target;
-                if (button.disabled) return;
-                button.disabled = true;
-
-                const id = parseInt(button.getAttribute('data-product-id'), 10);
-                const name = button.getAttribute('data-product-name');
-                const price = parseFloat(button.getAttribute('data-product-price')) || 0;
-                const image = button.getAttribute('data-product-image');
-                let maxQty = parseInt(button.getAttribute('data-product-maxQty'), 10) || 99;
-
-                const existingItem = cart.find(item => item.id === id);
-                if (existingItem) {
-                    maxQty = existingItem.maxQty;
-                }
-
-                const qtyInput = document.getElementById(`qty-${id}`);
-                let quantity = parseInt(qtyInput?.value, 10) || 1;
-
-                if (quantity < 1) quantity = 1;
-                if (quantity > maxQty) quantity = maxQty;
-
-                const currentQty = existingItem ? existingItem.quantity : 0;
-
-                if (currentQty + quantity > maxQty) {
-					showError(`Disponibili solo ${maxQty} pezzi (hai già ${currentQty})`);
-					    button.disabled = false;
-					    openCart();
-					    return;
-                } else {
-                    clearError();
-                }
-
-                addToCart(id, name, price, image, quantity, maxQty, () => {
-                    openCart();
-                    button.disabled = false;
-                });
-            }
-        });
-    }
-
-    const cartBtn = document.getElementById('cart-button');
-    cartBtn?.addEventListener('click', openCart);
-
-    document.querySelectorAll('.checkout-btn').forEach(btn => {
-        btn.addEventListener('click', e => {
-            e.preventDefault();
-            const checkoutUrl = '/MyGardenProject/checkout-page';
-            window.location.href = isUserLoggedIn()
-                ? checkoutUrl
-                : `/MyGardenProject/Login?next=${encodeURIComponent(checkoutUrl)}`;
-        });
-    });
-
-    // Rende visibile il carrello all'apertura della pagina (se ci sono articoli)
-    updateCartDisplay();
-});
-
 function showError(message) {
     const errorDiv = document.getElementById('cart-error-message');
     if (errorDiv) {
@@ -401,7 +332,9 @@ function ricercaProdotti(event) {
 }
 
 // Evento DOMContentLoaded aggiornato con caricaCategorie e ricercaProdotti
-document.addEventListener('DOMContentLoaded',() => {
+document.addEventListener('DOMContentLoaded', () => {
+    // Logica da entrambi i blocchi
+
     if (isUserLoggedIn()) {
         fetchCartFromServer(updateCartDisplay);
     } else {
@@ -418,29 +351,31 @@ document.addEventListener('DOMContentLoaded',() => {
 
     const prodottiDiv = document.getElementById('prodotti');
     if (prodottiDiv) {
-        prodottiDiv.addEventListener('click',(event) => {
+        prodottiDiv.addEventListener('click', event => {
             if (event.target && event.target.matches('.add-to-cart-btn')) {
                 const button = event.target;
                 if (button.disabled) return;
-
                 button.disabled = true;
 
-                const id = button.getAttribute('data-product-id');
+                const id = parseInt(button.getAttribute('data-product-id'), 10);
                 const name = button.getAttribute('data-product-name');
                 const price = parseFloat(button.getAttribute('data-product-price')) || 0;
                 const image = button.getAttribute('data-product-image');
-                let maxQty = parseInt(button.getAttribute('data-product-maxQty')) || 99;
+                let maxQty = parseInt(button.getAttribute('data-product-maxQty'), 10) || 99;
 
-                const existingItem = cart.find(item => item.id == id);
-                if (existingItem) maxQty = existingItem.maxQty;
+                const existingItem = cart.find(item => item.id === id);
+                if (existingItem) {
+                    maxQty = existingItem.maxQty;
+                }
 
                 const qtyInput = document.getElementById(`qty-${id}`);
-                let quantity = parseInt(qtyInput?.value) || 1;
+                let quantity = parseInt(qtyInput?.value, 10) || 1;
 
                 if (quantity < 1) quantity = 1;
                 if (quantity > maxQty) quantity = maxQty;
 
                 const currentQty = existingItem ? existingItem.quantity : 0;
+
                 if (currentQty + quantity > maxQty) {
                     showError(`Disponibili solo ${maxQty} pezzi (hai già ${currentQty})`);
                     button.disabled = false;
@@ -451,11 +386,63 @@ document.addEventListener('DOMContentLoaded',() => {
                 }
 
                 addToCart(id, name, price, image, quantity, maxQty, () => {
-                    openCart();
+                    openCart();  // <-- Questo ora funziona
                     button.disabled = false;
                 });
             }
         });
     }
+
+    const cartBtn = document.getElementById('cart-button');
+    cartBtn?.addEventListener('click', openCart);
+
+    document.querySelectorAll('.checkout-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+            e.preventDefault();
+            const checkoutUrl = '/MyGardenProject/checkout-page';
+            window.location.href = isUserLoggedIn()
+                ? checkoutUrl
+                : `/MyGardenProject/Login?next=${encodeURIComponent(checkoutUrl)}`;
+        });
+    });
+
+    updateCartDisplay();
+	
+	const addToCartBtn = document.querySelector(".add-to-cart-btn");
+	  if (addToCartBtn) {
+	    addToCartBtn.addEventListener("click", function () {
+	      const button = this;
+
+	      const id = parseInt(button.getAttribute("data-product-id"), 10);
+	      const name = button.getAttribute("data-product-name");
+	      const price = parseFloat(button.getAttribute("data-product-price")) || 0;
+	      const image = button.getAttribute("data-product-image");
+	      const maxQty = parseInt(button.getAttribute("data-max-qty"), 10) || 99;
+
+	      const qtyInput = document.getElementById(`qty-${id}`);
+	      let quantity = parseInt(qtyInput?.value, 10) || 1;
+
+	      const existingItem = cart.find(item => item.id === id);
+	      let effectiveMaxQty = maxQty;
+	      if (existingItem) effectiveMaxQty = existingItem.maxQty;
+
+	      if (quantity < 1) quantity = 1;
+	      if (quantity > effectiveMaxQty) quantity = effectiveMaxQty;
+
+	      const currentQty = existingItem ? existingItem.quantity : 0;
+
+	      if (currentQty + quantity > effectiveMaxQty) {
+	        showError(`Disponibili solo ${effectiveMaxQty} pezzi (hai già ${currentQty})`);
+	        return;
+	      } else {
+	        clearError();
+	      }
+
+	      addToCart(id, name, price, image, quantity, effectiveMaxQty, () => {
+	        openCart();
+	        showGlobalMessage(`Prodotto aggiunto al carrello!`);
+	      });
+	    });
+	  }
 });
 
