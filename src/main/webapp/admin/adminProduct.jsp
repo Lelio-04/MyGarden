@@ -21,22 +21,92 @@
         }
     }
 %>
+ <%
+     String username = (String) session.getAttribute("username");
+     String activePage = (String) request.getAttribute("activePage");
+     if (activePage == null) activePage = "";
+
+     // Ottieni il nome del file JSP corrente
+     String currentPage = request.getRequestURI().substring(request.getContextPath().length());
+     // Rimuovi il primo slash se presente per ottenere solo il nome del file
+     if (currentPage.startsWith("/")) {
+         currentPage = currentPage.substring(1);
+     }
+     String cartMergeMessage = (String) session.getAttribute("cartMergeMessage");
+     if (cartMergeMessage != null) {
+         session.removeAttribute("cartMergeMessage");
+     }
+ %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>Admin - Gestione Prodotti</title>
     <link rel="stylesheet" href="styles/styleAdminCatalogo.css">
+    <link rel="stylesheet" href="styles/styleHeader.css">
 </head>
 <body>
 
 <header>
-    <h1>Area Amministratore - Gestione Prodotti</h1>
-    <nav>
-        <a href="./index.jsp">Torna al sito</a>
-         <a href="<%= request.getContextPath() %>/admin/adminOrders.jsp">Gestione Ordini</a>
-    </nav>
-</header>
+     <div class="header-content-wrapper">
+         <a href="index.jsp" class="brand">MyGarden</a>
+
+         <nav class="main-nav">
+             <ul class="nav-links">
+                 <li><a href="index.jsp" id="signed">Home</a></li>
+
+                 <% if (isAdmin != null && isAdmin) { %>
+                     <li><a href="<%= request.getContextPath() %>/product">Gestione Catalogo</a></li>
+                     <li><a href="admin/adminOrders.jsp">Gestione Ordini</a></li>
+                 <% } else { %>
+                     <%-- Mostra "Contattaci" SOLO se la pagina corrente è index.jsp --%>
+                     <% if ("index.jsp".equals(currentPage)) { %>
+                         <li><a href="#contattaci">Contattaci</a></li>
+                     <% } %>
+                     <li class="dropdown">
+                         <a href="<%= request.getContextPath() %>/product" class="dropdown-toggle">Catalogo</a>
+                         <ul class="dropdown-menu">
+                             <li><a href="product?categoria=Piante da Interno">Piante da Interno</a></li>
+                             <li><a href="product?categoria=Piante da Esterno">Piante da Esterno</a></li>
+                             <li><a href="product?categoria=Piante Aromatiche">Piante Aromatiche</a></li>
+                             <li><a href="product?categoria=Piante Grasse">Piante Grasse</a></li>
+                             <li><a href="product?categoria=Piante Fiorite">Fiori</a></li>
+                             <li><a href="product?categoria=Attrezzi">Attrezzi</a></li>
+                         </ul>
+                     </li>
+                     <li><a href="carrello.jsp">Carrello</a></li>
+                     <li><a href="ordini.jsp">Ordini</a></li>
+                 <% } %>
+
+                 <% if (username != null) { %>
+					    <li><a href="./Logout">Logout</a></li>
+					<% } else { %>
+					    <li><a href="https://localhost/MyGardenProject/login.jsp">Accedi</a></li>
+					<% } %>
+             </ul>
+         </nav>
+
+         <div class="header-icons">
+
+             <a href="<%= (username != null) ? "profilo.jsp" : "https://localhost/MyGardenProject/login.jsp" %>" class="icon-link" title="<%= (username != null) ? "Profilo" : "Accedi" %>">
+                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                     <circle cx="12" cy="7" r="4"></circle>
+                 </svg>
+             </a>
+
+             <% if (username == null) { %>
+                 <a href="register.jsp" class="icon-link" title="Registrati">
+                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                         <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                         <circle cx="9" cy="7" r="4"></circle>
+                         <path d="m22 11-3-3m0 0-3 3m3-3v12"></path>
+                     </svg>
+                 </a>
+             <% } %>
+         </div>
+     </div>
+ </header>
 
 <main>
     <% if (errorMessage != null) { %>

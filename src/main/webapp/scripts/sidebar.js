@@ -134,10 +134,12 @@ function removeItem(productId) {
     if (index !== -1) {
         cart.splice(index, 1);  // rimuovi elemento
         syncCart(() => {
+			showError(`Rimozione effettuata`);
             updateCartDisplay();
             openCart();
         });
     }
+	clearError();
 }
 
 

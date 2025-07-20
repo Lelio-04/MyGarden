@@ -57,17 +57,26 @@
          </nav>
 
          <div class="header-icons">
+         <% if (isAdmin != null && isAdmin) { %>
+                     
+          <% } else { %>
          <% if ("carrello.jsp".equals(currentPage)) { %>
                   <a href="carrello.jsp" class="icon-link" title="Carrello" id="cart-button">
-          <% } else{%>
-             	<a href="#" class="icon-link" title="Carrello" id="cart-button" onclick="openCart()">
-            <% }%>
-             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 	        <circle cx="9" cy="21" r="1"></circle>
 	        <circle cx="20" cy="21" r="1"></circle>
 	        <path d="m1 1 4 4 14 1-1 9H6"></path>
 	    </svg>
 	</a>
+          <% } else{%>
+             	<a href="#" class="icon-link" title="Carrello" id="cart-button" onclick="openCart()">
+             	<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+	        <circle cx="9" cy="21" r="1"></circle>
+	        <circle cx="20" cy="21" r="1"></circle>
+	        <path d="m1 1 4 4 14 1-1 9H6"></path>
+	    </svg>
+	</a>
+            <% } }%>
 
              <a href="<%= (username != null) ? "profilo.jsp" : "https://localhost/MyGardenProject/login.jsp" %>" class="icon-link" title="<%= (username != null) ? "Profilo" : "Accedi" %>">
                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
