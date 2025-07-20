@@ -20,7 +20,6 @@ public class CartServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        // Recupera il DataSource dal contesto applicativo
         dataSource = (DataSource) getServletContext().getAttribute("DataSourceStorage");
         if (dataSource == null) {
             throw new ServletException("DataSource non configurato correttamente nel contesto.");
@@ -51,11 +50,11 @@ public class CartServlet extends HttpServlet {
             cartItem.setQuantity(quantity);
 
             if (userId != null) {
-                // Utente loggato → salva nel DB
+                //Utente loggato, salva nel DB
                 cartItem.setUserId(userId);
                 addToCart(cartItem);
             } else {
-                // Utente non loggato → salva nella sessione
+                //Utente non loggato, salva nella sessione
                 @SuppressWarnings("unchecked")
                 List<CartBean> sessionCart = (List<CartBean>) session.getAttribute("guestCart");
 
@@ -64,7 +63,7 @@ public class CartServlet extends HttpServlet {
                     session.setAttribute("guestCart", sessionCart);
                 }
 
-                // Se il prodotto è già presente, aggiorna la quantità
+                //Se prod già presente, aggiorna quantità
                 boolean found = false;
                 for (CartBean item : sessionCart) {
                     if (item.getProductCode() == productCode) {

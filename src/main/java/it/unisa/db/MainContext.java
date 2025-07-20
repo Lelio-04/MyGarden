@@ -20,10 +20,9 @@ public class MainContext implements ServletContextListener {
             Context initCtx = new InitialContext();
             Context envCtx = (Context) initCtx.lookup("java:comp/env");
 
-            // 🔹 Corretto: DataSource unico per "storage"
             DataSource dsStorage = (DataSource) envCtx.lookup("jdbc/storage");
             context.setAttribute("DataSourceStorage", dsStorage);
-            context.setAttribute("DataSourceUtenti", dsStorage); // Retrocompatibilità se usavi anche utenti separati
+            context.setAttribute("DataSourceUtenti", dsStorage);
             System.out.println("✅ DataSource 'storage' inizializzato correttamente");
 
         } catch (NamingException e) {

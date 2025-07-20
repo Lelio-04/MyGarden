@@ -11,7 +11,7 @@
      }
  %>
  <%
-     // Questo attributo è utile per marcare il link attivo nell'header
+     
      request.setAttribute("activePage", "home");
  %>
  <!DOCTYPE html>
@@ -28,7 +28,6 @@
     	    const cartMerged = localStorage.getItem('cartMerged');
     	    const guestCart = localStorage.getItem('guestCart');
 
-    	    // ⚠️ Chiama merge SOLO se non è già stato fatto e guestCart esiste
     	    if (!cartMerged && guestCart) {
     	        console.log("🔄 Tentativo di eseguire il merge del carrello...");
     	        mergeGuestCartWithUserCart();

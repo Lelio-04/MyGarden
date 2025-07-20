@@ -24,12 +24,11 @@ public class GetCategoriesServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         try {
-            // Recupera il DataSource dal contesto JNDI
+            //Recupera DataSource da contesto JNDI
             Context initContext = new InitialContext();
             Context envContext = (Context) initContext.lookup("java:comp/env");
             dataSource = (DataSource) envContext.lookup("jdbc/storage"); // Nome JNDI configurato
 
-            // Inizializza il DAO delle categorie
             categoryDao = new CategoryDaoDataSource(dataSource);
 
         } catch (NamingException e) {
@@ -40,16 +39,12 @@ public class GetCategoriesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            // Ottieni tutte le categorie dal database
             List<CategoryBean> categorie = categoryDao.getAllCategories();
 
-            // Aggiungi l'opzione "Tutte le categorie" come prima categoria
             CategoryBean allCategories = new CategoryBean();
-            allCategories.setId(0); // ID speciale per "Tutte le categorie"
+            allCategories.setId(0);
             allCategories.setName("Tutte le categorie");
-            categorie.add(0, allCategories);  // Aggiungi "Tutte le categorie" come prima voce
-
-            // Costruzione della risposta in formato JSON
+            categorie.add(0, allCategories);
             StringBuilder json = new StringBuilder("[");
 
             int i = 0;
@@ -65,7 +60,6 @@ public class GetCategoriesServlet extends HttpServlet {
 
             json.append("]");
 
-            // Imposta la risposta come JSON
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json.toString());
@@ -76,8 +70,6 @@ public class GetCategoriesServlet extends HttpServlet {
             response.getWriter().write("{\"error\":\"Errore DB durante il recupero delle categorie\"}");
         }
     }
-
-    // Metodo per "scappare" le virgolette e caratteri speciali nel JSON
     private String escapeJson(String s) {
         if (s == null) return "";
         return s.replace("\"", "\\\"").replace("\n", "").replace("\r", "");

@@ -18,7 +18,7 @@ public class Logout extends HttpServlet {
 
         if (session != null) {
             System.out.println(" Logout utente: " + session.getAttribute("username"));
-            session.invalidate(); // Invalida la sessione
+            session.invalidate(); //Invalida sessione
             System.out.println(" Sessione invalidata");
         } else {
             System.out.println(" Nessuna sessione attiva da invalidare");

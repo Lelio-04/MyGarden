@@ -27,7 +27,7 @@ public class DettaglioProdottoServlet extends HttpServlet {
             throw new ServletException("DataSource non trovato.");
         }
         productDao = new ProductDaoDataSource(ds);
-        reviewDao = new ReviewDao(ds); // <-- aggiungi questo
+        reviewDao = new ReviewDao(ds);
     }
 
 
@@ -51,10 +51,9 @@ public class DettaglioProdottoServlet extends HttpServlet {
                 return;
             }
 
-            // ✅ Recupera le recensioni dal database
+            //prendi recensioni dal database
             List<ReviewBean> reviews = reviewDao.getByProductId(code);
 
-            // ✅ Passa prodotto e recensioni al JSP
             request.setAttribute("product", product);
             request.setAttribute("reviews", reviews);
 

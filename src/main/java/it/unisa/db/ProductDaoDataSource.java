@@ -193,8 +193,6 @@ public class ProductDaoDataSource implements IProductDao {
                 bean.setPrice(rs.getDouble("PRICE"));
                 bean.setQuantity(rs.getInt("QUANTITY"));
                 bean.setImage(rs.getString("IMAGE"));
-                // Salva solo il nome della categoria se hai un campo per questo
-                // bean.setCategory(categoryName);
                 products.add(bean);
             }
 
@@ -213,59 +211,53 @@ public class ProductDaoDataSource implements IProductDao {
         Connection connection = null;
 
         try {
-            // Ottieni la connessione dal DataSource
             connection = ds.getConnection();
             
-            // Creiamo una query base per la ricerca
             String query = "SELECT * FROM product WHERE name LIKE ?";
 
-            // Aggiungi il filtro per la categoria se presente
             if (categoria != null && !categoria.isEmpty()) {
                 query += " AND category_id = ?";
             }
 
-            // Aggiungi il filtro per il prezzo minimo
+            //filtro prezzo minimo
             if (prezzoMin != null && !prezzoMin.isEmpty()) {
                 query += " AND price >= ?";
             }
 
-            // Aggiungi il filtro per il prezzo massimo
+            //filtro prezzo massimo
             if (prezzoMax != null && !prezzoMax.isEmpty()) {
                 query += " AND price <= ?";
             }
 
-            // Aggiungi l'ordinamento
+            //ordinamento
             if (ordine != null && !ordine.isEmpty()) {
                 query += " ORDER BY " + ordine;
             }
 
-            // Prepara la query
             PreparedStatement stmt = connection.prepareStatement(query);
 
             int paramIndex = 1;
-
-            // Imposta il parametro per il nome prodotto
             stmt.setString(paramIndex++, "%" + q + "%");
 
-            // Imposta il parametro per la categoria, se presente
+            // Imposta parametro per la categoria, se presente
             if (categoria != null && !categoria.isEmpty()) {
                 stmt.setString(paramIndex++, categoria);
             }
 
-            // Imposta il parametro per il prezzo minimo, se presente
+            // Imposta parametro per prezzo minimo, se presente
             if (prezzoMin != null && !prezzoMin.isEmpty()) {
                 stmt.setDouble(paramIndex++, Double.parseDouble(prezzoMin));
             }
 
-            // Imposta il parametro per il prezzo massimo, se presente
+            // Imposta parametro per prezzo massimo, se presente
             if (prezzoMax != null && !prezzoMax.isEmpty()) {
                 stmt.setDouble(paramIndex++, Double.parseDouble(prezzoMax));
             }
 
-            // Esegui la query
+            //Esegui query
             ResultSet rs = stmt.executeQuery();
 
-            // Crea una lista di prodotti
+            //lista di prodotti
             while (rs.next()) {
                 ProductBean prodotto = new ProductBean();
                 prodotto.setCode(rs.getInt("code"));
@@ -279,7 +271,7 @@ public class ProductDaoDataSource implements IProductDao {
 
         } finally {
             if (connection != null) {
-                connection.close(); // Assicurati di chiudere la connessione
+                connection.close();
             }
         }
 

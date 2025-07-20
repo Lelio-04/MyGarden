@@ -54,7 +54,6 @@ public class RegisterServletControl extends HttpServlet {
             return;
         }
 
-        // Crea l'oggetto User con tutti i nuovi campi
         User user = new User(username, email, password);
         user.setTelefono(telefono);
         user.setDataNascita(dataNascita);

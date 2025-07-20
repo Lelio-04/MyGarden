@@ -82,7 +82,6 @@ h1 {
   margin-bottom: 4px;
 }
 
-/* Responsive: mobile layout */
 
 @media (max-width: 500px) {
   .order-box {

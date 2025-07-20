@@ -10,13 +10,11 @@ public class OrderBean {
     private Timestamp createdAt;
     private double total;
 
-    // ✅ Lista inizializzata per evitare nullPointerException
     private List<OrderItemBean> orderItems = new ArrayList<>();
 
-    // Costruttore vuoto obbligatorio per JSP / BeanUtils
     public OrderBean() {}
 
-    // Getter e Setter standard
+    //Getter e Setter
     public int getId() {
         return id;
     }

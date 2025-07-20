@@ -12,7 +12,6 @@ public class User {
     private String provincia;
     private String cap;
 
-    // Costruttore completo
     public User(String username, String email, String password, String telefono,
                 String dataNascita, String indirizzo, String citta,
                 String provincia, String cap) {
@@ -27,12 +26,11 @@ public class User {
         this.cap = cap;
     }
 
-    // Costruttore base (se necessario)
     public User(String username, String email, String password) {
         this(username, email, password, "", "", "", "", "", "");
     }
 
-    // Getter e Setter
+    //Getter e Setter
     public String getUsername() {
         return username;
     }

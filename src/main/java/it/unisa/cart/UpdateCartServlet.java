@@ -36,7 +36,6 @@ public class UpdateCartServlet extends HttpServlet {
         Integer userId = (Integer) session.getAttribute("userId");
 
         try {
-            // Leggi JSON dal body della richiesta
             StringBuilder jsonRequest = new StringBuilder();
             String line;
             while ((line = request.getReader().readLine()) != null) {
@@ -47,14 +46,12 @@ public class UpdateCartServlet extends HttpServlet {
 
             String requestData = jsonRequest.toString();
 
-            // Estrai l'array JSON del carrello (stringa tra parentesi quadre)
             String cartData = requestData.substring(requestData.indexOf("[") + 1, requestData.lastIndexOf("]"));
 
             List<CartBean> cartItems = parseCartData(cartData);
 
             if (userId == null) {
                 // Utente guest: salva carrello in sessione
-                // Utente non loggato (guest)
                 session.setAttribute("guestCart", cartItems);
                 System.out.println("Guest cart sostituito in sessione, elementi: " + cartItems.size());
                 response.setStatus(HttpServletResponse.SC_OK);
@@ -125,7 +122,7 @@ public class UpdateCartServlet extends HttpServlet {
     }
 
     private void updateUserCartInDb(Integer userId, List<CartBean> cartItems, PrintWriter out) throws SQLException {
-        // Svuota il carrello dell'utente
+        //Svuota carrello utente
         cartDao.clearCart(userId);
 
         for (CartBean cartItem : cartItems) {
@@ -142,7 +139,6 @@ public class UpdateCartServlet extends HttpServlet {
 
             if (finalQty <= 0) continue;
 
-            // Inserisci direttamente, senza sommare quantità vecchie (carrello è stato svuotato)
             boolean success = cartDao.insertToCart(userId, productCode, finalQty);
             if (!success) {
                 out.print("{\"success\":false, \"error\":\"Errore inserimento prodotto nel carrello.\"}");

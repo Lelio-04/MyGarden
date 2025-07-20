@@ -50,7 +50,7 @@
     <h2>Conferma Ordine</h2>
 
     <form action="checkout" method="post">
-        <!-- ✅ Campo hidden per token -->
+        <!-- Campo hidden per token -->
         <input type="hidden" name="token" value="<%= token != null ? token : "" %>">
 
         <label for="fullName">Nome e Cognome</label>

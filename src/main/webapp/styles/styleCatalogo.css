@@ -1,15 +1,14 @@
 /* Catalogo Prodotti - Stile coerente con header */
 
-/* Impostazioni generali per il layout */
 body {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Assicura che il body occupi tutta l'altezza della finestra */
-  margin: 0; /* Rimuove il margine di default */
+  min-height: 100vh; 
+  margin: 0; 
 }
 
 .main-content {
-  flex-grow: 1; /* Fa sì che il contenuto principale occupi lo spazio disponibile */
+  flex-grow: 1; 
 }
 
 .catalog-container {
@@ -65,7 +64,7 @@ body {
   padding: 15px 20px;
   display: flex;
   flex-direction: column;
-  gap: 5px; /* Spazio uniforme e ridotto tra elementi */
+  gap: 5px; 
 }
 
 .product-card h3 {
@@ -124,7 +123,7 @@ body {
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin-top: auto; /* Spinge il bottone in basso eliminando spazio bianco */
+  margin-top: auto; 
 }
 
 .add-to-cart-btn:hover {
@@ -145,7 +144,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 300px; /* Imposta una altezza minima mentre carica */
+  min-height: 300px;
 }
 
 #prodotti.loading::after {

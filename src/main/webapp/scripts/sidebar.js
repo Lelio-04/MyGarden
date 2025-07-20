@@ -26,7 +26,7 @@ function openCart() {
 
     sidebar.classList.add("open");
 
-    // Carica sempre il carrello dal server, anche se non sei loggato
+    //Carica sempre carrello server, anche se non sei loggato
     fetchCartFromServer(updateCartDisplay);
 }
 
@@ -117,7 +117,6 @@ function updateQty(productId, delta) {
     if (newQty <= 0) {
         cart.splice(index, 1);
     } else if (newQty > item.maxQty) {
-        // mostra errore e blocca l'aumento
         showError(`Disponibili solo ${item.maxQty} pezzi per "${item.name}".`);
         return;
     } else {
@@ -132,7 +131,7 @@ function updateQty(productId, delta) {
 function removeItem(productId) {
     const index = cart.findIndex(i => i.id === productId);
     if (index !== -1) {
-        cart.splice(index, 1);  // rimuovi elemento
+        cart.splice(index, 1);  //rimuovi elemento
         syncCart(() => {
 			showError(`Rimozione effettuata`);
             updateCartDisplay();
@@ -147,7 +146,6 @@ function addToCart(productId, name, price, image, quantity = 1, maxQty = 99, cal
     productId = parseInt(productId, 10);
     const existing = cart.find(item => item.id === productId);
 
-    // Usa il maxQty già presente in carrello se c'è, altrimenti quello passato
     const effectiveMaxQty = existing ? existing.maxQty : maxQty;
 
     const currentQty = existing ? existing.quantity : 0;
@@ -174,9 +172,8 @@ function addToCart(productId, name, price, image, quantity = 1, maxQty = 99, cal
 
 
 function syncCart(callback) {
-    // Sempre invia il carrello al server, anche se guest
 	if (!isUserLoggedIn()) {
-	    saveGuestCart(); // <--- salva localmente anche prima della sync
+	    saveGuestCart(); 
 	}
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "/MyGardenProject/update-cart", true);
@@ -190,7 +187,6 @@ function syncCart(callback) {
 				    });
             } else {
                 console.error("Errore sincronizzazione carrello:", xhr.responseText);
-                // In caso di errore, fallback locale
                 if (!isUserLoggedIn()) {
                     saveGuestCart();
                     callback && callback();
@@ -199,7 +195,6 @@ function syncCart(callback) {
         }
     };
 
-    // Manda il carrello in formato {cart: [{productCode, quantity}, ...]}
     const payload = JSON.stringify({ cart: cart.map(item => ({ productCode: item.id, quantity: item.quantity })) });
     xhr.send(payload);
 }
@@ -229,7 +224,6 @@ function clearError() {
 	updateCartDisplay();
 }
 
-// Funzione per caricare le categorie con XMLHttpRequest
 function caricaCategorie() {
     const categoriaSelect = document.getElementById('categoria');
     if (!categoriaSelect) return;
@@ -260,7 +254,6 @@ function caricaCategorie() {
     xhr.send();
 }
 
-// Funzione per gestire la ricerca dei prodotti con XMLHttpRequest
 function ricercaProdotti(event) {
     event.preventDefault();
 
@@ -331,7 +324,6 @@ function ricercaProdotti(event) {
     xhr.send();
 }
 
-// Evento DOMContentLoaded aggiornato con caricaCategorie e ricercaProdotti
 document.addEventListener('DOMContentLoaded', () => {
     // Logica da entrambi i blocchi
 
@@ -386,7 +378,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 addToCart(id, name, price, image, quantity, maxQty, () => {
-                    openCart();  // <-- Questo ora funziona
+                    openCart();
                     button.disabled = false;
                 });
             }

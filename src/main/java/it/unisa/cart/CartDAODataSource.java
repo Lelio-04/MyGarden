@@ -53,7 +53,7 @@ public class CartDAODataSource implements ICartDao{
                 }
             }
         }
-        return 0; // prodotto non trovato = stock 0
+        return 0; //prodo non trovato
     }
 
     public List<CartBean> getCartItems(int userId) throws SQLException {
@@ -136,7 +136,7 @@ public class CartDAODataSource implements ICartDao{
                 }
             }
         }
-        return 0; // Se il prodotto non è nel carrello dell'utente, la quantità è 0
+        return 0; //Se prod non è nel carrello utente, quantità 0
     }
 
     @Override
@@ -159,7 +159,7 @@ public class CartDAODataSource implements ICartDao{
 
                     return product;
                 } else {
-                    return null; // Se il prodotto non esiste
+                    return null; //Se prod non esiste
                 }
             }
         }
@@ -174,8 +174,8 @@ public class CartDAODataSource implements ICartDao{
             int affectedRows = ps.executeUpdate();
             return affectedRows > 0;
         } catch (SQLException e) {
-            if (e.getSQLState().startsWith("23")) { // codice di violazione chiave duplicata (dipende DB)
-                return false; // riga esiste già
+            if (e.getSQLState().startsWith("23")) {
+                return false;
             } else {
                 throw e;
             }

@@ -32,14 +32,13 @@ public class OrderDAO {
         int orderId = -1;
 
         try (Connection conn = dataSource.getConnection()) {
-            conn.setAutoCommit(false); // 🛑 Avvia transazione
+            conn.setAutoCommit(false);
 
             try (
                 PreparedStatement orderStmt = conn.prepareStatement(insertOrderSQL, Statement.RETURN_GENERATED_KEYS);
                 PreparedStatement itemStmt = conn.prepareStatement(insertItemSQL);
                 PreparedStatement updateQtyStmt = conn.prepareStatement(updateProductQuantitySQL)
             ) {
-                // ✅ Inserimento ordine
                 orderStmt.setInt(1, userId);
                 orderStmt.setDouble(2, total);
                 int orderRows = orderStmt.executeUpdate();
@@ -58,7 +57,6 @@ public class OrderDAO {
                     }
                 }
 
-                // ✅ Inserimento items e aggiornamento quantità
                 for (CartBean item : cartItems) {
                     double price = item.getProduct().getPrice();
 
@@ -83,10 +81,10 @@ public class OrderDAO {
                 conn.commit();
 
             } catch (SQLException e) {
-                conn.rollback(); // rollback in caso di errore interno
+                conn.rollback();
                 throw e;
             } finally {
-                conn.setAutoCommit(true); // ripristina lo stato originale
+                conn.setAutoCommit(true);
             }
         }
 
@@ -112,7 +110,7 @@ public class OrderDAO {
                 order.setCreatedAt(rs.getTimestamp("created_at"));
                 order.setTotal(rs.getDouble("total"));
 
-                // Recupera i prodotti dell'ordine
+                //Recupera prod ordine
                 List<OrderItemBean> items = getOrderItemsByOrderId(orderId);
                 order.setOrderItems(items);
 
@@ -140,7 +138,6 @@ public class OrderDAO {
                 order.setCreatedAt(rs.getTimestamp("created_at"));
                 order.setTotal(rs.getDouble("total"));
 
-                // Recupera i prodotti dell'ordine
                 List<OrderItemBean> items = getOrderItemsByOrderId(orderId);
                 order.setOrderItems(items);
 

@@ -24,13 +24,13 @@ public class ProductControl extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Recupera il DataSource dal context
+        //Recupera DataSource da context
         DataSource ds = (DataSource) getServletContext().getAttribute("DataSourceStorage");
 
         IProductDao productDao = new ProductDaoDataSource(ds);
         CartDAO cartDao = new CartDAO(ds); // 🔄 ora usa DataSource
 
-        // Recupera sessione utente
+        //prendi sessione utente
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
         Integer userId = (Integer) session.getAttribute("userId");
@@ -87,7 +87,6 @@ public class ProductControl extends HttpServlet {
             request.setAttribute("errorMessage", "Errore: " + e.getMessage());
         }
 
-        // Ricarica carrello per l'utente
         try {
             if (userId != null) {
                 List<CartBean> cartItems = cartDao.getCartItems(userId);
@@ -98,7 +97,6 @@ public class ProductControl extends HttpServlet {
             request.setAttribute("errorMessage", "Errore caricamento carrello: " + e.getMessage());
         }
 
-        // Carica catalogo prodotti
         String sort = request.getParameter("sort");
         String categoria = request.getParameter("categoria");
 
@@ -115,8 +113,6 @@ public class ProductControl extends HttpServlet {
             request.setAttribute("errorMessage", "Errore durante il recupero dei prodotti: " + e.getMessage());
         }
 
-
-        // Destinazione finale
         Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
         String nextPage = (isAdmin != null && isAdmin) ? "/admin/adminProduct.jsp" : "/catalogo.jsp";
 

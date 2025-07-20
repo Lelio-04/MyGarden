@@ -68,7 +68,6 @@ public class Login extends HttpServlet {
                         session.setAttribute("isAdmin", isAdmin);
                         session.setAttribute("role", isAdmin ? "admin" : "cliente");
 
-                        // CSRF token
                         String token = UUID.randomUUID().toString();
                         System.out.println("Session ID prima getSession: " + (request.getSession(false) != null ? request.getSession(false).getId() : "nessuna sessione"));
                         session = request.getSession(true);
@@ -84,19 +83,18 @@ public class Login extends HttpServlet {
 
                             CartDAO cartDAO = new CartDAO(ds);
 
-                            // Recupera carrello utente dal DB
+                            //prendi carrello utente da DB
                             List<CartBean> userCart = cartDAO.getCartItems(userId);
 
                             if (userCart == null) userCart = new ArrayList<>();
                             System.out.println("userCart contiene " + userCart.size() + " elementi.");
 
-                            // Mappa prodotto -> quantità per userCart
                             Map<Integer, Integer> userMap = new HashMap<>();
                             for (CartBean item : userCart) {
                                 userMap.put(item.getProductCode(), item.getQuantity());
                             }
 
-                            // Somma quantità guestCart a userCart
+                            //Somma quantità guestCart a userCart
                             for (CartBean guestItem : guestCart) {
                                 int prodCode = guestItem.getProductCode();
                                 int guestQty = guestItem.getQuantity();
@@ -108,7 +106,7 @@ public class Login extends HttpServlet {
                                 System.out.println("Prodotto " + entry.getKey() + " qty " + entry.getValue());
                             }
 
-                            // Ricostruisci lista unificata
+                            //lista unificata
                             List<CartBean> mergedCart = new ArrayList<>();
                             for (Map.Entry<Integer, Integer> entry : userMap.entrySet()) {
                                 CartBean cb = new CartBean();
@@ -118,7 +116,7 @@ public class Login extends HttpServlet {
                                 mergedCart.add(cb);
                             }
 
-                            // Aggiorna carrello utente nel DB
+                            //Aggiorna carrello utente nel DB
                             try {
                                 cartDAO.updateUserCart(userId, mergedCart);
                                 System.out.println("Carrello utente aggiornato con " + mergedCart.size() + " prodotti.");
@@ -126,7 +124,7 @@ public class Login extends HttpServlet {
                                 System.err.println("Errore aggiornando carrello utente: " + e.getMessage());
                             }
 
-                            // Rimuovi carrello guest dalla sessione
+                            //Rimuovi carrello guest dalla sessione
                             session.removeAttribute("guestCart");
                             System.out.println("guestCart rimosso dalla sessione.");
                             session.setAttribute("cartMergeMessage", "Il tuo carrello è stato unificato.");

@@ -52,9 +52,8 @@
      String activePage = (String) request.getAttribute("activePage");
      if (activePage == null) activePage = "";
 
-     // Ottieni il nome del file JSP corrente
+     //nome file JSP corrente
      String currentPage = request.getRequestURI().substring(request.getContextPath().length());
-     // Rimuovi il primo slash se presente per ottenere solo il nome del file
      if (currentPage.startsWith("/")) {
          currentPage = currentPage.substring(1);
      }

@@ -7,7 +7,7 @@ public class CartBean {
     private int userId;
     private int productCode;
     private int quantity;
-    private ProductBean product; // Collegamento al prodotto
+    private ProductBean product; //Collegamento a prodotto
 
     public CartBean(int productCode, int quantity, ProductBean product) {
         this.productCode = productCode;
@@ -66,6 +66,3 @@ public class CartBean {
         return 0;
     }
 } 
-
-// Assicurati che ProductBean abbia almeno i metodi:
-// getCode(), getName(), getPrice()

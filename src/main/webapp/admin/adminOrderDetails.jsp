@@ -5,14 +5,14 @@
 <%@ page session="true" %>
 
 <%
-    // ✅ Controllo accesso admin
+    //Controllo accesso admin
     Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
     if (isAdmin == null || !isAdmin) {
         response.sendRedirect("../login.jsp?next=admin/adminOrders.jsp");
         return;
     }
 
-    // ✅ Controllo token CSRF
+    //Controllo token CSRF
     String requestToken = request.getParameter("token");
     String sessionToken = (String) session.getAttribute("sessionToken");
     if (requestToken == null || sessionToken == null || !requestToken.equals(sessionToken)) {
@@ -58,9 +58,7 @@
      String activePage = (String) request.getAttribute("activePage");
      if (activePage == null) activePage = "";
 
-     // Ottieni il nome del file JSP corrente
      String currentPage = request.getRequestURI().substring(request.getContextPath().length());
-     // Rimuovi il primo slash se presente per ottenere solo il nome del file
      if (currentPage.startsWith("/")) {
          currentPage = currentPage.substring(1);
      }

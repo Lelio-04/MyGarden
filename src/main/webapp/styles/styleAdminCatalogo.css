@@ -2,11 +2,9 @@ body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background: #fdfcf6; /* beige chiaro */
+    background: #fdfcf6;
     color: #2d2d2d;
 }
-
-
 
 
 main {
@@ -19,7 +17,7 @@ main {
 }
 
 h2 {
-    color: #386641; /* verde scuro */
+    color: #386641;
     border-bottom: 2px solid #c3b091;
     padding-bottom: 5px;
     margin-top: 40px;
@@ -40,7 +38,7 @@ table th, table td {
 }
 
 table th {
-    background-color: #c9dbb2; /* verde/beige tenue */
+    background-color: #c9dbb2;
     color: #2e4629;
 }
 
@@ -82,7 +80,7 @@ form textarea {
 }
 
 form button {
-    background: linear-gradient(to right, #6a994e, #386641); /* verde gradiente */
+    background: linear-gradient(to right, #6a994e, #386641);
     color: white;
     border: none;
     padding: 10px 18px;
@@ -140,10 +138,10 @@ form button:hover {
 
 
 footer {
-    background-color: #c0c0c0; /* Sfondo leggermente più scuro per il footer */
+    background-color: #c0c0c0;
     color: var(--color-text-medium);
     text-align: center;
-    padding: 30px 15px; /* Padding generoso */
+    padding: 30px 15px;
     margin-top: 100px;
     font-size: 0.9em;
     border-top: 1px solid var(--color-border); 

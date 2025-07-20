@@ -119,19 +119,16 @@ function showGlobalMessage(message) {
 	  messageDiv.textContent = message;
 	  messageDiv.style.display = "block";
 
-	  // Nascondi dopo 2 secondi
 	  const timeoutId = setTimeout(() => {
 	    messageDiv.style.display = "none";
 	  }, 2000);
 
-	  // Nascondi al click e rimuovi listener per evitare duplicazioni
 	  function hideOnClick() {
 	    clearTimeout(timeoutId);
 	    messageDiv.style.display = "none";
 	    document.removeEventListener("click", hideOnClick);
 	  }
 
-	  // Usa setTimeout minimo per permettere la visualizzazione prima di agganciare il listener
 	  setTimeout(() => {
 	    document.addEventListener("click", hideOnClick);
 	  }, 100);

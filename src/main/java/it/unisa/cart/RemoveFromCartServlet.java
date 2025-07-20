@@ -82,7 +82,7 @@ public class RemoveFromCartServlet extends HttpServlet {
                 return;
             }
 
-            // Costruisci JSON carrello aggiornato
+            //Costruisci JSON carrello aggiornato
             List<CartBean> cartItems;
             if (userId != null) {
                 cartItems = cartDAO.getCartItems(userId);

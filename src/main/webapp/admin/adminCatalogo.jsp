@@ -8,7 +8,7 @@
         return;
     }
 
-    // ✅ Recupero token da sessione o cookie
+    //prelevo token da sessione o cookie
     String token = (String) session.getAttribute("sessionToken");
     if (token == null && request.getCookies() != null) {
         for (Cookie c : request.getCookies()) {
@@ -79,7 +79,6 @@
             <td><%= p.getQuantity() %></td>
             <td><img src="<%= p.getImage() %>" alt="img" width="60"></td>
             <td>
-                <!-- ✅ Azioni con token -->
                 <form action="product" method="get" style="display:inline;">
                     <input type="hidden" name="action" value="read">
                     <input type="hidden" name="id" value="<%= p.getCode() %>">

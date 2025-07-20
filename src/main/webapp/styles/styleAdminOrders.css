@@ -1,4 +1,4 @@
-/* === Base Reset === */
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -6,137 +6,128 @@
 }
 
 body {
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; /* Adopted font from first CSS */
-    background-color: #fdfcf6; /* beige chiaro from first CSS */
-    color: #2d2d2d; /* from first CSS */
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; 
+    background-color: #fdfcf6; 
+    color: #2d2d2d; 
     line-height: 1.6;
 }
 
-/* === Layout === */
 body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-/* === Header (Admin specific - styled to match general header colors) === */
 .admin-header {
-    background-color: #6a994e; /* verde naturale from first CSS header */
-    padding: 20px 0; /* Consistent with general header */
+    background-color: #6a994e;
+    padding: 20px 0; 
     color: white;
     text-align: center;
 }
 
 .header-container {
-    max-width: 1200px; /* Kept existing max-width for admin */
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
 }
 
 .admin-title {
-    font-size: 2rem; /* Matches general header h1 */
+    font-size: 2rem; 
     margin-bottom: 10px;
 }
 
 .admin-nav .nav-link {
-    color: #e6d9b5; /* beige caldo from first CSS header nav a */
+    color: #e6d9b5; 
     text-decoration: none;
     font-weight: bold;
     transition: color 0.3s ease;
-    margin: 0 15px; /* Added margin for navigation links */
+    margin: 0 15px; 
 }
 
 .admin-nav .nav-link:hover {
-    color: #fffde7; /* from first CSS header nav a:hover */
+    color: #fffde7; 
     text-decoration: underline;
 }
 
-/* === Main Content (Admin specific - styled to match general main colors) === */
 .main-content {
-    flex: 1; /* Ensures it expands */
-    /* MODIFICA AGGIUNTIVA QUI: Rimuoviamo il limite massimo o lo rendiamo molto grande */
-    max-width: 1400px; /* Aumentato ulteriormente. Prova anche con 'none' per nessun limite */
-    /* oppure usa 'max-width: 95vw;' per occupare il 95% della larghezza della viewport */
+    flex: 1; 
+    max-width: 1400px; 
     margin: 40px auto;
-    background-color: white; /* from first CSS main */
-    padding: 30px; /* from first CSS main */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* from first CSS main */
-    border-radius: 12px; /* from first CSS main */
+    background-color: white; 
+    padding: 30px; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
+    border-radius: 12px; 
 }
 
 .section-title {
-    font-size: 1.6rem; /* Kept existing size, or could match h2 */
-    color: #386641; /* verde scuro from first CSS h2 */
-    border-bottom: 2px solid #c3b091; /* from first CSS h2 */
-    padding-bottom: 5px; /* from first CSS h2 */
-    margin-bottom: 20px; /* Adjust margin for section title */
-    margin-top: 40px; /* Adjust margin for section title */
-    font-weight: 600; /* from first CSS h2 */
+    font-size: 1.6rem; 
+    color: #386641; 
+    border-bottom: 2px solid #c3b091; 
+    padding-bottom: 5px; 
+    margin-bottom: 20px; 
+    margin-top: 40px; 
+    font-weight: 600; 
 }
 
 .no-orders {
-    color: #842029; /* from first CSS .error-message */
-    background: #f8d7da; /* from first CSS .error-message */
-    border: 1px solid #f5c2c7; /* from first CSS .error-message */
-    padding: 10px; /* from first CSS .error-message */
-    border-radius: 6px; /* from first CSS form input */
+    color: #842029; 
+    background: #f8d7da;
+    border: 1px solid #f5c2c7; 
+    padding: 10px;
+    border-radius: 6px; 
     margin-bottom: 20px;
     text-align: center;
-    border-left: 6px solid #b71c1c; /* Kept existing border-left */
+    border-left: 6px solid #b71c1c;
     font-weight: bold;
 }
 
-/* === Table === */
 .orders-table {
-    width: 100%; /* ASSICURA CHE LA TABELLA OCCUPI IL 100% DELLO SPAZIO DEL SUO CONTENITORE */
+    width: 100%; 
     border-collapse: collapse;
     margin-top: 20px;
-    font-size: 0.95rem; /* Kept existing size */
-    /* AGGIUNTA PER GARANTIRE LA LARGHEZZA, PUOI PROVARE A TOGLIERLA SE IL PROBLEMA ERA SOLO MAIN */
-    table-layout: fixed; /* Questo aiuta le colonne ad adattarsi alla larghezza */
+    font-size: 0.95rem;
+    table-layout: fixed; 
 }
 
 .orders-table th,
 .orders-table td {
-    padding: 12px; /* from first CSS table */
-    border: 1px solid #d9d2c2; /* from first CSS table */
+    padding: 12px; 
+    border: 1px solid #d9d2c2; 
     text-align: left;
 }
 
 .orders-table th {
-    background-color: #c9dbb2; /* verde/beige tenue from first CSS table th */
-    color: #2e4629; /* from first CSS table th */
+    background-color: #c9dbb2;
+    color: #2e4629; 
     font-weight: bold;
 }
 
 .orders-table td {
-    background-color: #fafafa; /* Kept original light background for table cells */
+    background-color: #fafafa;
 }
 
-/* === Action Buttons (Table and General) === */
 .action-form {
-    margin-top: 20px; /* General form margin from first CSS */
+    margin-top: 20px; 
     display: flex;
     justify-content: center;
 }
 
 .action-button {
-    background: linear-gradient(to right, #6a994e, #386641); /* verde gradiente from first CSS form button */
+    background: linear-gradient(to right, #6a994e, #386641); 
     color: white;
     border: none;
-    padding: 10px 18px; /* from first CSS form button */
-    font-size: 1rem; /* from first CSS form button */
-    border-radius: 20px; /* from first CSS form button */
+    padding: 10px 18px; 
+    font-size: 1rem; 
+    border-radius: 20px; 
     cursor: pointer;
     transition: background 0.3s ease;
-    margin-right: 10px; /* from first CSS form button */
+    margin-right: 10px; 
 }
 
 .action-button:hover {
-    background: linear-gradient(to right, #52734d, #2f5233); /* from first CSS form button:hover */
+    background: linear-gradient(to right, #52734d, #2f5233); 
 }
 
-/* Specific action buttons (modify, delete) - kept as-is, from first CSS action-buttons */
 .action-buttons a {
     display: inline-block;
     padding: 8px 14px;
@@ -169,26 +160,24 @@ body {
 }
 
 
-/* === Footer (Admin specific - styled to match general footer, but with admin header color) === */
 .admin-footer {
-    background-color: #6a994e; /* verde naturale - using header color for admin cohesion */
-    color: white; /* from first CSS header */
+    background-color: #6a994e; 
+    color: white; 
     text-align: center;
-    padding: 20px 0; /* Consistent with general footer */
-    margin-top: 50px; /* Kept existing margin-top */
-    font-size: 0.9rem; /* Kept existing font-size */
-    border-top: 1px solid #52734d; /* Slightly darker shade of green for border */
+    padding: 20px 0; 
+    margin-top: 50px; 
+    font-size: 0.9rem; 
+    border-top: 1px solid #52734d; 
 }
 
-/* Media query per dispositivi più piccoli: assicurati che il main si adatti */
-@media (max-width: 1400px) { /* Adatta questo valore al tuo nuovo max-width del main */
+@media (max-width: 1400px) { 
     .main-content {
-        max-width: 95%; /* Lascia un piccolo margine sui lati */
+        max-width: 95%; 
         margin: 40px auto;
     }
 }
 
-@media (max-width: 768px) { /* Tipico punto di interruzione per tablet */
+@media (max-width: 768px) { 
     .main-content {
         padding: 20px;
     }
@@ -202,7 +191,7 @@ body {
     }
 }
 
-@media (max-width: 480px) { /* Tipico punto di interruzione per smartphone */
+@media (max-width: 480px) {
     .main-content {
         margin: 20px;
         padding: 15px;
@@ -210,12 +199,11 @@ body {
     .orders-table {
         font-size: 0.85rem;
     }
-    /* Potresti voler rendere la tabella scrollabile orizzontalmente su schermi molto piccoli */
     .main-content {
-        overflow-x: auto; /* Aggiungi questo per permettere lo scroll orizzontale se la tabella è troppo larga */
+        overflow-x: auto; 
     }
     .orders-table {
-        width: max-content; /* Fa sì che la tabella occupi la larghezza del suo contenuto */
-        min-width: 100%; /* Ma non sia mai più piccola del 100% del contenitore */
+        width: max-content; 
+        min-width: 100%; 
     }
 }

@@ -133,10 +133,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	      document.removeEventListener("click", hideError);
 	    };
 
-	    // Nascondi dopo 2 secondi
 	    setTimeout(hideError, 2000);
 
-	    // Nascondi anche dopo 10 secondi come fallback
 	    setTimeout(hideError, 10000);
 
 	    setTimeout(() => {

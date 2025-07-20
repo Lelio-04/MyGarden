@@ -32,17 +32,17 @@ public class ClearCartServlet extends HttpServlet {
 
         try {
             if (userId != null) {
-                // Utente loggato: svuota carrello da DB
+                //Utente loggato svuota carrello da DB
                 cartDAO.clearCart(userId);
             } else {
-                // Utente non loggato: svuota guestCart in sessione
+                // Utente non loggato svuota guestCart in sessione
                 session.removeAttribute("guestCart");
             }
-            // Risposta JSON di successo
+            //Risposta JSON successo
             response.getWriter().write("{\"status\":\"success\"}");
         } catch (SQLException e) {
             e.printStackTrace();
-            // Risposta JSON di errore
+            // Risposta JSON errore
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             String message = e.getMessage().replace("\"", "\\\"");
             response.getWriter().write("{\"status\":\"error\", \"message\":\"" + message + "\"}");

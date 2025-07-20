@@ -1,45 +1,37 @@
-/* UGMONK INSPIRED HEADER LAYOUT */
 
-/* Global box-sizing for consistency across all elements */
 * {
   box-sizing: border-box;
 }
 
-/* Styles for the main <header> element (full width background) */
 header {
   background-color: #ffffff;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.03); /* Ombra molto leggera e diffusa */
-  border-bottom: 1px solid #e8e8e8; /* Bordo sottile e pulito */
-  position: sticky; /* Rende l'header "appiccicoso" in cima alla pagina */
+  box-shadow: 0 2px 10px rgba(0,0,0,0.03); 
+  border-bottom: 1px solid #e8e8e8; 
+  position: sticky; 
   top: 0;
-  z-index: 1000; /* Assicura che l'header sia sopra altri contenuti */
-  padding-top: 20px; /* Padding verticale per l'header a tutta larghezza */
-  padding-bottom: 20px; /* Padding verticale per l'header a tutta larghezza */
+  z-index: 1000; 
+  padding-top: 20px; 
+  padding-bottom: 20px;
 }
 
-/* Styles for the content wrapper inside the header */
-/* Questo div contiene il logo, la navigazione e le icone. */
-/* Si estende per tutta la larghezza dello schermo con padding laterale. */
 .header-content-wrapper {
   display: flex;
-  align-items: center; /* Allinea gli elementi verticalmente al centro */
-  /* max-width rimosso per permettere al contenuto di estendersi per tutta la larghezza dello schermo */
-  margin: 0 auto; /* Mantiene il margine auto per un centraggio logico, anche se non visibile con larghezza piena */
-  padding-left: 40px; /* Padding orizzontale per il contenuto su schermi grandi */
-  padding-right: 40px; /* Padding orizzontale per il contenuto su schermi grandi */
-  transition: all 0.3s ease; /* Applica transizioni fluide al wrapper del contenuto e ai suoi figli */
+  align-items: center; 
+  margin: 0 auto; 
+  padding-left: 40px; 
+  padding-right: 40px; 
+  transition: all 0.3s ease; 
 }
 
-/* Logo (Brand Name) */
 .brand {
   font-size: 40px;
   text-decoration: none;
   color: #2c2c2c;
-  white-space: nowrap; /* Impedisce che il testo del logo vada a capo */
+  white-space: nowrap; 
   font-family: 'Goudy Old Style', serif;
   letter-spacing: 0.7px;
   transition: color 0.3s ease;
-  margin-right: 40px; /* Spazio a destra del logo */
+  margin-right: 40px; 
 }
 
 .brand:hover {
@@ -56,7 +48,7 @@ header {
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 40px; /* Spazio tra i link di navigazione */
+  gap: 40px; 
   padding: 0;
   margin: 0;
 }
@@ -80,7 +72,6 @@ header {
   color: #777;
 }
 
-/* Animated underline for navigation links */
 .nav-links li a::after {
   content: '';
   position: absolute;
@@ -93,89 +84,80 @@ header {
 }
 
 .nav-links li a:hover::after {
-  width: 100%; /* Sottolineatura si espande all'hover */
+  width: 100%; 
 }
 
-/* Dropdown Menu Styles */
+
 .dropdown {
   position: relative;
 }
 
-/* Freccetta verso il basso per il dropdown */
+
 .dropdown-toggle::after {
-  content: ' ▾'; /* Freccetta verso il basso per indicare il dropdown */
+  content: ' ▾'; 
   margin-left: 6px;
   font-size: 12px;
   color: #777;
 }
 
-/* Menu a discesa */
 .dropdown-menu {
-  /* Rimosso display: none; per permettere transizioni fluide */
   position: absolute;
-  top: calc(100% + 5px); /* Sposta il menu leggermente in alto per sovrapporsi al link */
+  top: calc(100% + 5px); 
   left: 50%;
-  transform: translateX(-50%) translateY(10px); /* Aggiunge una leggera traslazione iniziale per l'animazione */
+  transform: translateX(-50%) translateY(10px); 
   background-color: #ffffff;
   list-style: none;
-  margin-top: 0; /* Rimuove qualsiasi gap dal margine */
-  padding: 20px 25px; /* Padding verticale aumentato per più spazio, e orizzontale */
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); /* Ombra più morbida e diffusa */
-  border-radius: 8px; /* Angoli più arrotondati */
-  border: 1px solid #e0e0e0; /* Bordo sottile per una definizione pulita */
-  min-width: 600px; /* Larghezza minima aumentata per 3 colonne */
+  margin-top: 0; 
+  padding: 20px 25px; 
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); 
+  border-radius: 8px;
+  border: 1px solid #e0e0e0; 
+  min-width: 600px; 
   z-index: 1001;
-  opacity: 0; /* Inizialmente trasparente */
-  visibility: hidden; /* Inizialmente non visibile agli eventi del mouse */
-  pointer-events: none; /* Impedisce interazioni quando il menu è nascosto */
+  opacity: 0; 
+  visibility: hidden; 
+  pointer-events: none; 
   transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
 
-  /* Layout a tre colonne */
-  display: grid; /* Usa grid per il layout a colonne */
-  grid-template-columns: repeat(3, 1fr); /* Tre colonne di larghezza uguale */
-  gap: 15px 20px; /* Spazio tra le righe e tra le colonne */
+  display: grid; 
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 15px 20px; 
 }
 
-/* Mostra il menu quando il mouse è sopra il contenitore */
 .dropdown:hover .dropdown-menu {
   opacity: 1;
   visibility: visible;
-  transform: translateX(-50%) translateY(0); /* Anima alla posizione finale */
-  pointer-events: auto; /* Permette interazioni quando il menu è visibile */
+  transform: translateX(-50%) translateY(0); 
+  pointer-events: auto;
 }
 
-/* Link nel menu a discesa */
 .dropdown-menu li a {
   display: block;
-  padding: 10px 15px; /* Padding adeguato per ogni voce nella griglia */
+  padding: 10px 15px; 
   color: #2c2c2c;
-  font-size: 15px; /* Dimensione del font leggermente aumentata */
+  font-size: 15px; 
   text-decoration: none;
   transition: background-color 0.2s ease, color 0.2s ease;
-  text-align: center; /* Centra il testo all'interno di ogni elemento */
+  text-align: center; 
 }
 
-/* Effetto hover sui link del menu */
 .dropdown-menu li a:hover {
-  background-color: #f0f0f0; /* Sfondo leggermente più scuro all'hover */
-  color: #2c2c2c; /* Mantiene il colore del testo scuro all'hover */
+  background-color: #f0f0f0; 
+  color: #2c2c2c; 
 }
 
-/* Rendere visibile il dropdown anche quando il mouse è sopra il menu */
 .dropdown:hover .dropdown-menu, .dropdown-menu:hover {
   opacity: 1;
   visibility: visible;
-  transform: translateX(-50%) translateY(0); /* Anima alla posizione finale */
-  pointer-events: auto; /* Permette interazioni quando il menu è visibile */
+  transform: translateX(-50%) translateY(0); 
+  pointer-events: auto; 
 }
 
-
-/* Header Icons (Carrello, Profilo, Registrati) */
 .header-icons {
   display: flex;
-  gap: 20px; /* Spazio tra le icone */
+  gap: 20px; 
   align-items: center;
-  margin-left: auto; /* Questo spinge le icone all'estrema destra del header-content-wrapper */
+  margin-left: auto; 
 }
 
 .icon-link {
@@ -191,195 +173,175 @@ header {
 .icon {
   width: 30px;
   height: 30px;
-  stroke: currentColor; /* Usa il colore del testo per il bordo SVG */
+  stroke: currentColor;
   fill: none;
   stroke-width: 1.5;
 }
 
-/* Responsive Design - Media Queries */
-
-/* Desktop to Mid-Tablet Transition (max-width: 992px) */
-/* Questa media query gestisce la transizione tra desktop e schermi di medie dimensioni,
-   riducendo le dimensioni degli elementi per adattarsi meglio. */
 @media (max-width: 992px) {
   .header-content-wrapper {
-    padding-left: 20px; /* Riduci il padding orizzontale */
-    padding-right: 20px; /* Riduci il padding orizzontale */
+    padding-left: 20px; 
+    padding-right: 20px; 
   }
 
   .brand {
-    font-size: 32px; /* Riduci la dimensione del font del logo */
-    margin-right: 25px; /* Riduci il margine a destra del logo */
+    font-size: 32px; 
+    margin-right: 25px; 
   }
 
   .main-nav {
-    gap: 25px; /* Riduci il gap tra i link di navigazione */
+    gap: 25px; 
   }
 
   .nav-links li a {
-    font-size: 18px; /* Riduci la dimensione del font dei link di navigazione */
+    font-size: 18px; 
   }
 
   .header-icons {
-    gap: 15px; /* Riduci il gap tra le icone */
+    gap: 15px; 
   }
 
   .icon {
-    width: 28px; /* Riduci la dimensione delle icone */
+    width: 28px; 
     height: 28px;
   }
 
-  /* Adatta il dropdown per schermi più piccoli */
   .dropdown-menu {
-    min-width: 450px; /* Riduci la larghezza minima per adattarsi meglio */
-    grid-template-columns: repeat(2, 1fr); /* Due colonne invece di tre */
+    min-width: 450px; 
+    grid-template-columns: repeat(2, 1fr); 
     gap: 10px 15px;
     padding: 15px 20px;
   }
 }
 
-/* Intermediate Tablet Size (max-width: 880px) */
-/* Questa nuova media query mira a migliorare la leggibilità tra 769px e 880px,
-   rendendo gli elementi ancora più compatti prima del layout a colonna. */
 @media (max-width: 880px) {
   .header-content-wrapper {
-    padding-left: 15px; /* Ulteriore riduzione del padding orizzontale */
-    padding-right: 15px; /* Ulteriore riduzione del padding orizzontale */
+    padding-left: 15px; 
+    padding-right: 15px; 
   }
 
   .brand {
-    font-size: 28px; /* Ulteriore riduzione del font del logo */
-    margin-right: 20px; /* Ulteriore riduzione del margine a destra del logo */
+    font-size: 28px; 
+    margin-right: 20px; 
   }
 
   .nav-links {
-    gap: 20px; /* Ulteriore riduzione del gap tra i link di navigazione */
+    gap: 20px; 
   }
 
   .nav-links li a {
-    font-size: 16px; /* Ulteriore riduzione del font dei link di navigazione */
+    font-size: 16px; 
   }
 
   .header-icons {
-    gap: 10px; /* Ulteriore riduzione del gap tra le icone */
+    gap: 10px; 
   }
 
   .icon {
-    width: 24px; /* Ulteriore riduzione della dimensione delle icone */
+    width: 24px; 
     height: 24px;
   }
 }
 
-
-/* Tablet and Smaller Devices (max-width: 768px) */
-/* Questa media query impila gli elementi verticalmente per schermi più piccoli. */
-/* Tablet and Smaller Devices (max-width: 768px) */
 @media (max-width: 768px) {
   header {
-    padding: 16px 0; /* Riduce il padding verticale dell'header */
+    padding: 16px 0; 
   }
 
   .header-content-wrapper {
-    flex-direction: column; /* Gli elementi si impilano verticalmente */
-    align-items: flex-start; /* Allinea gli elementi a sinistra */
-    gap: 16px; /* Spazio tra gli elementi impilati */
-    padding: 0 20px; /* Riduce il padding orizzontale */
+    flex-direction: column;
+    align-items: flex-start; 
+    gap: 16px; 
+    padding: 0 20px;
   }
 
   .brand {
-    font-size: 24px; /* Riduce la dimensione del font del logo */
-    margin-right: 0; /* Rimuove il margine a destra del logo */
+    font-size: 24px; 
+    margin-right: 0; 
   }
 
   .main-nav {
-    width: 100%; /* La navigazione occupa tutta la larghezza disponibile */
-    justify-content: center; /* Centra i link di navigazione */
+    width: 100%; 
+    justify-content: center;
   }
 
   .nav-links {
-    flex-direction: column; /* Impila i link verticalmente */
-    align-items: center; /* Centra i link verticalmente */
-    gap: 15px; /* Diminuisce il gap tra i link */
-    text-align: center; /* Allinea il testo al centro */
+    flex-direction: column; 
+    align-items: center; 
+    gap: 15px; 
+    text-align: center; 
   }
 
   .nav-links li a {
-    font-size: 18px; /* Modifica la dimensione del font dei link */
-    padding: 6px 0; /* Diminuisce il padding per evitare problemi di spaziatura */
+    font-size: 18px; 
+    padding: 6px 0; 
   }
 
   .header-icons {
-    margin-left: 0; /* Rimuove il margine a sinistra per le icone */
-    align-self: flex-end; /* Allinea le icone a destra */
-    margin-top: 10px; /* Spazio tra le icone */
+    margin-left: 0; 
+    align-self: flex-end; 
+    margin-top: 10px; 
   }
 
-  /* Gestione del dropdown in versione mobile */
   .dropdown-menu {
-    position: static; /* Il dropdown non è più posizionato assolutamente */
-    transform: none; /* Rimuove la trasformazione */
-    box-shadow: none; /* Rimuove l'ombra */
+    position: static; 
+    transform: none; 
+    box-shadow: none; 
     background-color: #f8f8f8;
-    width: 100%; /* Occupa tutta la larghezza disponibile */
-    grid-template-columns: repeat(1, 1fr); /* Una sola colonna per mobile */
+    width: 100%; 
+    grid-template-columns: repeat(1, 1fr); 
     padding: 10px 15px;
-    visibility: hidden; /* Inizialmente non visibile */
-    opacity: 1; /* Visibile quando attivato */
+    visibility: hidden; 
+    opacity: 1; 
   }
 
   .dropdown-menu li a {
-    text-align: center; /* Allinea il testo a sinistra */
+    text-align: center; 
   }
 }
 
-
-/* Smaller Mobile Devices (max-width: 480px) */
-/* Ulteriori ottimizzazioni per schermi di smartphone molto piccoli. */
 @media (max-width: 480px) {
   .brand {
-    font-size: 20px; /* Ulteriore riduzione della dimensione del font del logo */
+    font-size: 20px; 
   }
   .header-content-wrapper {
-    padding: 0 15px; /* Riduce ulteriormente il padding orizzontale per schermi molto piccoli */
+    padding: 0 15px; 
   }
   .main-nav {
-    /* Nessuna modifica necessaria qui se le regole 768px sono sufficienti */
+   
   }
   .nav-links {
-    gap: 15px; /* Riduce il gap tra i link di navigazione */
+    gap: 15px; 
   }
   .nav-links li a {
-    font-size: 16px; /* Riduce la dimensione del font dei link di navigazione */
+    font-size: 16px; 
     padding: 6px 0;
   }
   .header-icons {
-    gap: 15px; /* Riduce il gap tra le icone */
+    gap: 15px; 
   }
   .icon {
-    width: 24px; /* Riduce la dimensione delle icone */
+    width: 24px; 
     height: 24px;
   }
 }
 
-/* Transitions for smooth animations on hover and state changes */
-/* Applica transizioni a tutti gli elementi all'interno dell'header per un'esperienza fluida */
 header * {
   transition: all 0.3s ease;
 }
 .modal {
-    display: none; /* Inizialmente nascosto */
+    display: none; 
     position: fixed;
-    z-index: 1; /* Sovrapposizione */
+    z-index: 1; 
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.4); /* Sfondo semitrasparente */
+    background-color: rgba(0, 0, 0, 0.4); 
     overflow: auto;
     padding-top: 60px;
 }
 
-/* Contenuto del modale */
 .modal-content {
     background-color: #fff;
     margin: 5% auto;
@@ -389,7 +351,6 @@ header * {
     max-width: 400px;
 }
 
-/* Bottone di chiusura */
 .close {
     color: #aaa;
     font-size: 28px;
@@ -432,7 +393,6 @@ header * {
     display: block;
 }
 
-/* Animazione per l'apparizione */
 @keyframes slideDown {
     from {
         opacity: 0;
@@ -444,7 +404,6 @@ header * {
     }
 }
 
-/* Variante per messaggi di successo */
 .cart-error-message.success {
     color: #155724;
     background-color: #d4edda;
@@ -455,7 +414,6 @@ header * {
     content: "✅";
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
     .cart-error-message {
         font-size: 13px;

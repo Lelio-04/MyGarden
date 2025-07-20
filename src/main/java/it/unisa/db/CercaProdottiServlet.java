@@ -19,30 +19,29 @@ public class CercaProdottiServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        // Ottieni la DataSource dal contesto
+        //Ottieni DataSource dal contesto
         DataSource ds = (DataSource) getServletContext().getAttribute("DataSourceStorage");
         productDao = new ProductDaoDataSource(ds);
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Parametri della ricerca
-        String q = request.getParameter("q"); // Termini di ricerca (nome prodotto)
-        String categoria = request.getParameter("categoria"); // Categoria
-        String ordine = request.getParameter("ordine"); // Ordinamento (es. prezzo_asc, prezzo_desc)
-        String prezzoMin = request.getParameter("prezzoMin"); // Prezzo minimo
-        String prezzoMax = request.getParameter("prezzoMax"); // Prezzo massimo
+        //Parametri ricerca
+        String q = request.getParameter("q"); //nome prodotto
+        String categoria = request.getParameter("categoria"); //Categoria
+        String ordine = request.getParameter("ordine"); //Ordinamento
+        String prezzoMin = request.getParameter("prezzoMin"); //Prezzo minimo
+        String prezzoMax = request.getParameter("prezzoMax"); //Prezzo massimo
 
-        // Se la categoria è "Tutte le categorie", passiamo un valore speciale (ad esempio, "")
         if (categoria != null && categoria.equals("0")) {
-            categoria = ""; // Impostiamo una stringa vuota per tutti i prodotti
+            categoria = "";
         }
 
         try {
-            // Ottieni i prodotti filtrati
+            //Ottieni prod filtrati
             Collection<ProductBean> prodotti = productDao.doSearch(q, categoria, ordine, prezzoMin, prezzoMax);
 
-            // Costruzione manuale del JSON
+            //Costruzione JSON
             StringBuilder json = new StringBuilder("[");
 
             int i = 0;
@@ -62,7 +61,7 @@ public class CercaProdottiServlet extends HttpServlet {
 
             json.append("]");
 
-            // Imposta la risposta come JSON
+            //Imposta risposta JSON
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json.toString());
@@ -74,7 +73,6 @@ public class CercaProdottiServlet extends HttpServlet {
         }
     }
 
-    // Metodo per "scappare" le virgolette e caratteri speciali nel JSON
     private String escapeJson(String s) {
         if (s == null) return "";
         return s.replace("\"", "\\\"").replace("\n", "").replace("\r", "");

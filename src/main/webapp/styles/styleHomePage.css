@@ -1,21 +1,18 @@
-/* -- Ugmonk-like Palette & Base Styles -- */
 
 :root {
-    /* Colori Ugmonk (toni neutri e caldi) */
-    --color-primary: #8a3324; /* Un rosso/marrone caldo per accenti (es. bottoni primari) */
-    --color-secondary: #a64d3b; /* Una tonalità leggermente più scura per hover */
-    --color-text-dark: #222222; /* Quasi nero per testo principale e titoli */
-    --color-text-medium: #666666; /* Grigio medio per testo secondario */
-    --color-text-light: #999999; /* Grigio chiaro per dettagli minori */
-    --color-background-light: #F8F8F8; /* Sfondo grigio molto chiaro, quasi bianco */
-    --color-background-white: #FFFFFF; /* Bianco puro per elementi prominenti */
-    --color-border: #E0E0E0; /* Bordi molto sottili e chiari */
-    --color-accent: #FFD700; /* Giallo (se vuoi mantenerlo per il logo "My") */
-    --color-error: #D9534F; /* Rosso per messaggi di errore */
-    --color-hover-bg-light: #F0F0F0; /* Sfondo leggero per hover (es. nel menu dropdown) */
+    --color-primary: #8a3324; 
+    --color-secondary: #a64d3b; 
+    --color-text-dark: #222222; 
+    --color-text-medium: #666666; 
+    --color-text-light: #999999; 
+    --color-background-light: #F8F8F8; 
+    --color-background-white: #FFFFFF; 
+    --color-border: #E0E0E0; 
+    --color-accent: #FFD700; 
+    --color-error: #D9534F;
+    --color-hover-bg-light: #F0F0F0;
 }
 
-/* Global box-sizing for consistency across all elements */
 html {
     box-sizing: border-box;
 }
@@ -25,33 +22,33 @@ html {
 }
 
 body {
-    font-family: 'Inter', sans-serif; /* Ugmonk usa un font simile a Inter/Graphik */
+    font-family: 'Inter', sans-serif; 
     margin: 0;
     padding: 0;
-    line-height: 1.6; /* Aumentato per migliore leggibilità */
+    line-height: 1.6; 
     color: var(--color-text-dark);
-    background-color: var(--color-background-white); /* Sfondo principale bianco */
+    background-color: var(--color-background-white); 
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    font-size: 16px; /* Dimensione base del font */
+    font-size: 16px; 
 }
 
 /* Headings */
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Inter', sans-serif; /* Usa lo stesso font di body per coerenza, pesi diversi */
+    font-family: 'Inter', sans-serif; 
     color: var(--color-text-dark);
     margin-top: 0;
     margin-bottom: 0.8em;
-    font-weight: 700; /* Audace per i titoli */
+    font-weight: 700; 
     line-height: 1.2;
 }
 
 h2 {
-    font-size: 3em; /* Titoli di sezione grandi */
+    font-size: 3em; 
     text-align: center;
     margin-bottom: 0.7em;
-    font-weight: 800; /* Extra bold per impatto */
+    font-weight: 800; 
 }
 
 h3 {
@@ -61,19 +58,19 @@ h3 {
 
 p {
     margin-bottom: 1em;
-    font-size: 1.05em; /* Leggermente più grande per il corpo del testo */
+    font-size: 1.05em; 
     color: var(--color-text-medium);
 }
 
 /* Links */
 a {
-    color: var(--color-text-dark); /* Link scuri di default */
+    color: var(--color-text-dark);
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 a:hover {
-    color: var(--color-primary); /* Colore accento all'hover */
+    color: var(--color-primary);
 }
 
 /* Buttons */
@@ -81,15 +78,15 @@ a:hover {
     display: inline-block;
     background-color: var(--color-primary);
     color: var(--color-background-white);
-    padding: 16px 32px; /* Padding generoso */
+    padding: 16px 32px; 
     border: none;
-    border-radius: 35px; /* Molto arrotondato */
+    border-radius: 35px; 
     text-decoration: none;
     font-weight: 600;
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
     cursor: pointer;
     font-size: 1.05em;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Leggera ombra */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
     text-align: center;
     white-space: nowrap;
 }
@@ -101,30 +98,27 @@ a:hover {
 }
 
 .btn-secondary-outline {
-    background-color: transparent;
-    color: var(--color-text-dark);
-    border: 2px solid var(--color-border);
+    background-color: #1a472a;
     box-shadow: none;
     padding: 14px 30px;
-    border-radius: 30px;
+    border-radius: 20px;
     font-weight: 600;
     font-size: 1em;
     transition: all 0.3s ease;
 }
 
 .btn-secondary-outline:hover {
-    background-color: var(--color-hover-bg-light);
-    color: var(--color-text-dark);
-    border-color: var(--color-text-medium);
+    background-color: #145a32;
+    color: white;
     box-shadow: 0 4px 8px rgba(0,0,0,0.05);
     transform: translateY(-2px);
 }
 
 /* Utility Classes */
 .container {
-    max-width: 1200px; /* Larghezza massima più ampia per il contenuto principale */
+    max-width: 1200px; 
     margin: 0 auto;
-    padding: 0 30px; /* Padding generoso sui lati */
+    padding: 0 30px; 
 }
 
 .text-center {
@@ -135,12 +129,12 @@ a:hover {
     background: url('../images/hero-background.jpg') no-repeat center center/cover;
     color: var(--color-background-white);
     text-align: center;
-    padding: 200px 30px; /* Massiccio padding per impatto e spazio */
+    padding: 200px 30px; 
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 750px; /* Altezza minima elevata */
+    min-height: 750px; 
 }
 
 .hero::before {
@@ -150,18 +144,18 @@ a:hover {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.35); /* Overlay sottile */
+    background-color: rgba(0, 0, 0, 0.35); 
     z-index: 1;
 }
 
 .evid {
     position: relative;
     z-index: 2;
-    max-width: 960px; /* Larghezza maggiore per il contenuto */
+    max-width: 960px; 
 }
 
 .evid h2 {
-    font-size: 5em; /* Titolo dominante */
+    font-size: 5em; 
     margin-bottom: 25px;
     color: var(--color-background-white);
     text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
@@ -170,15 +164,15 @@ a:hover {
 }
 
 .evid p {
-    font-size: 1.8em; /* Testo intro grande */
-    margin-bottom: 60px; /* Spazio generoso */
+    font-size: 1.8em; 
+    margin-bottom: 60px;
     color: rgba(255, 255, 255, 0.9);
     font-weight: 500;
     line-height: 1.5;
 }
 
 .hero .btn {
-    font-size: 1.3em; /* Bottone CTA primario ancora più grande */
+    font-size: 1.3em;
     padding: 20px 50px;
     border-radius: 40px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
@@ -189,22 +183,21 @@ a:hover {
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
 }
 
-/* Featured Categories / Esplora il Nostro Mondo Verde */
 .featured-categories-section {
     background-color: var(--color-background-white);
-    padding: 120px 30px; /* Molto spazio verticale */
+    padding: 120px 30px; 
     text-align: center;
 }
 
 .featured-categories-section h2 {
-    font-size: 3.5em; /* Titolo di sezione grande */
+    font-size: 3.5em; 
     margin-bottom: 20px;
     font-weight: 800;
 }
 
 .featured-categories-section p {
     font-size: 1.3em;
-    margin-bottom: 70px; /* Grande spazio sotto la descrizione */
+    margin-bottom: 70px; 
     max-width: 900px;
     margin-left: auto;
     margin-right: auto;
@@ -213,8 +206,8 @@ a:hover {
 
 .category-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Card ampie */
-    gap: 50px; /* Spazio ampio tra le card */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 50px; 
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -222,7 +215,7 @@ a:hover {
 .category-card {
     background-color: var(--color-background-white);
     border: 1px solid var(--color-border);
-    border-radius: 15px; /* Angoli più arrotondati */
+    border-radius: 15px; 
     overflow: hidden;
     text-decoration: none;
     color: var(--color-text-dark);
@@ -230,29 +223,29 @@ a:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-bottom: 15px; /* Più spazio sotto il testo */
-    box-shadow: 0 10px 25px rgba(0,0,0,0.06); /* Ombra leggera */
+    padding-bottom: 15px; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.06); 
 }
 
 .category-card:hover {
-    transform: translateY(-12px); /* Effetto hover più marcato */
-    box-shadow: 0 25px 50px rgba(0,0,0,0.15); /* Ombra più pronunciata */
+    transform: translateY(-12px); 
+    box-shadow: 0 25px 50px rgba(0,0,0,0.15); 
 }
 
 .category-card img {
     width: 100%;
-    height: 315px; /* Altezza aumentata per immagini d'impatto */
+    height: 315px; 
     object-fit: cover;
     margin-bottom: 25px;
     transition: transform 0.4s ease;
 }
 
 .category-card:hover img {
-    transform: scale(1.02); /* Zoom sottile */
+    transform: scale(1.02); 
 }
 
 .category-card h3 {
-    font-size: 1.8em; /* Titolo della card più grande */
+    font-size: 1.8em; 
     margin-bottom: 0;
     font-weight: 700;
     text-align: center;
@@ -260,9 +253,8 @@ a:hover {
     line-height: 1.3;
 }
 
-/* Button for all categories */
 .featured-categories-section .btn-secondary-outline {
-    margin-top: 60px; /* Spazio significativo sopra il bottone */
+    margin-top: 60px; 
     font-size: 1.15em;
     padding: 16px 40px;
     border-radius: 35px;
@@ -273,10 +265,9 @@ a:hover {
 }
 
 
-/* Why Choose Us / Perché Scegliere MyGarden */
 .why-choose-us-section {
-    background-color: var(--color-background-light); /* Sfondo grigio chiaro */
-    padding: 120px 30px; /* Molto spazio verticale */
+    background-color: var(--color-background-light); 
+    padding: 120px 30px; 
     text-align: center;
 }
 
@@ -297,15 +288,15 @@ a:hover {
 
 .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Elementi feature più ampi */
-    gap: 60px; /* Spazio ampio tra gli elementi */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: 60px; 
     max-width: 1100px;
     margin: 0 auto;
 }
 
 .feature-item {
     background-color: var(--color-background-white);
-    padding: 45px; /* Padding generoso */
+    padding: 45px; 
     border-radius: 15px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.06);
     text-align: center;
@@ -318,14 +309,14 @@ a:hover {
 }
 
 .feature-item img {
-    height: 90px; /* Icone più grandi */
+    height: 90px; 
     width: 90px;
     object-fit: contain;
-    margin-bottom: 30px; /* Più spazio sotto l'icona */
+    margin-bottom: 30px; 
 }
 
 .feature-item h3 {
-    font-size: 1.8em; /* Titolo della feature più grande */
+    font-size: 1.8em; 
     color: var(--color-text-dark);
     margin-bottom: 15px;
     font-weight: 700;
@@ -340,7 +331,7 @@ a:hover {
 /* Contact Section */
 .contact-section {
     background-color: var(--color-background-white);
-    padding: 120px 30px; /* Molto spazio verticale */
+    padding: 120px 30px; 
     text-align: center;
 }
 
@@ -360,35 +351,35 @@ a:hover {
 }
 
 .contact-form {
-    max-width: 800px; /* Form più ampio */
+    max-width: 800px; 
     margin: 0 auto;
-    padding: 70px; /* Padding molto generoso */
+    padding: 70px; 
     border: 1px solid var(--color-border);
     border-radius: 15px;
     background-color: var(--color-background-white);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.08); /* Ombra più pronunciata */
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08); 
     text-align: left;
 }
 
 .contact-form .form-group {
-    margin-bottom: 35px; /* Più spazio tra i campi */
+    margin-bottom: 35px; 
 }
 
 .contact-form label {
     display: block;
-    margin-bottom: 15px; /* Più spazio sotto la label */
+    margin-bottom: 15px; 
     font-weight: 600;
     color: var(--color-text-dark);
-    font-size: 1.15em; /* Label più grandi */
+    font-size: 1.15em; 
 }
 
 .contact-form input[type="email"],
 .contact-form textarea {
     width: 100%;
-    padding: 20px; /* Padding aumentato */
+    padding: 20px; 
     border: 1px solid var(--color-border);
-    border-radius: 10px; /* Angoli arrotondati */
-    font-size: 1.15em; /* Testo input più grande */
+    border-radius: 10px; 
+    font-size: 1.15em; 
     box-sizing: border-box;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
     background-color: var(--color-background-light);
@@ -399,26 +390,29 @@ a:hover {
 .contact-form textarea:focus {
     border-color: var(--color-primary);
     outline: none;
-    box-shadow: 0 0 0 5px rgba(138, 51, 36, 0.15); /* Ombra focus con colore primario */
+    box-shadow: 0 0 0 5px rgba(138, 51, 36, 0.15);
 }
 
 .contact-form textarea {
     resize: vertical;
-    min-height: 200px; /* Min-height maggiore per la textarea */
+    min-height: 200px;
 }
 
 .contact-form .btn-contact {
-    display: block;
-    width: 100%;
-    font-size: 1.25em; /* Bottone più grande */
-    padding: 22px;
-    border-radius: 40px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+	margin: 0 auto;
+	background-color: #1a472a;
+	color: white;
+    padding: 14px 30px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 1em;
+    transition: all 0.3s ease;
 }
 
 .contact-form .btn-contact:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+	color: white;
+	background-color: #145a32;
+    transform: translateY(-6px); 
 }
 
 /* Video Hero Section */
@@ -448,7 +442,7 @@ a:hover {
 }
 
 .video-overlay h1 {
-    font-size: 5em; /* Titolo dominante */
+    font-size: 5em; 
     margin-bottom: 25px;
     color: var(--color-background-white);
     text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
@@ -457,23 +451,19 @@ a:hover {
 }
 
 .video-overlay p {
-    font-size: 1.8em; /* Testo intro grande */
-    margin-bottom: 60px; /* Spazio generoso */
+    font-size: 1.8em; 
+    margin-bottom: 60px; 
     color: rgba(255, 255, 255, 0.9);
     font-weight: 500;
     line-height: 1.5;
 }
 
-/* Media Queries per la responsività */
-
-/* Desktop to Large Tablet (max-width: 1200px) - From Homepage CSS */
 @media (max-width: 1200px) {
     .container {
         padding: 0 20px;
     }
 }
 
-/* Desktop to Mid-Tablet Transition (max-width: 992px) - Combined */
 @media (max-width: 992px) {
     .hero {
         padding: 180px 20px;
@@ -513,11 +503,9 @@ a:hover {
     }
 }
 
-/* Intermediate Tablet Size (max-width: 880px) - From Header CSS */
 @media (max-width: 880px) {
 }
 
-/* Tablet and Smaller Devices (max-width: 768px) - Combined */
 @media (max-width: 768px) {
     .hero {
         padding: 150px 15px;
@@ -543,7 +531,7 @@ a:hover {
         font-size: 1.1em;
     }
     .category-grid, .features-grid {
-        grid-template-columns: 1fr; /* One column on mobile */
+        grid-template-columns: 1fr;
         gap: 30px;
     }
     .category-card img {
@@ -571,7 +559,6 @@ a:hover {
     }
 }
 
-/* Smaller Mobile Devices (max-width: 480px) - Combined */
 @media (max-width: 480px) {
     .hero {
         padding: 120px 10px;

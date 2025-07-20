@@ -6,10 +6,8 @@ public class OrderItemBean {
     private double priceAtPurchase;
     private String productImage;
 
-    // ✅ Costruttore vuoto obbligatorio per JavaBean (JSP, JSON, BeanUtils)
     public OrderItemBean() {}
 
-    // ✅ Costruttore opzionale completo (utile nei test o DAO)
     public OrderItemBean(String productName, int quantity, double priceAtPurchase, String productImage) {
         this.productName = productName;
         this.quantity = quantity;
@@ -49,7 +47,6 @@ public class OrderItemBean {
         this.productImage = productImage;
     }
 
-    // ✅ Utile per debug/log
     @Override
     public String toString() {
         return "OrderItemBean{" +

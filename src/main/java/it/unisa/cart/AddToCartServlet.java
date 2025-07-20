@@ -109,7 +109,6 @@ public class AddToCartServlet extends HttpServlet {
             return;
         }
 
-        // Ritorna carrello aggiornato come oggetto JSON con "status" e "cart"
         List<CartBean> cartItems = new ArrayList<>();
         if (userId != null) {
             try {

@@ -26,7 +26,6 @@ public class ProductBean implements Serializable {
         this.category = "";
     }
 
-    // Costruttore con parametri specifici
     public ProductBean(int code, String name, double price, boolean isDeleted) {
         this.code = code;
         this.name = name;

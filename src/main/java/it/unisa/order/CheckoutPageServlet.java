@@ -55,7 +55,7 @@ public class CheckoutPageServlet extends HttpServlet {
             CartDAO cartDAO = new CartDAO(dataSource);
             List<CartBean> cartItems = cartDAO.getCartItems(userId);
 
-            // ✅ Verifica se qualche prodotto ha quantità maggiore della disponibilità
+            //se prod ha quantità maggiore di disponibilità
             boolean superaDisponibilita = false;
 
             for (CartBean item : cartItems) {
@@ -69,14 +69,12 @@ public class CheckoutPageServlet extends HttpServlet {
             }
 
             if (superaDisponibilita) {
-                // ⚠️ Messaggio e redirect al carrello
                 request.setAttribute("erroreQuantita", "Alcuni prodotti superano la quantità disponibile. Riduci le quantità prima di procedere.");
                 request.setAttribute("cartItems", cartItems);
                 request.getRequestDispatcher("catalogo.jsp").forward(request, response);
                 return;
             }
 
-            // ✅ Se tutto è valido, procedi col checkout
             String token = UUID.randomUUID().toString();
             session.setAttribute("sessionToken", token);
 

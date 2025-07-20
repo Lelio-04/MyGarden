@@ -15,7 +15,7 @@ public class ReviewBean {
         this.text = text;
     }
 
-    // Getter e setter
+    //Getter e setter
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 

@@ -20,7 +20,7 @@ public class CheckoutServletControl extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        // Recupera il DataSource dal ServletContext
+        //Recupera DataSource da ServletContext
         dataSource = (DataSource) getServletContext().getAttribute("DataSourceStorage");
     }
 
@@ -36,7 +36,6 @@ public class CheckoutServletControl extends HttpServlet {
             return;
         }
 
-        // 📝 Dati inviati dal form di checkout.jsp
         String fullName = request.getParameter("fullName");
         String address = request.getParameter("address");
         String city = request.getParameter("city");
@@ -58,15 +57,15 @@ public class CheckoutServletControl extends HttpServlet {
                 return;
             }
 
-            // ✅ Crea ordine e salva articoli
+            //Crea ordine
             int orderId = orderDAO.createOrder(userId, cartItems);
             System.out.println("✅ Ordine creato con ID: " + orderId);
 
             if (orderId > 0) {
-                // ✅ Inserisce dati di spedizione/pagamento
+                //dati di spedizione/pagamento
                 orderDAO.insertOrderInfo(orderId, fullName, address, city, cap, payment);
 
-                // ✅ Svuota carrello
+                //Svuota carrello
                 cartDAO.clearCart(userId);
                 System.out.println("🧹 Carrello svuotato.");
 

@@ -109,7 +109,6 @@
 
 <jsp:include page="footer.jsp" />
 
-<!-- ✅ AJAX per autocompletamento città e provincia -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const capInput = document.getElementById("cap");

@@ -26,8 +26,8 @@ public class CartControl extends HttpServlet {
     public void init() throws ServletException {
         try {
             Context initContext = new InitialContext();
-            Context envContext = (Context) initContext.lookup("java:comp/env"); // qui senza slash dopo java:
-            dataSource = (DataSource) envContext.lookup("jdbc/storage");        // qui il nome JNDI esatto
+            Context envContext = (Context) initContext.lookup("java:comp/env");
+            dataSource = (DataSource) envContext.lookup("jdbc/storage");
         } catch (NamingException e) {
             throw new ServletException("Impossibile ottenere il DataSource", e);
         }
@@ -44,7 +44,7 @@ public class CartControl extends HttpServlet {
         List<CartBean> cartItems = new ArrayList<>();
 
         if (userId != null) {
-            // Utente loggato: carica carrello da DB
+            //Utente loggato: carica carrello da DB
             CartDAO cartDao = new CartDAO(dataSource);
             try {
                 cartItems = cartDao.getCartItems(userId);
@@ -53,7 +53,7 @@ public class CartControl extends HttpServlet {
                 request.setAttribute("errorMessage", "Errore nel caricamento del carrello: " + e.getMessage());
             }
         } else {
-            // Utente non loggato: carrello dalla sessione
+            //Utente non loggato: carrello sessione
             @SuppressWarnings("unchecked")
             List<CartBean> guestCart = (List<CartBean>) session.getAttribute("guestCart");
             if (guestCart != null) {

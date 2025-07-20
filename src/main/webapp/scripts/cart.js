@@ -111,25 +111,24 @@ function showModal(message) {
 }
 
 
-let isRequestInProgress = false;  // Aggiungi questo flag per gestire le richieste multiple
+let isRequestInProgress = false; 
 
 
-// Funzione per prevenire invii multipli di richieste AJAX
 function blockRequest() {
     if (isRequestInProgress) {
         console.log("⛔ Una richiesta è già in corso, blocco il nuovo invio.");
-        return true; // Blocca la nuova richiesta
+        return true; 
     }
-    isRequestInProgress = true;  // Imposta il flag che la richiesta è in corso
-    return false; // La richiesta può essere inviata
+    isRequestInProgress = true;  
+    return false; 
 }
 
 function unblockRequest() {
-    isRequestInProgress = false;  // Sblocca il flag dopo che la richiesta è stata completata
+    isRequestInProgress = false; 
 }
 
 async function addToCart(product) {
-    if (blockRequest()) return;  // Blocca la richiesta se è già in corso
+    if (blockRequest()) return;  
 
     if (!isUserLoggedIn() && product.id != "undefined") {
         try {
@@ -140,7 +139,7 @@ async function addToCart(product) {
 
             if (typeof data.maxQty !== 'number') {
                 showModal('Errore nel caricamento delle informazioni prodotto.');
-                unblockRequest();  // Sblocca la richiesta
+                unblockRequest();  
                 return;
             }
 
@@ -148,14 +147,14 @@ async function addToCart(product) {
         } catch (error) {
             console.error('Errore fetch maxQty per guest:', error);
             showModal('Errore durante il controllo disponibilità prodotto.');
-            unblockRequest();  // Sblocca la richiesta
+            unblockRequest();  
             return;
         }
     }
 
     if (product.quantity > product.maxQty) {
         showModal(`La quantità richiesta supera la disponibilità per ${product.name} (${product.maxQty}).`);
-        unblockRequest();  // Sblocca la richiesta
+        unblockRequest();  
         return;
     }
 
@@ -170,7 +169,7 @@ async function addToCart(product) {
 
             if (!response.ok || json.status !== 'success') {
                 showModal(`Errore: ${json.error || 'Impossibile aggiungere il prodotto.'}`);
-                unblockRequest();  // Sblocca la richiesta
+                unblockRequest(); 
                 return;
             }
 
@@ -189,7 +188,7 @@ async function addToCart(product) {
             console.error('Errore aggiunta prodotto:', error);
             showModal('Errore durante l\'aggiunta al carrello.');
         } finally {
-            unblockRequest();  // Sblocca la richiesta una volta completata
+            unblockRequest();  
         }
     } else {
         let item = cart.find(i => String(i.id) === String(product.id));
@@ -213,12 +212,12 @@ async function addToCart(product) {
         saveGuestCart();
         updateCartDisplay();
         openCart();
-        unblockRequest();  // Sblocca la richiesta
+        unblockRequest(); 
     }
 }
 
 async function removeFromCart(productCode) {
-    if (blockRequest()) return;  // Blocca la richiesta se è già in corso
+    if (blockRequest()) return;
 
     if (isUserLoggedIn()) {
         try {

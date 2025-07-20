@@ -1,26 +1,24 @@
 /* Layout principale */
 body {
     display: flex;
-    flex-direction: column; /* Dispone gli elementi in una colonna */
-    min-height: 100vh; /* La pagina occupa tutta la vista */
+    flex-direction: column; 
+    min-height: 100vh; 
     margin: 0;
 }
 
-/* Contenitore del contenuto principale */
 main {
-    flex-grow: 1; /* Permette al contenuto di occupare lo spazio disponibile */
+    flex-grow: 1; 
     padding: 0px;
-    padding-bottom: 0px; /* Assicuriamo che ci sia spazio per il footer */
+    padding-bottom: 0px; 
 }
 
-/* Stili della sidebar del carrello (centrata sotto l'header) */
 .cart-sidebar {
     height: auto;
     width: 90%;
     max-width: 1000px;
-    position: relative; /* Ora la sidebar si muove con la pagina */
-    z-index: 800; /* Assicuriamoci che la sidebar abbia uno z-index più basso rispetto al footer */
-    top: 0px; /* Spazio sotto l'header */
+    position: relative; 
+    z-index: 800; 
+    top: 0px;
     left: 50%;
     transform: translateX(-50%);
     background-color: #f1f1f1;
@@ -33,9 +31,8 @@ main {
     margin-top: 50px;
 }
 
-/* Quando la sidebar è aperta */
 .cart-sidebar.open {
-    display: flex; /* Rende la sidebar visibile */
+    display: flex; 
 }
 
 /* Pulsante per aprire il carrello */
@@ -49,7 +46,7 @@ main {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    z-index: 1001; /* Pulsante sopra la sidebar */
+    z-index: 1001;
 }
 
 /* Footer */
@@ -59,12 +56,11 @@ footer {
     background-color: #333;
     color: white;
     text-align: center;
-    z-index: 9999; /* Aumentiamo il z-index del footer per essere sicuri che sia sopra */
+    z-index: 9999; 
 }
 
-/* Aggiungi margine al main per lasciare spazio al footer */
 main {
-    margin-bottom: 70px; /* spazio sufficiente per il footer */
+    margin-bottom: 70px; 
 }
 
 /* Titolo della sidebar */
@@ -80,19 +76,19 @@ main {
 #cart-items {
     padding: 0 25px;
     flex-grow: 1;
-    display: flex; /* Dispone gli articoli in una colonna */
+    display: flex; 
     flex-direction: column;
     gap: 20px;
-    overflow-y: auto; /* Aggiunge lo scroll verticale quando il carrello è lungo */
+    overflow-y: auto; 
 }
 
 /* Articolo nel carrello */
 .cart-item {
-    display: flex; /* Dispone gli articoli in una riga */
+    display: flex; 
     align-items: center;
     padding: 10px 0;
     border-bottom: 1px solid #ddd;
-    gap: 15px; /* Spazio tra immagine, info e azioni */
+    gap: 15px; 
 }
 
 .cart-item:last-child {

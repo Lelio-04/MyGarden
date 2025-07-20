@@ -16,7 +16,7 @@ public class CategoryDaoDataSource {
         List<CategoryBean> categories = new ArrayList<>();
 
         try (Connection conn = dataSource.getConnection()) {
-            String query = "SELECT id, name FROM categories"; // Esegui la query per ottenere le categorie
+            String query = "SELECT id, name FROM categories";
             try (Statement stmt = conn.createStatement()) {
                 ResultSet rs = stmt.executeQuery(query);
 

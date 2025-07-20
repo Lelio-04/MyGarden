@@ -19,37 +19,36 @@ public class CartDAO implements ICartDao {
         try (Connection conn = dataSource.getConnection()) {
             conn.setAutoCommit(false);
 
-            // Verifica la disponibilità in magazzino del prodotto
             String selectStock = "SELECT quantity FROM product WHERE code = ? FOR UPDATE";
 
             try (PreparedStatement psStock = conn.prepareStatement(selectStock)) {
-                // Controlla la disponibilità del prodotto
+                //Controlla disponibilità del prodotto
                 psStock.setInt(1, productCode);
                 int availableStock;
                 try (ResultSet rsStock = psStock.executeQuery()) {
                     if (!rsStock.next()) {
                         conn.rollback();
                         System.out.println("Errore: Prodotto non trovato.");
-                        return false; // Prodotto non trovato
+                        return false; //Prod non trovato
                     }
                     availableStock = rsStock.getInt("quantity");
                     System.out.println("Disponibilità prodotto: " + availableStock);  // Log di debug
                 }
 
-                // Aggiungi o aggiorna la quantità nel carrello
-                // Se il prodotto è già nel carrello, aggiorna la quantità
+                // Aggiungi quantità nel carrello
+                // Se prod già nel carrello, aggiorna quantità
                 String updateSql = "INSERT INTO cart_items (user_id, product_code, quantity) " +
                                    "VALUES (?, ?, ?) " +
-                                   "ON DUPLICATE KEY UPDATE quantity = quantity + ?"; // Usa ON DUPLICATE KEY per aggiornare
+                                   "ON DUPLICATE KEY UPDATE quantity = quantity + ?";
                 try (PreparedStatement psUpdate = conn.prepareStatement(updateSql)) {
                     psUpdate.setInt(1, userId);
                     psUpdate.setInt(2, productCode);
                     psUpdate.setInt(3, quantityToAdd);
-                    psUpdate.setInt(4, quantityToAdd);  // Aggiungi la quantità
+                    psUpdate.setInt(4, quantityToAdd);  //Aggiungi quantità
 
                     int rowsAffected = psUpdate.executeUpdate();
                     if (rowsAffected > 0) {
-                        System.out.println("Prodotto aggiunto o quantità aggiornata nel carrello.");  // Log di debug
+                        System.out.println("Prodotto aggiunto o quantità aggiornata nel carrello."); 
                     } else {
                         conn.rollback();
                         System.out.println("Errore durante l'aggiornamento del carrello.");
@@ -154,7 +153,7 @@ public class CartDAO implements ICartDao {
                 if (rs.next()) {
                     return rs.getInt("quantity");
                 } else {
-                    // Prodotto non trovato, per sicurezza restituisci 0
+                    //Prodotto non trovato
                     return 0;
                 }
             }
@@ -173,7 +172,7 @@ public class CartDAO implements ICartDao {
                 }
             }
         }
-        return 0; // Se il prodotto non è nel carrello dell'utente, la quantità è 0
+        return 0; //Se prod non è nel carrello utente, quantità è 0
     }
     public boolean insertToCart(int userId, int productCode, int quantity) throws SQLException {
         String sql = "INSERT INTO cart_items (user_id, product_code, quantity) VALUES (?, ?, ?)";
@@ -185,8 +184,8 @@ public class CartDAO implements ICartDao {
             int affectedRows = ps.executeUpdate();
             return affectedRows > 0;
         } catch (SQLException e) {
-            if (e.getSQLState().startsWith("23")) { // codice di violazione chiave duplicata (dipende DB)
-                return false; // riga esiste già
+            if (e.getSQLState().startsWith("23")) {
+                return false;
             } else {
                 throw e;
             }
@@ -225,16 +224,16 @@ public class CartDAO implements ICartDao {
 
                     return product;
                 } else {
-                    return null; // Se il prodotto non esiste
+                    return null; //Se prod non esiste
                 }
             }
         }
     }
     public void updateUserCart(int userId, List<CartBean> cartItems) throws SQLException {
         try (Connection conn = dataSource.getConnection()) {
-            conn.setAutoCommit(false);  // Inizia una transazione
+            conn.setAutoCommit(false);  //Inizia transazione
 
-            // 1. Svuota il carrello esistente
+            //Svuota carrello esistente
             String clearCartSql = "DELETE FROM cart_items WHERE user_id = ?";
             try (PreparedStatement psClear = conn.prepareStatement(clearCartSql)) {
                 psClear.setInt(1, userId);
@@ -242,14 +241,14 @@ public class CartDAO implements ICartDao {
                 System.out.println("Carrello dell'utente " + userId + " svuotato.");
             }
 
-            // 2. Aggiungi i nuovi articoli nel carrello
+            //Aggiungi nuovi articoli nel carrello
             String insertSql = "INSERT INTO cart_items (user_id, product_code, quantity) VALUES (?, ?, ?)";
             try (PreparedStatement psInsert = conn.prepareStatement(insertSql)) {
                 for (CartBean cartItem : cartItems) {
                     int productCode = cartItem.getProductCode();
                     int requestedQuantity = cartItem.getQuantity();
 
-                    // Verifica la disponibilità del prodotto
+                    //Verifica disponibilità prodotto
                     ProductBean product = getProductDetails(productCode);
                     if (product == null) {
                         conn.rollback();
@@ -262,10 +261,10 @@ public class CartDAO implements ICartDao {
 
                     if (quantityToInsert <= 0) {
                         System.out.println("Quantità zero o negativa per prodotto " + productCode + ", salto inserimento.");
-                        continue; // Ignora prodotto se non disponibile
+                        continue; //Ignora prodotto se non disponibile
                     }
 
-                    // Aggiungi l'articolo al carrello con quantità limitata
+                    //Aggiungi articolo carrello con quantità limitata
                     psInsert.setInt(1, userId);
                     psInsert.setInt(2, productCode);
                     psInsert.setInt(3, quantityToInsert);
@@ -274,7 +273,7 @@ public class CartDAO implements ICartDao {
                 }
             }
 
-            conn.commit();  // Completare la transazione
+            conn.commit();
             System.out.println("Carrello aggiornato con successo.");
         } catch (SQLException e) {
             System.out.println("Errore durante l'aggiornamento del carrello: " + e.getMessage());

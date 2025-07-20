@@ -1,10 +1,9 @@
-/* CSS per Dettagli Ordine Admin - MyGarden */
 
 body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background: #fdfcf6; /* beige chiaro */
+    background: #fdfcf6;
     color: #2d2d2d;
     line-height: 1.6;
 }
@@ -21,7 +20,7 @@ main {
 
 /* Titolo della pagina */
 h1, h2 {
-    color: #386641; /* verde scuro */
+    color: #386641;
     border-bottom: 2px solid #c3b091;
     padding-bottom: 10px;
     margin-bottom: 25px;
@@ -46,7 +45,7 @@ table {
 }
 
 table th {
-    background-color: #c9dbb2; /* verde più scuro come nel JSP */
+    background-color: #c9dbb2;
     color:#2e4629;
     padding: 15px 12px;
     text-align: left;
@@ -99,7 +98,7 @@ table td img:hover {
     border-color: #c3b091;
 }
 
-/* Stili per i prezzi */
+/* Stili prezzi */
 table td:nth-child(4),
 table td:nth-child(5) {
     font-weight: 600;
@@ -107,7 +106,6 @@ table td:nth-child(5) {
     text-align: right;
 }
 
-/* Messaggio quando non ci sono prodotti */
 main p {
     text-align: center;
     color: #6c6c6c;
@@ -148,7 +146,6 @@ main p {
 }
 
 @media (max-width: 480px) {
-    /* Stack table cells vertically on very small screens */
     table, thead, tbody, th, td, tr {
         display: block;
     }
@@ -185,7 +182,6 @@ main p {
         width: 100px;
     }
     
-    /* Aggiungi data-label attributes nel JSP per il responsive */
     td:nth-of-type(1):before { content: "Prodotto: "; }
     td:nth-of-type(2):before { content: "Immagine: "; }
     td:nth-of-type(3):before { content: "Quantità: "; }
@@ -193,7 +189,6 @@ main p {
     td:nth-of-type(5):before { content: "Subtotale: "; }
 }
 
-/* Animazioni di caricamento */
 @keyframes fadeIn {
     from {
         opacity: 0;

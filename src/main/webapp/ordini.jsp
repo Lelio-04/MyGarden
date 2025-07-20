@@ -12,7 +12,7 @@
         return;
     }
 
-    // ✅ Recupero del token dalla sessione o cookie
+    //Recupero del token dalla sessione o cookie
     String token = (String) session.getAttribute("sessionToken");
     if (token == null && request.getCookies() != null) {
         for (Cookie c : request.getCookies()) {

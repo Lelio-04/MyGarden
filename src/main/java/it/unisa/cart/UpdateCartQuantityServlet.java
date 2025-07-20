@@ -39,11 +39,9 @@ public class UpdateCartQuantityServlet extends HttpServlet {
         HttpSession session = request.getSession(true);
         Integer userId = (Integer) session.getAttribute("userId");
 
-        // Provo a leggere i parametri come array
         String[] productCodes = request.getParameterValues("productCode");
         String[] quantities = request.getParameterValues("quantity");
 
-        // Se uno dei due è null, provo a leggerli come singoli parametri e creare array con 1 elemento
         if (productCodes == null) {
             String singleCode = request.getParameter("productCode");
             if (singleCode != null) {
@@ -57,7 +55,6 @@ public class UpdateCartQuantityServlet extends HttpServlet {
             }
         }
 
-        // Controllo che ora siano coerenti
         if (productCodes == null || quantities == null || productCodes.length != quantities.length) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().write("{\"status\":\"error\", \"message\":\"Parametri mancanti o incoerenti\"}");
@@ -65,7 +62,6 @@ public class UpdateCartQuantityServlet extends HttpServlet {
         }
 
         try {
-            // Validazione quantità e disponibilità
             for (int i = 0; i < productCodes.length; i++) {
                 int code = Integer.parseInt(productCodes[i]);
                 int qty = Integer.parseInt(quantities[i]);
@@ -91,7 +87,7 @@ public class UpdateCartQuantityServlet extends HttpServlet {
                 }
             }
 
-            // Aggiornamento carrello
+            //Aggiornamento carrello
             if (userId != null) {
                 for (int i = 0; i < productCodes.length; i++) {
                     int code = Integer.parseInt(productCodes[i]);
@@ -112,7 +108,6 @@ public class UpdateCartQuantityServlet extends HttpServlet {
                         int code = Integer.parseInt(productCodes[i]);
                         int qty = Integer.parseInt(quantities[i]);
 
-                        // Usa iterator per evitare ConcurrentModificationException
                         Iterator<CartBean> it = guestCart.iterator();
                         while (it.hasNext()) {
                             CartBean item = it.next();
@@ -130,7 +125,6 @@ public class UpdateCartQuantityServlet extends HttpServlet {
                 }
             }
 
-            // Ricostruzione carrello aggiornato per risposta JSON
             List<CartBean> cartItems = new ArrayList<>();
             if (userId != null) {
                 cartItems = cartDAO.getCartItems(userId);

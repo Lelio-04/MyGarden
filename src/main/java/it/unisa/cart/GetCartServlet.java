@@ -20,7 +20,7 @@ import java.util.List;
 
         @Override
         public void init() throws ServletException {
-            // Ottieni la DataSource dal contesto
+            //Ottieni DataSource da contesto
             DataSource dataSource = (DataSource) getServletContext().getAttribute("DataSourceStorage");
             cartDAO = new CartDAO(dataSource);
             productDAO = new ProductDaoDataSource(dataSource);
@@ -29,16 +29,16 @@ import java.util.List;
         @Override
         protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             HttpSession session = request.getSession();
-            Integer userId = (Integer) session.getAttribute("userId"); // Verifica se l'utente è loggato
+            Integer userId = (Integer) session.getAttribute("userId"); //Verifica se utente loggato
 
             List<CartBean> cartItems = new ArrayList<>();
 
             try {
                 if (userId != null) {
-                    // Se l'utente è loggato, prendi il carrello dal database
+                    //Se utente loggato, prendi carrello dal database
                     cartItems = cartDAO.getCartItems(userId);
                 } else {
-                    // Se l'utente non è loggato, prendi il carrello dalla sessione (guest)
+                    //Se utente non è loggato, prendi carrello da sessione
                     @SuppressWarnings("unchecked")
                     List<CartBean> guestCart = (List<CartBean>) session.getAttribute("guestCart");
                     if (guestCart != null) {
@@ -46,7 +46,7 @@ import java.util.List;
                     }
                 }
 
-                // Aggiungi i dettagli del prodotto per ogni elemento del carrello
+                //Aggiungi dettagli prod per ogni elemento del carrello
                 for (CartBean item : cartItems) {
                     ProductBean product = productDAO.doRetrieveByKey(item.getProductCode());
                     item.setProduct(product);
@@ -59,7 +59,7 @@ import java.util.List;
                 return;
             }
 
-            // Costruzione JSON per il carrello
+            //Costruzione JSON per carrello
             StringBuilder json = new StringBuilder("[");
 
             for (int i = 0; i < cartItems.size(); i++) {
